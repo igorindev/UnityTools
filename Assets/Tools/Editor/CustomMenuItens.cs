@@ -20,8 +20,6 @@ namespace NineRealmsTools
             GameObject _object = new GameObject("_________________________________________________________________________________________");
             _object.tag = "EditorOnly";
         }
-
-
         [MenuItem("GameObject/Trigger/TriggerBox", false, 0)]
         static void CreateTriggerBox()
         {
