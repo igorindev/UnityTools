@@ -1,5 +1,4 @@
-﻿using InteractRange;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Animations;
 
 public class IKLimitation : MonoBehaviour
@@ -32,7 +31,7 @@ public class IKLimitation : MonoBehaviour
     {
         if (type == Type.LookAt)
         {
-            if (Angles.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle))
+            if (MathExtra.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle))
             {
                 lookAtConstraint.weight = Mathf.Lerp(lookAtConstraint.weight, 1, Time.deltaTime);
             }
@@ -43,7 +42,7 @@ public class IKLimitation : MonoBehaviour
         }
         else if (type == Type.AimIk)
         {
-            if (Angles.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle))
+            if (MathExtra.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle))
             {
                 aimConstraint.weight = Mathf.Lerp(aimConstraint.weight, 1, Time.deltaTime);
             }
@@ -54,7 +53,7 @@ public class IKLimitation : MonoBehaviour
         }
         else if (type == Type.IKControll)
         {
-            iKControll.enabled = Angles.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle);
+            iKControll.enabled = MathExtra.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle);
         }
         
     }
