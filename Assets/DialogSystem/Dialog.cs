@@ -19,14 +19,14 @@ namespace DialogSystem
         {
             speechs = npcDialogs[Random.Range(0, npcDialogs.Length)].dialogs;
             SubtitleSystem.instance.SetSpeaker(this);
-            SubtitleSystem.instance.AutoDialog(speechs, audioSource);
+            SubtitleSystem.instance.PlayDialog(speechs, audioSource);
         }
 
         public void PlayDialog(int index)
         {
             speechs = npcDialogs[index].dialogs;
             SubtitleSystem.instance.SetSpeaker(this);
-            SubtitleSystem.instance.AutoDialog(speechs, audioSource);
+            SubtitleSystem.instance.PlayDialog(speechs, audioSource);
         }
 
         private void OnValidate()

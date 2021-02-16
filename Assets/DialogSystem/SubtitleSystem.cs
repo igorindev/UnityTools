@@ -63,7 +63,7 @@ namespace DialogSystem
             }
         }
 
-        public void AutoDialog(Speech[] speeches, AudioSource audioSource, int count = 0)
+        public void PlayDialog(Speech[] speeches, AudioSource audioSource, int count = 0)
         {
             if (count >= speeches.Length)
             {
@@ -114,7 +114,7 @@ namespace DialogSystem
                 yield return new WaitForSeconds(s[count].WaitUntilNextClip);
             }
 
-            AutoDialog(s, audioSource, count + 1);
+            PlayDialog(s, audioSource, count + 1);
         }
 
         public void EndDialog()
