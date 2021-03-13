@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -602,6 +602,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &2118685839
@@ -646,10 +647,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46222f362907cf4a8ab9519f3727b67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedDialogLanguage: 0
   subtitlePanel: {fileID: 4446957305447763976}
   subtitleText: {fileID: 2090405870}
   layout: {fileID: 2090405869}
   isSubstitlesOn: 1
+  onlyColorizeNames: 1
   playWhenPause: 1
 --- !u!223 &6696845192908282934
 Canvas:
@@ -709,11 +712,12 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!1 &6696845192908282939
 GameObject:
   m_ObjectHideFlags: 0

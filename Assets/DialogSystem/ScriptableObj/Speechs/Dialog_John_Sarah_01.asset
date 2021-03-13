@@ -15,13 +15,13 @@ MonoBehaviour:
   dialogs:
   - npc: {fileID: 11400000, guid: 9306fb36d6a18814bb0464fb88a73483, type: 2}
     dialogIndex: asasadssadsadads
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 11400000, guid: ed2296fb8a800394dbe560025f9b96ca, type: 2}
     clipDuration: 2
     clipExtraDuration: 2
     waitUntilNextClip: 0
   - npc: {fileID: 11400000, guid: 18e6253dbcc9ce0418c8033c517e9647, type: 2}
     dialogIndex: fafddfdsfdfs
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 11400000, guid: ed2296fb8a800394dbe560025f9b96ca, type: 2}
     clipDuration: 2
     clipExtraDuration: 2
     waitUntilNextClip: 0

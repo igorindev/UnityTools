@@ -5,22 +5,27 @@ using TMPro;
 
 namespace DialogSystem
 {
-    public class SubtitleSystem : MonoBehaviour
+    public class DialogSubtitleSystem : MonoBehaviour
     {
-        public static SubtitleSystem instance;
+        public static DialogSubtitleSystem instance;
+
+        [SerializeField] int selectedDialogLanguage;
 
         [SerializeField] GameObject subtitlePanel;
         [SerializeField] TextMeshProUGUI subtitleText;
         [SerializeField] LayoutElement layout;
 
         [Header("Condition")]
-        [SerializeField] bool isSubstitlesOn;
+        [SerializeField] bool isSubstitlesOn = true;
+        [SerializeField] bool onlyColorizeNames = true;
         [SerializeField] bool playWhenPause = true;
 
         Coroutine active;
 
         public Dialog Speaker { get; set; }
         public bool IsSubstitlesOn { get => isSubstitlesOn; set => isSubstitlesOn = value; }
+        public bool OnlyColorizeNames { get => onlyColorizeNames; set => onlyColorizeNames = value; }
+        public int SelectedDialogLanguage { get => selectedDialogLanguage; set => selectedDialogLanguage = value; }
 
         void Awake()
         {
@@ -43,8 +48,16 @@ namespace DialogSystem
         }
         IEnumerator WriteText(Speech[] speeches, int count)
         {
-            subtitleText.color = speeches[count].Npc.WhoIsTalkingColor;
-            subtitleText.text = speeches[count].Npc.WhoIsTalking + ": " + speeches[count].Dialog;
+            string color = ColorUtility.ToHtmlStringRGB(speeches[count].Npc.WhoIsTalkingColor).ToLower();
+
+            if (OnlyColorizeNames)
+            {
+                subtitleText.text = "<color=#" + color + ">" + speeches[count].Npc.WhoIsTalking + "</color>: " + speeches[count].Dialog;
+            }
+            else
+            {
+                subtitleText.text = "<color=#" + color + ">" + speeches[count].Npc.WhoIsTalking + ": " + speeches[count].Dialog + "</color>";
+            }
 
             yield return null;
             yield return new WaitForEndOfFrame();
@@ -82,16 +95,25 @@ namespace DialogSystem
         }
         IEnumerator Auto(Speech[] s, AudioSource audioSource, int count)
         {
-            float duration = s[count].ClipDuration + s[count].ClipExtraDuration;
-            if (s[count].AudioClip != null)
+            float duration = s[count].ClipExtraDuration;
+            if (s[count].AudioClips != null)
             {
-                if (audioSource != null)
+                if (s[count].AudioClips.Length > 0)
                 {
-                    audioSource.Stop();
+                    duration += s[count].AudioClips[selectedDialogLanguage].length;
 
-                    audioSource.clip = s[count].AudioClip;
-                    audioSource.Play();
+                    if (audioSource != null)
+                    {
+                        audioSource.Stop();
+
+                        audioSource.clip = s[count].AudioClips[selectedDialogLanguage];
+                        audioSource.Play();
+                    }
                 }
+            }
+            else
+            {
+                duration += s[count].ClipDuration;
             }
 
             if (playWhenPause)

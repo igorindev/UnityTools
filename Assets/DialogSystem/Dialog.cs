@@ -10,7 +10,6 @@ namespace DialogSystem
 
         AudioSource audioSource;
 
-        Coroutine active;
         public Speech[] speechs { get; set; } = { };
         public DialogObj[] NPCDialogs { get => npcDialogs; set => npcDialogs = value; }
 
@@ -18,26 +17,15 @@ namespace DialogSystem
         public void PlayRandomDialog()
         {
             speechs = npcDialogs[Random.Range(0, npcDialogs.Length)].dialogs;
-            SubtitleSystem.instance.SetSpeaker(this);
-            SubtitleSystem.instance.PlayDialog(speechs, audioSource);
+            DialogSubtitleSystem.instance.SetSpeaker(this);
+            DialogSubtitleSystem.instance.PlayDialog(speechs, audioSource);
         }
 
         public void PlayDialog(int index)
         {
             speechs = npcDialogs[index].dialogs;
-            SubtitleSystem.instance.SetSpeaker(this);
-            SubtitleSystem.instance.PlayDialog(speechs, audioSource);
-        }
-
-        private void OnValidate()
-        {
-            for (int i = 0; i < speechs.Length; i++)
-            {
-                if (speechs[i].AudioClip != null)
-                {
-                    speechs[i].ClipDuration = speechs[i].AudioClip.length;
-                }
-            }
+            DialogSubtitleSystem.instance.SetSpeaker(this);
+            DialogSubtitleSystem.instance.PlayDialog(speechs, audioSource);
         }
     }
 
@@ -48,7 +36,7 @@ namespace DialogSystem
 
         [Header("Dialog")]
         [TextArea] [SerializeField] string dialogIndex;
-        [SerializeField] AudioClip audioClip;
+        [SerializeField] DialogAudioClip audioClip;
 
         [Header("Timers")]
         [SerializeField] float clipDuration;
@@ -57,7 +45,7 @@ namespace DialogSystem
 
         public string Dialog => dialogIndex;
 
-        public AudioClip AudioClip { get => audioClip; set => audioClip = value; }
+        public AudioClip[] AudioClips { get => audioClip.Clips; }
         public float ClipDuration { get => clipDuration; set => clipDuration = value; }
         public float WaitUntilNextClip { get => waitUntilNextClip; set => waitUntilNextClip = value; }
         public float ClipExtraDuration { get => clipExtraDuration; set => clipExtraDuration = value; }
