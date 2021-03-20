@@ -94,6 +94,13 @@ namespace NineRealmsTools
             GameObject inst = Object.Instantiate(Resources.Load("Console/DebugConsole", typeof(GameObject))) as GameObject;
             inst.name = "DebugConsole";
         }
+
+        [MenuItem("GameObject/UI/Horizontal List", false, 0)]
+        static void CreateHL()
+        {
+            GameObject inst = Object.Instantiate(Resources.Load("HorizontalList/Horizontal List", typeof(GameObject))) as GameObject;
+            inst.name = "Horizontal List";
+        }
     }
 }
 #endif

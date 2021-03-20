@@ -8,13 +8,14 @@ public class UIHorizontalList : MonoBehaviour
 {
     [Space(12)]
     [SerializeField] TextMeshProUGUI selectedText;
+
     [Header("Conditions")]
     [SerializeField] bool executeOnStart;
     [SerializeField] bool loop;
     [Space(12)]
     [SerializeField] string[] elements;
-    [Space(12)]
 
+    [Space(12)]
     [SerializeField] UnityEvent onValueChange;
 
     int currentSelected = 0;
