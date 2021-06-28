@@ -2,13 +2,14 @@
 
 public class ShootProjectile : MonoBehaviour
 {
-    public GameObject firePoint;
-    public GameObject ballPrefab;
-    public float power = 40;
+    [SerializeField] Transform direction;
+    [SerializeField] GameObject firePoint;
+    [SerializeField] GameObject ballPrefab;
+    [SerializeField] float power = 40;
 
     Vector3 CalculateForce()
     {
-        return CameraManager.instance.transform.forward * power;
+        return direction.forward * power;
     }
     Vector3 CalculateForce(Vector3 direction)
     {

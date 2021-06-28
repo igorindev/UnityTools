@@ -18,14 +18,6 @@ public class IKLimitation : MonoBehaviour
     public AimConstraint aimConstraint;
     public IKControll iKControll;
 
-    private void Start()
-    {
-        if (target == null)
-        {
-            target = CameraManager.instance.transform;
-        }
-    }
-
     // Update is called once per frame
     void Update()
     {

@@ -1,19 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LookToCamera : MonoBehaviour
 {
-    public Canvas canvas;
-    public Transform target;
-    public bool look = true;
+    [SerializeField] Canvas canvas;
+    [SerializeField] Transform target;
+    [SerializeField] Camera cameraTarget;
+    [SerializeField] bool look = true;
 
     Transform t;
-    private void Start()
+    void Start()
     {
         if (target == null)
         {
-            t = CameraManager.instance.transform;
+            t = cameraTarget.transform;
         }
         else
         {
@@ -21,7 +20,7 @@ public class LookToCamera : MonoBehaviour
         }
         if (canvas != null)
         {
-            canvas.worldCamera = CameraManager.instance.cameraPlayer;
+            canvas.worldCamera = cameraTarget;
         }
         if (look == false)
         {
@@ -29,7 +28,7 @@ public class LookToCamera : MonoBehaviour
             enabled = false;
         }
     }
-    private void LateUpdate()
+    void LateUpdate()
     {
         transform.LookAt(t);
         transform.Rotate(0, 180, 0);

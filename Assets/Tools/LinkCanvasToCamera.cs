@@ -2,13 +2,15 @@
 
 public class LinkCanvasToCamera : MonoBehaviour
 {
-    public Canvas canvas;
+    [SerializeField] Camera target;
+    [SerializeField] Canvas canvas;
+    [SerializeField] float planeDistance = 0.4f;
     private void OnEnable()
     {
         if (canvas != null)
         {
-            canvas.worldCamera = CameraManager.instance.cameraPlayer;
-            canvas.planeDistance = 1;
+            canvas.worldCamera = target;
+            canvas.planeDistance = planeDistance;
         }
     }
 }

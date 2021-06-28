@@ -6,13 +6,13 @@ public class PrefabGeneratorWindow : EditorWindow
 {
     private string pathName = "Prefabs/";
 
-    [MenuItem("Custom Utilites/Mass Prefab Generator")]
+    [MenuItem("Tools/Mass Prefab Generator")]
     public static void ShowWindow()
     {
         GetWindow(typeof(PrefabGeneratorWindow));
     }
 
-    private void OnGUI()
+    void OnGUI()
     {
         GUILayout.Label("Mass Prefab Generator", EditorStyles.boldLabel);
         pathName = EditorGUILayout.TextField("Save Path", pathName);
@@ -21,7 +21,7 @@ public class PrefabGeneratorWindow : EditorWindow
             GeneratePrefabs();
     }
 
-    private void GeneratePrefabs()
+    void GeneratePrefabs()
     {
         if (!Directory.Exists($"Assets/{pathName}"))
             Directory.CreateDirectory($"Assets/{pathName}");

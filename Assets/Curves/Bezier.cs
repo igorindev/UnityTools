@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Bezier : MonoBehaviour
 {
+    [SerializeField] Transform startPoint;
+    [SerializeField] Transform endPoint;
+    [SerializeField] Transform startControlPoint;
+    [SerializeField] Transform endControlPoint;
+
     public Transform[] controlPoints;
     //1 e 4 - inicio e fim
     //2 e 3 - controles
 
-    private Vector3 gizmosPosition;
+    Vector3 gizmosPosition;
 
     public void SetPoints(int id, Vector3 point)
     {
@@ -18,7 +23,7 @@ public class Bezier : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        for(float t = 0; t <= 1; t += 0.05f)
+        for (float t = 0; t <= 1; t += 0.05f)
         {
             gizmosPosition = Mathf.Pow(1 - t, 3) * controlPoints[0].position +
             3 * Mathf.Pow(1 - t, 2) * t * controlPoints[1].position +

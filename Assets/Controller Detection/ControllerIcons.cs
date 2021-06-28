@@ -81,10 +81,10 @@ public class ControllerIcons : MonoBehaviour
             
         }
 
-        if (CameraManager.instance != null)
-        {
-            CameraManager.instance.CursorActive(!hasGet);
-        }
+        //if (CameraManager.instance != null)
+        //{
+        //    //CameraManager.instance.CursorActive(!hasGet);
+        //}
         else
         {
             Cursor.visible = !hasGet;

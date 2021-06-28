@@ -1,25 +1,37 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowBezier : MonoBehaviour
 {
-    public Transform[] routes;
-    public bool loop;
-    private int routeToGo = 0;
+    [SerializeField] Transform[] routes;
+    [SerializeField] float speedModifier;
+    [SerializeField] bool loop;
+    
+    int routeToGo = 0;
+    float tParam = 0f;
+    bool coroutineAllowed = true;
+    Vector3 objPos;
 
-    private float tParam = 0f;
+    Coroutine current;
 
-    private Vector3 objPos;
-    public  float speedModifier;
-    private bool coroutineAllowed = true;
+    public void StartFollow()
+    {
+        routeToGo = 0;
+        coroutineAllowed = true;
 
-    [ContextMenu("Follow")]
-    public void Follow()
+        if (current != null)
+        {
+            StopCoroutine(current);
+        }
+
+        Follow();
+    }
+
+    void Follow()
     {
         if (coroutineAllowed)
         {
-            StartCoroutine(GoByTheRoute(routeToGo));
+            current = StartCoroutine(GoByTheRoute(routeToGo));
         }
     }
 

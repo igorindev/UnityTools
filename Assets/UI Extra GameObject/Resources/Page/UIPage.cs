@@ -1,9 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Page : MonoBehaviour
+public class UIPage : MonoBehaviour
 {
     [Header("Page")]
     [SerializeField] Transform content = null;
