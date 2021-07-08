@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public static class MathExtra
+public struct MathExtra
 {
     /// <summary>
     /// Return true if the target is in distance and the direction passed is in the angle
@@ -28,6 +27,7 @@ public static class MathExtra
         }
         return false;
     }
+
     /// <summary>
     /// Return true if the target is inside the angle
     /// </summary>
@@ -85,7 +85,97 @@ public static class MathExtra
         Vector2 randomPos = Random.insideUnitCircle.normalized * Random.Range(minRadius, maxRadius);
         return origin + new Vector3(randomPos.x, 0, randomPos.y);
     }
+
+    /// <summary>
+    /// Return True if the Random Value is LESS OR EQUAL than the Chance Value
+    /// </summary>
+    /// <returns></returns>
+    public static bool Percentage(float chance, out float randomValue)
+    {
+        if (chance == 0) { randomValue = 0; return false; }
+
+        randomValue = Random.Range(0f, 99.9f);
+        //if randomValue < 100 == 100%
+        return randomValue < chance;
+    }
+    public static bool Percentage(int chance, out int randomValue)
+    {
+        if (chance == 0) { randomValue = 0; return false; }
+
+        randomValue = Random.Range(0, 100);
+        //if randomValue < 100 == 100%
+        return randomValue < chance;
+    }
+    /// <summary>
+    /// Return True if the Random Value is LESS OR EQUAL than the Chance Value
+    /// </summary>
+    /// <returns></returns>
+    public static bool Percentage(float chance)
+    {
+        if (chance == 0) { return false; }
+
+        return Random.Range(0f, 99.9f) < chance;
+    }
+    public static bool Percentage(int chance)
+    {
+        if (chance == 0) { return false; }
+
+        return Random.Range(0, 100) < chance;
+    }
+    /// <summary>
+    /// Return a value between 0 and 100
+    /// </summary>
+    /// <returns></returns>
+    public static float GetRandomIntPercentage()
+    {
+        return Random.Range(0, 101);
+    }
+    /// <summary>
+    /// Return a value between 0 and 100
+    /// </summary>
+    /// <returns></returns>
+    public static float GetRandomFloatPercentage()
+    {
+        return Random.Range(0f, 100f);
+    }
+
+    public static float WrapAngle(float angle)
+    {
+        angle %= 360;
+        if (angle > 180)
+            return angle - 360;
+
+        return angle;
+    }
+    public static float UnwrapAngle(float angle)
+    {
+        if (angle >= 0)
+            return angle;
+
+        angle = -angle % 360;
+
+        return 360 - angle;
+    }
+
+    public static void AddUniqueToList<T>(ref List<T> list, T item)
+    {
+        if (!list.Contains(item))
+            list.Add(item);
+    }
+
+    public static float Pulse(float time, float maxFrequency = 5, float frequencyMultiplier = 1)
+    {
+        float pi = 3.14f;
+        maxFrequency *= frequencyMultiplier; // Frequency in Hz
+        return 0.5f * (1 + Mathf.Sin(2 * pi * maxFrequency * time));
+    }
+
+    public static Vector3 SampleParabola(Vector3 start, Vector3 end, Vector3 dir, float height, float t)
+    {
+        float parabolicT = t * 2 - 1;
+        Vector3 travelDirection = end - start;
+        Vector3 result = start + t * travelDirection;
+        result += dir * (-parabolicT * parabolicT + 1) * height;
+        return result;
+    }
 }
-
-
-

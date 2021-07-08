@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Loading System/S2.unity
     guid: 7c7118257c4238647914a92ed538594e
   - enabled: 1
-    path: Assets/Ragdoll/Ragdoll.unity
+    path: Assets/[WIP] Ragdoll/Ragdoll.unity
     guid: 99eb2ccee8b784143909f4544d18eb9e
   m_configObjects: {}

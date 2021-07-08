@@ -15,9 +15,9 @@ public class RenderCubemapWizard : ScriptableWizard
 
     void OnWizardUpdate()
     {
-#pragma warning disable CS0219 // A variável é atribuída, mas seu valor nunca é usado
+        #pragma warning disable CS0219 // A variável é atribuída, mas seu valor nunca é usado
         string helpString = "Select transform to render from and cubemap to render into";
-#pragma warning restore CS0219 // A variável é atribuída, mas seu valor nunca é usado
+        #pragma warning restore CS0219 // A variável é atribuída, mas seu valor nunca é usado
         bool isValid = ((renderFromPosition != null) && IsPowerOfTwo(imageSize));
     }
 
