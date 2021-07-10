@@ -16,7 +16,7 @@ public class MapSystem : MonoBehaviour
     [Header("Icons Instances")]
     [SerializeField] Transform iconsParent;
     [SerializeField] Image iconsPrefab;
-
+ 
     Vector2 worldSize;
     float division;
 
