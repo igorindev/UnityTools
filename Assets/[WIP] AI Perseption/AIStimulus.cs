@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.Events;
 
-public class AIStimulus : MonoBehaviour
+public abstract class AIStimulus : MonoBehaviour
 {
     
 }

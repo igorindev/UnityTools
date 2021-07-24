@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.av.smart-inspector": {
+      "version": "file:C:/Users/igori/Desktop/Smart-Inspector-main",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.collab-proxy": {
       "version": "1.5.7",
       "depth": 0,

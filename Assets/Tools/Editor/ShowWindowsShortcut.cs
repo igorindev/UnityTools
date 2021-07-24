@@ -15,17 +15,19 @@ public class ShowWindowsShortcut : Editor
     public static void OpenProjectBrowser()
     {
         System.Type T = System.Type.GetType("UnityEditor.ProjectBrowser, UnityEditor");
-        var gameview = EditorWindow.GetWindow(T);
+        EditorWindow projectWindow = EditorWindow.GetWindow(T);
 
         if (IsProjectBriwserOpen)
         {
             IsProjectBriwserOpen = false;
-            gameview.Close();
+            projectWindow.Close();
         }
         else
         {
+            System.Type C = System.Type.GetType("UnityEditor.SceneView, UnityEditor");
+            EditorWindow sceneWIndow = EditorWindow.GetWindow(C, false, null, false);
             IsProjectBriwserOpen = true;
-            gameview.Show();
+            projectWindow.position = new Rect(sceneWIndow.position.x, sceneWIndow.position.yMax - projectWindow.position.height - 10, sceneWIndow.position.width - 10, projectWindow.position.height);
         }
     }
 }

@@ -1,66 +1,83 @@
-﻿using System.IO;
+﻿#if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class SceneLoader : EditorWindow
 {
-    [MenuItem("Tools/Scene Loader/Enable")]
-    public static void Enable()
+    Vector2 scroll = Vector2.zero;
+    string path;
+
+    [MenuItem("Tools/Scene Switch")]
+    static void Create()
     {
-        SceneView.duringSceneGui += OnScene;
-        Debug.Log("Scene Loader : Enabled");
+        var window = GetWindow<SceneLoader>("Scene Loader");
+        window.position = new Rect(0, 0, 340, 600);
+        window.Show();
     }
 
-    [MenuItem("Tools/Scene Loader/Disable")]
-    public static void Disable()
+    void OnGUI()
     {
-        SceneView.duringSceneGui -= OnScene;
-        Debug.Log("Scene Loader : Disabled");
-    }
+        GUI.BeginGroup(new Rect(0, 0, Screen.width, Screen.height));
 
-    private static void OnScene(SceneView sceneview)
-    {
-        Handles.BeginGUI();
+        EditorBuildSettingsScene[] allScenes = EditorBuildSettings.scenes;
 
-        GUIStyle style = new GUIStyle("button")
+        GUI.Label(new Rect(15, 10, 1000, 1000), "Scenes (In Build Settings)", EditorStyles.largeLabel);
+
+        GUI.Label(new Rect(15, 40, 80, 20), "Single", EditorStyles.boldLabel);
+        GUI.Label(new Rect(170, 40, 80, 20), "Additive", EditorStyles.boldLabel);
+
+        if (Application.isPlaying)
         {
-            alignment = TextAnchor.UpperLeft
-        };
-        if (GUILayout.Button("Scenes", GUILayout.Width(80), GUILayout.Height(25)))
+            GUI.Label(new Rect(15, 70, 1000, 1000), "Disabled during PlayMode", EditorStyles.largeLabel);
+        }
+        else
         {
-            EditorBuildSettingsScene[] allScenes = EditorBuildSettings.scenes;
-            if (allScenes.Length <= 0)
-            {
-                Debug.LogError("There is no scene in Build Settings");
-                return;
-            }
-
-            string path;
-            
-            GenericMenu genericMenu = new GenericMenu();
-
+            GUILayout.BeginArea(new Rect(10, 60, 1000, 1000));
+            scroll = EditorGUILayout.BeginScrollView(scroll, false, true, GUILayout.Width(Screen.width - 15), GUILayout.Height(Screen.height - 100));
             for (int i = 0; i < allScenes.Length; i++)
             {
-                int id = i;
                 path = Path.GetFileNameWithoutExtension(allScenes[i].path);
-                EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-                genericMenu.AddItem(new GUIContent(path), false, str => EditorSceneManager.OpenScene((string)str), allScenes[id].path);
+
+                if (GUILayout.Button(path, GUILayout.Width(130), GUILayout.Height(30)))
+                {
+                    OpenScene(allScenes[i].path);
+                }
             }
 
-            genericMenu.AddSeparator("");
-
+            GUILayout.BeginArea(new Rect(160, 2, 50, 1000));
             for (int i = 0; i < allScenes.Length; i++)
             {
-                int id = i;
                 path = Path.GetFileNameWithoutExtension(allScenes[i].path);
-                EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-                genericMenu.AddItem(new GUIContent(path + " - Additive"), false, str => EditorSceneManager.OpenScene((string)str, OpenSceneMode.Additive), allScenes[id].path);
-            }
 
-            genericMenu.ShowAsContext();
+                if (GUILayout.Button("+", GUILayout.Width(30), GUILayout.Height(30)))
+                {
+                    OpenSceneAdd(allScenes[i].path);
+                }
+            }
+            GUILayout.EndArea();
+
+            EditorGUILayout.EndScrollView();
+            GUILayout.EndArea();
         }
 
-        Handles.EndGUI();
+        GUI.EndGroup();
+    }
+
+    void OpenScene(string path)
+    {
+        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        {
+            EditorSceneManager.OpenScene(path);
+        }
+    }
+    void OpenSceneAdd(string path)
+    {
+        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        {
+            EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+        }
     }
 }
+#endif

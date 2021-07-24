@@ -10,35 +10,38 @@ public class AIPerception : MonoBehaviour
 
     int currentSense = 0;
 
-    void FixedUpdate()
-    {
-        if (target != null)
-        {
-            //Keep using the current sense
-            perceptions[currentSense].Sense(ref target, ref lastPosition);
-        }
-        else
-        {
-            //Senses try find a target
-            for (int i = 0; i < perceptions.Length; i++)
-            {
-                if (perceptions[i].Sense(ref target, ref lastPosition))
-                {
-                    Stimuled();
+    //If sees the player, dont need to keep updating
 
-                    if (target != null)
-                    {
-                        currentSense = i;
-                        return;
-                    }
-                }
-            }
-        }
+    void Update()
+    {
+       // if (target != null)
+       // {
+       //     //Keep using the current sense
+       //     perceptions[currentSense].Sense(ref target, ref lastPosition);
+       //     Stimuled();
+       // }
+       // else
+       // {
+       //     //Senses try find a target
+       //     for (int i = 0; i < perceptions.Length; i++)
+       //     {
+       //         if (perceptions[i].Sense(ref target, ref lastPosition))
+       //         {
+       //             Stimuled();
+       //
+       //             if (target != null)
+       //             {
+       //                 currentSense = i;
+       //                 return;
+       //             }
+       //         }
+       //     }
+       // }
     }
 
-    void Stimuled()
+    public virtual void Stimuled(Vector3 stimulusLocation)
     {
-
+        transform.LookAt(stimulusLocation);
     }
 
     //audiotion never sets a target, only return last positions
