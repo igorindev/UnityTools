@@ -17,6 +17,7 @@ public class ShowWindowsShortcut : Editor
         System.Type T = System.Type.GetType("UnityEditor.ProjectBrowser, UnityEditor");
         EditorWindow projectWindow = EditorWindow.GetWindow(T);
 
+        projectWindow.Show();
         if (IsProjectBriwserOpen)
         {
             IsProjectBriwserOpen = false;

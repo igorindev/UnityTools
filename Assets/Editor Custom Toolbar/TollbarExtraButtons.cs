@@ -22,12 +22,12 @@ namespace UnityToolbarExtender
     }
 
     [InitializeOnLoad]
-    public class SceneSwitchLeftButton
+    public class TollbarExtraButtons
     {
-        static bool manualCompile;
         static BuildPlayerOptions buildPlayerOptions;
+
         // Define a texture and GUIContent
-        static SceneSwitchLeftButton()
+        static TollbarExtraButtons()
         {
             ToolbarExtender.RightToolbarGUI.Add(OnToolbarGUI);
         }
@@ -35,12 +35,12 @@ namespace UnityToolbarExtender
         static void OnToolbarGUI()
         {
             Texture buildTex = (Texture)AssetDatabase.LoadAssetAtPath("Assets/Build.png", typeof(Texture));
-            Texture compileTex = (Texture)AssetDatabase.LoadAssetAtPath("Assets/Compile.png", typeof(Texture));
 
             GUILayout.FlexibleSpace();
-            GUILayout.Space(-400);
 
             GUI.backgroundColor = new Color(1, 1, 1, 0.5f);
+
+            //Build Button
             if (GUILayout.Button(new GUIContent(buildTex, "Build Game"), ToolbarStyles.commandButtonStyle))
             {
                 buildPlayerOptions.locationPathName = EditorUtility.OpenFolderPanel("Select Folder", "", "");
@@ -51,10 +51,10 @@ namespace UnityToolbarExtender
                 }
             }
 
-            if (GUILayout.Button(new GUIContent(compileTex, "Compile"), ToolbarStyles.commandButtonStyle))
+            //Scene Switch Button
+            if (GUILayout.Button(EditorGUIUtility.IconContent("d_winbtn_win_restore@2x", "Load Scene"), ToolbarStyles.commandButtonStyle))
             {
-                //UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
-                ConsoleWindowOpenner.UseConsole();
+                SceneLoader.ShowWindow();
             }
         }
     }
