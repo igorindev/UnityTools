@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEditor.ShortcutManagement;
 using UnityEngine;
 
-public class ShowWindowsShortcut : Editor
+public class EditorShortcuts : Editor
 {
     public static bool IsProjectBriwserOpen = false;
 
@@ -10,6 +10,14 @@ public class ShowWindowsShortcut : Editor
     public static void AddComponentToSelectedGameObject(ShortcutArguments shortcutArguments)
     {
         OpenProjectBrowser();
+    }
+
+    // Toggle the active value of the selected GameObjects using CTRL + W
+    [MenuItem("Tools/Toggle Object %w")]
+    public static void ToggleObjects()
+    {
+        for (int i = 0; i < Selection.gameObjects.Length; i++)
+            Selection.gameObjects[i].SetActive(!Selection.gameObjects[i].activeSelf);
     }
 
     public static void OpenProjectBrowser()

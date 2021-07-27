@@ -86,42 +86,16 @@ public struct MathExtra
         return origin + new Vector3(randomPos.x, 0, randomPos.y);
     }
 
-    /// <summary>
-    /// Return True if the Random Value is LESS OR EQUAL than the Chance Value
-    /// </summary>
-    /// <returns></returns>
-    public static bool Percentage(float chance, out float randomValue)
+    public static bool Probability(int chance)
     {
-        if (chance == 0) { randomValue = 0; return false; }
-
-        randomValue = Random.Range(0f, 99.9f);
-        //if randomValue < 100 == 100%
-        return randomValue < chance;
+        return Random.Range(1, 101) <= chance;
     }
-    public static bool Percentage(int chance, out int randomValue)
+    public static bool Probability(int chance, out int value)
     {
-        if (chance == 0) { randomValue = 0; return false; }
-
-        randomValue = Random.Range(0, 100);
-        //if randomValue < 100 == 100%
-        return randomValue < chance;
+        value = Random.Range(1, 101);
+        return value <= chance;
     }
-    /// <summary>
-    /// Return True if the Random Value is LESS OR EQUAL than the Chance Value
-    /// </summary>
-    /// <returns></returns>
-    public static bool Percentage(float chance)
-    {
-        if (chance == 0) { return false; }
 
-        return Random.Range(0f, 99.9f) < chance;
-    }
-    public static bool Percentage(int chance)
-    {
-        if (chance == 0) { return false; }
-
-        return Random.Range(0, 100) < chance;
-    }
     /// <summary>
     /// Return a value between 0 and 100
     /// </summary>
@@ -177,5 +151,15 @@ public struct MathExtra
         Vector3 result = start + t * travelDirection;
         result += dir * (-parabolicT * parabolicT + 1) * height;
         return result;
+    }
+
+    // Use this method to know the progress of an element between two points taking into account the direction of the movement
+    // Returns 0 at the start position, 1 at the end position, and negative numbers if the movements goes in the opposite direction
+    public static float PathProgress(Vector2 startPosition, Vector2 endPosition, Vector2 currentPosition)
+    {
+        Vector2 totalDisplacement = endPosition - startPosition;
+        Vector2 currentDisplacement = currentPosition - startPosition;
+
+        return Vector2.Dot(currentDisplacement, totalDisplacement) / totalDisplacement.sqrMagnitude;
     }
 }

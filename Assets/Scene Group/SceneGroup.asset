@@ -15,13 +15,16 @@ MonoBehaviour:
   scenes:
   - Assets/[WIP] AI Perseption/AI.unity
   - Assets/Audio Visualizer/AudioVisualizer.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
-  - Assets/[OLD] Language Manager/Language Test.unity
+  - Assets/[WIP] Ragdoll/BodyGuards/BodyGuardsScene.unity
+  - Assets/[WIP] Color Bar Picker/ColorPicker.unity
+  - Assets/UI Canvas Fade/FadeTest.unity
+  - Assets/UI World2DPosition/Map.unity
+  - Assets/[WIP] PhotoMode/PhotoMode.unity
+  - Assets/[WIP] Ragdoll/Ragdoll.unity
+  - Assets/Replay System/Replay.unity
+  - Assets/Loading System/S1.unity
+  - Assets/Loading System/S2.unity
+  - Assets/Spline/Spline.unity
+  - Assets/[WIP] Dialog System/Subtitle.unity
+  - Assets/[WIP] Terrain Audio/Terrain.unity
+  - Assets/[OLD] Intro Player/VideoPlayer.unity
