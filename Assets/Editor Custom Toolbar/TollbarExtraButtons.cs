@@ -39,7 +39,7 @@ namespace UnityToolbarExtender
             GUILayout.FlexibleSpace();
 
             GUI.backgroundColor = new Color(1, 1, 1, 0.5f);
-
+           
             //Build Button
             if (GUILayout.Button(new GUIContent(buildTex, "Build Game"), ToolbarStyles.commandButtonStyle))
             {

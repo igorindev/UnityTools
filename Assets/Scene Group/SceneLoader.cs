@@ -17,9 +17,6 @@ public class SceneLoader : EditorWindow
     static Texture2D back;
     public static SceneLoader window;
 
-    public Texture2D BoxBorder;
-    public Texture2D BoxBorder2;
-
     static List<Scene> Scenes = new List<Scene>();
 
     public static void ShowWindow()
@@ -43,7 +40,7 @@ public class SceneLoader : EditorWindow
 
     void OnLostFocus()
     {
-        window.Close();
+        Close();
     }
 
     void OnGUI()
@@ -56,7 +53,7 @@ public class SceneLoader : EditorWindow
         back.Apply();
 
         GUIStyle b = new GUIStyle(GUI.skin.textArea);
-        b.normal.background = (Texture2D)back;
+        b.normal.background = back;
 
         GUIStyle mystyle = new GUIStyle("Button")
         {
