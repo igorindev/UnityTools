@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
-[AddComponentMenu("Audio/Play Audio On Collision")]
+[AddComponentMenu("Audio Player/Play Audio On Collision")]
 public class PlayAudioOnCollision : MonoBehaviour
 {
     [SerializeField] float collisionSpeedToPlay = 2f;
