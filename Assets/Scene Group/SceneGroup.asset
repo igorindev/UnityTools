@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scenes:
   - Assets/[WIP] AI Perseption/AI.unity
+  - Assets/Audio Play/AudioPlay.unity
   - Assets/Audio Visualizer/AudioVisualizer.unity
   - Assets/[WIP] Ragdoll/BodyGuards/BodyGuardsScene.unity
   - Assets/[WIP] Color Bar Picker/ColorPicker.unity
@@ -28,4 +29,3 @@ MonoBehaviour:
   - Assets/[WIP] Dialog System/Subtitle.unity
   - Assets/[WIP] Terrain Audio/Terrain.unity
   - Assets/[OLD] Intro Player/VideoPlayer.unity
-  - Assets/Audio Play/AudioPlay.unity

@@ -146,7 +146,7 @@ public class SceneLoader : EditorWindow
 
     void OpenScene(string path)
     {
-        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        if (EditorSceneManager.SaveOpenScenes())
         {
             Scenes = new List<Scene>();
             Scenes.Add(EditorSceneManager.OpenScene(path));
@@ -154,14 +154,14 @@ public class SceneLoader : EditorWindow
     }
     void OpenSceneAdd(string path)
     {
-        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        if (EditorSceneManager.SaveOpenScenes())
         {
             Scenes.Add(EditorSceneManager.OpenScene(path, OpenSceneMode.Additive));
         }
     }
     void RemoveScene(int id)
     {
-        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        if (EditorSceneManager.SaveOpenScenes())
         {
             if (EditorSceneManager.CloseScene(Scenes[id], true))
             {

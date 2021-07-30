@@ -1,8 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
 [AddComponentMenu("Audio Player/Play Audio On Collision")]
 public class PlayAudioOnCollision : MonoBehaviour
 {

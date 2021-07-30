@@ -8,7 +8,7 @@ public class AIPerception : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] Vector3 lastPosition;
 
-    int currentSense = 0;
+    //int currentSense = 0;
 
     //If sees the player, dont need to keep updating
 
