@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -271,7 +271,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 671195270}
-  textIndex: 1
+  indexType: 0
+  textNumIndex: 1
+  textNameIndex: context_name_value
 --- !u!1 &683004959
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,6 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 683004961}
   - component: {fileID: 683004960}
+  - component: {fileID: 683004962}
   m_Layer: 0
   m_Name: Language Manager
   m_TagString: Untagged
@@ -298,16 +301,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 683004959}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4985364e4bb7f59408b60011498ef255, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a5978ad77301af43924c740772c070c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inScene:
-  - {fileID: 2101726576}
-  - {fileID: 1961934497}
-  - {fileID: 981784263}
-  - {fileID: 671195272}
-  filePath: Assets/LanguageManager/LanguageFile.cvs
-  languagesFoundInFile: []
+  filePath: Assets/[WIP] Language Manager/LanguageFile.cvs
+  fileContent: "Text Name~Portugu\xEAs~English~French\r\nname_store~2 pt meu c\xE3o~2
+    em~2 fr\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~5 PT fog\xE3o~bbb~cccc\r\nname_store~6
+    PT \xF5e~de~cde\r\nname_store~7 PT~-~-\r\nname_store~8 PT~-~-\r\nname_store~9
+    PT~-~-\r\nname_store~10 PT~10 EN~-\r\nname_store~11 PT~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\nname_store~-~-~-\r\n"
+  languagesFoundInFile:
+  - (Fake Position - Ignore)
+  - "Portugu\xEAs"
+  - English
+  - French
   selectedLanguageIndex: 1
 --- !u!4 &683004961
 Transform:
@@ -317,12 +323,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 683004959}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 957.9435, y: 426.9462, z: -2.541567}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &683004962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683004959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df55d3a0ef22d6c448c2eeca92dbc1e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textDefinersInScene:
+  - {fileID: 2101726576}
+  - {fileID: 1961934497}
+  - {fileID: 981784263}
+  - {fileID: 671195272}
 --- !u!1 &981784259
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +494,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 981784261}
-  textIndex: 1
+  indexType: 0
+  textNumIndex: 1
+  textNameIndex: context_name_value
 --- !u!1 &1204242183
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,6 +555,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1204242186
 Canvas:
   m_ObjectHideFlags: 0
@@ -821,7 +847,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1961934495}
-  textIndex: 1
+  indexType: 0
+  textNumIndex: 1
+  textNameIndex: context_name_value
 --- !u!1 &2101726572
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,4 +998,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 2101726574}
-  textIndex: 1
+  indexType: 0
+  textNumIndex: 1
+  textNameIndex: context_name_value

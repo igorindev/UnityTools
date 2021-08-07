@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -55,4 +55,4 @@ public class TriggerCaller : MonoBehaviour
             playerInside = false;
         }
     }
-}
+}
