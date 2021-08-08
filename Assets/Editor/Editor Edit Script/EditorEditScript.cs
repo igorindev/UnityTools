@@ -15,12 +15,9 @@ public class EditorEditScript : EditorWindow
     [SerializeField] MonoScript script;
 
     string content = "";
+    string backup = "";
     string currentPath = "";
     string[] lines = new string[0];
-
-    //Restores
-    Stack<string> back = new Stack<string>(30);
-    Stack<string> forward = new Stack<string>(30);
 
     Vector2 scroll = new Vector2();
 
@@ -74,7 +71,7 @@ public class EditorEditScript : EditorWindow
 
             int selectedScript = script.GetInstanceID();
 
-            content = ReadFile(AssetDatabase.GetAssetPath(selectedScript));
+            backup = content = ReadFile(AssetDatabase.GetAssetPath(selectedScript));
 
             a = new GUIStyle();
             a.normal.textColor = Color.white;
@@ -119,8 +116,6 @@ public class EditorEditScript : EditorWindow
         fileWriter.Close();
 
         AssetDatabase.ImportAsset(currentPath);
-
-        forward.Clear();
     }
 
     void OnGUI()
@@ -135,15 +130,11 @@ public class EditorEditScript : EditorWindow
         EditorGUILayout.BeginVertical(GUILayout.Height(Screen.height - 20));
 
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button(EditorGUIUtility.IconContent("back@2x"), GUILayout.Height(20)))
+        if (GUILayout.Button(EditorGUIUtility.IconContent("Refresh@2x", "Restore"), GUILayout.Height(20)))
         {
-            Back(temp);
+            Restore();
         }
-        if (GUILayout.Button(EditorGUIUtility.IconContent("forward@2x"), GUILayout.Height(20)))
-        {
-            Forward(temp);
-        }
-        if (GUILayout.Button(EditorGUIUtility.IconContent("SaveAs@2x"), GUILayout.Height(20)))
+        if (GUILayout.Button(EditorGUIUtility.IconContent("SaveAs@2x", "Save"), GUILayout.Height(20)))
         {
             SaveFile(currentPath);
         }
@@ -163,14 +154,7 @@ public class EditorEditScript : EditorWindow
 
         EditorGUILayout.EndVertical();
 
-        temp = EditorGUILayout.TextArea(content, b);
-
-        if (temp != content)
-        {
-            Debug.Log(temp);
-            back.Push(content);
-            content = temp;
-        }
+        content = EditorGUILayout.TextArea(content, b);
 
         EditorGUILayout.EndHorizontal();
 
@@ -180,19 +164,10 @@ public class EditorEditScript : EditorWindow
         EditorGUILayout.EndVertical();
     }
     
-    void Back(string temp)
+    void Restore()
     {
-        forward.Push(temp);
-        content = back.Pop();
-
-        Debug.LogWarning(content);
+        content = backup;
     }
-    void Forward(string temp)
-    {
-        back.Push(temp);
-        content = forward.Pop();
-    }
-
 
     static int GetDigits(int n1, int nodigits)
     {

@@ -11,10 +11,9 @@ public class ToDoEditorWindow : EditorWindow
 
     Vector2 scroll;
 
-    [MenuItem("Tools/To Do")]
     public static void ShowWindow()
     {
-        tasksObj = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/ToDo/Tasks.asset") as Tasks;
+        tasksObj = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/Editor/Editor ToDo/Tasks.asset") as Tasks;
 
         window = GetWindow<ToDoEditorWindow>();
 
@@ -62,7 +61,7 @@ public class ToDoEditorWindow : EditorWindow
         GUILayout.Label("To Do", EditorStyles.boldLabel);
         if (GUILayout.Button(EditorGUIUtility.IconContent("d__Popup", "Edit Scenes"), mystyle, GUILayout.Width(20), GUILayout.Height(20)))
         {
-            Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/ToDo/Tasks.asset"), null);
+            Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/Editor/Editor ToDo/Tasks.asset"), null);
             GetWindow(System.Type.GetType("UnityEditor.InspectorWindow, UnityEditor"));
         }
 
