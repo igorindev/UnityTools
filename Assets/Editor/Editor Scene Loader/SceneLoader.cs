@@ -4,8 +4,9 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.SceneManagement;
+
 
 public class SceneLoader : EditorWindow
 {
@@ -21,7 +22,7 @@ public class SceneLoader : EditorWindow
 
     public static void ShowWindow()
     {
-        SceneGroup scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/Scene Group/SceneGroup.asset") as SceneGroup;
+        SceneGroup scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/Editor/Editor Scene Loader/SceneGroup.asset") as SceneGroup;
         allScenes = scriptableObject.scenes;
 
         window = CreateInstance<SceneLoader>();
@@ -45,8 +46,8 @@ public class SceneLoader : EditorWindow
 
     void OnGUI()
     {
-        Texture tex = (Texture)AssetDatabase.LoadAssetAtPath("Assets/PlusIcon.png", typeof(Texture));
-        Texture texRemove = (Texture)AssetDatabase.LoadAssetAtPath("Assets/RemoveIcon.png", typeof(Texture));
+        Texture tex = (Texture)AssetDatabase.LoadAssetAtPath("Assets/Editor/Editor UI/PlusIcon.png", typeof(Texture));
+        Texture texRemove = (Texture)AssetDatabase.LoadAssetAtPath("Assets/Editor/Editor UI/RemoveIcon.png", typeof(Texture));
 
         back = new Texture2D(1, 1, TextureFormat.RGBA32, false);
         back.SetPixel(0, 0, new Color(0.1f, 0.1f, 0.1f));
@@ -66,7 +67,7 @@ public class SceneLoader : EditorWindow
         GUILayout.Space(8);
         GUILayout.BeginHorizontal(GUILayout.MaxWidth(225));
         GUILayout.Space(13);
-       
+
         GUILayout.Label("Scenes", EditorStyles.boldLabel);
 
         if (GUILayout.Button(EditorGUIUtility.IconContent("d__Popup", "Edit Scenes"), mystyle, GUILayout.Width(20), GUILayout.Height(20)))
@@ -139,7 +140,7 @@ public class SceneLoader : EditorWindow
         }
 
         Texture2D ss = new Texture2D(1, 1);
-        GUI.DrawTexture(new Rect(-1, 0, 242, 72 + Mathf.Clamp((32 * allScenes.Length), 0, 450)), ss, ScaleMode.StretchToFill, false, 0, new Color(0.33f, 0.33f, 0.33f, 1f), new Vector4(4, 0,4,4), 0);
+        GUI.DrawTexture(new Rect(-1, 0, 242, 72 + Mathf.Clamp((32 * allScenes.Length), 0, 450)), ss, ScaleMode.StretchToFill, false, 0, new Color(0.33f, 0.33f, 0.33f, 1f), new Vector4(4, 0, 4, 4), 0);
         GUI.DrawTexture(new Rect(1, 1, 238, 68 + Mathf.Clamp((32 * allScenes.Length), 0, 450)), ss, ScaleMode.StretchToFill, true, 0, new Color(1, 1, 1, 0.7f), 1f, 4);
         GUI.EndGroup();
     }
@@ -171,7 +172,7 @@ public class SceneLoader : EditorWindow
     }
 }
 
- public static class UnityEditorWindow
+public static class UnityEditorWindow
 {
     public static System.Type[] GetAllDerivedTypes(this System.AppDomain aAppDomain, System.Type aType)
     {

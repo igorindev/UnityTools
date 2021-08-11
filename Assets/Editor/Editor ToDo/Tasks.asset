@@ -14,10 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tasks:
   - onScene: 
+    author: 
     task: 
     completed: 0
     priority: 0
   - onScene: 
+    author: 
+    task: 
+    completed: 0
+    priority: 0
+  - onScene: 
+    author: 
     task: 
     completed: 0
     priority: 0

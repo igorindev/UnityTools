@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class EditorEditScript : EditorWindow
 {
-    static string errorMessage = "Ops, something has gone wrong: {0}.";
-    static string refactoringMessage = "The class EditorEditScript been successfully renamed.";
-    static string noRefactoringMessage = "The class EditorEditScript is the same of the file name. No renaming performed.";
     static bool scriptSelected;
     static MonoScript[] scripts;
 
@@ -17,7 +14,6 @@ public class EditorEditScript : EditorWindow
     string content = "";
     string backup = "";
     string currentPath = "";
-    string[] lines = new string[0];
 
     Vector2 scroll = new Vector2();
 
@@ -120,7 +116,6 @@ public class EditorEditScript : EditorWindow
 
     void OnGUI()
     {
-        string temp = content;
         string[] lines = content.Split('\n');
 
         int d = GetDigits(lines.Length - 1, 0);
