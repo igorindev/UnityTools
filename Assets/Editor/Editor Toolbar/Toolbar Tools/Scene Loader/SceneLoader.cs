@@ -21,7 +21,7 @@ public class SceneLoader : EditorWindow
 
     public static void ShowWindow()
     {
-        SceneGroup scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/Editor/Editor Scene Loader/SceneGroup.asset") as SceneGroup;
+        SceneGroup scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/Editor/Editor Toolbar/Toolbar Tools/Scene Loader/SceneGroup.asset") as SceneGroup;
         allScenes = scriptableObject.scenes;
 
         window = CreateInstance<SceneLoader>();
@@ -71,7 +71,7 @@ public class SceneLoader : EditorWindow
 
         if (GUILayout.Button(EditorGUIUtility.IconContent("d__Popup", "Edit Scenes"), mystyle, GUILayout.Width(20), GUILayout.Height(20)))
         {
-            Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/Scene Group/SceneGroup.asset"), null);
+            Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/Editor/Editor Toolbar/Toolbar Tools/Scene Loader/SceneGroup.asset"), null);
             GetWindow(System.Type.GetType("UnityEditor.InspectorWindow, UnityEditor"));
         }
 

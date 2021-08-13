@@ -13,19 +13,18 @@ MonoBehaviour:
   m_Name: SceneGroup
   m_EditorClassIdentifier: 
   scenes:
+  - Assets/[OLD] Intro Player/VideoPlayer.unity
   - Assets/[WIP] AI Perseption/AI.unity
+  - Assets/[WIP] Color Bar Picker/ColorPicker.unity
+  - Assets/[WIP] Dialog System/Subtitle.unity
+  - Assets/[WIP] Language Manager/Language Test.unity
+  - Assets/[WIP] PhotoMode/PhotoMode.unity
+  - Assets/[WIP] Terrain Audio/Terrain.unity
   - Assets/Audio Play/AudioPlay.unity
   - Assets/Audio Visualizer/AudioVisualizer.unity
-  - Assets/[WIP] Ragdoll/BodyGuards/BodyGuardsScene.unity
-  - Assets/[WIP] Color Bar Picker/ColorPicker.unity
-  - Assets/UI Canvas Fade/FadeTest.unity
-  - Assets/UI World2DPosition/Map.unity
-  - Assets/[WIP] PhotoMode/PhotoMode.unity
-  - Assets/[WIP] Ragdoll/Ragdoll.unity
-  - Assets/Replay System/Replay.unity
   - Assets/Loading System/S1.unity
   - Assets/Loading System/S2.unity
+  - Assets/Replay System/Replay.unity
   - Assets/Spline/Spline.unity
-  - Assets/[WIP] Dialog System/Subtitle.unity
-  - Assets/[WIP] Terrain Audio/Terrain.unity
-  - Assets/[OLD] Intro Player/VideoPlayer.unity
+  - Assets/UI Canvas Fade/FadeTest.unity
+  - Assets/UI World2DPosition/Map.unity

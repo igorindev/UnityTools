@@ -6,7 +6,7 @@ public class EditorShortcuts : Editor
 {
     public static bool IsProjectBriwserOpen = false;
 
-    [Shortcut("Custom Shortcut/Open Project Browser", null, KeyCode.Tab)]
+    [Shortcut("Custom Shortcut/Open Project Browser", null, KeyCode.Space, ShortcutModifiers.Action)]
     public static void AddComponentToSelectedGameObject(ShortcutArguments shortcutArguments)
     {
         OpenProjectBrowser();

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEditor;
@@ -143,13 +142,13 @@ public class EditorEditScript : EditorWindow
 
         for (int i = 0; i < lines.Length; i++)
         {
-            EditorGUILayout.TextField(i.ToString(), a, GUILayout.Height(15), GUILayout.MaxWidth(d));
+            EditorGUILayout.LabelField(i.ToString(), a, GUILayout.Height(13), GUILayout.MaxWidth(d));
         }
-        EditorGUILayout.TextField("", a, GUILayout.Height(15), GUILayout.MaxWidth(d));
+        EditorGUILayout.LabelField("", a, GUILayout.Height(15), GUILayout.MaxWidth(d));
 
         EditorGUILayout.EndVertical();
 
-        content = EditorGUILayout.TextArea(content, b);
+        content = GUILayout.TextArea(content, b);
 
         EditorGUILayout.EndHorizontal();
 
