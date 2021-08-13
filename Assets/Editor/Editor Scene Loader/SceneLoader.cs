@@ -7,7 +7,6 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-
 public class SceneLoader : EditorWindow
 {
     public static bool open = false;

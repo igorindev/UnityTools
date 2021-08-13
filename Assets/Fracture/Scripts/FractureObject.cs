@@ -20,9 +20,6 @@ public class FractureObject : MonoBehaviour
 
     public float chunkCollisionVelocityToCreateVFX = 5;
 
-    bool fractureInitialized = false;
-    bool fractureActivated = false;
-
     List<ContactPoint> contactPoints;
 
     Vector3 normal;
@@ -123,8 +120,6 @@ public class FractureObject : MonoBehaviour
             chunks[i].Init();
             chunks[i].gameObject.SetActive(false);
         }
-
-        fractureInitialized = true;
     }
 
     void ActivateFracture(Vector3 impulse)
@@ -164,7 +159,6 @@ public class FractureObject : MonoBehaviour
         {
             chunk.gameObject.layer = LayerMask.NameToLayer("Fracture");
         }
-        fractureActivated = true;
     }
 
     private void OnCollisionEnter(Collision collision)

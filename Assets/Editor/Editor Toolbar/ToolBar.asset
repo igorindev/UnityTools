@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: ToolBar
   m_EditorClassIdentifier: 
   tools:
-  - toolScriptPath: Assets\Editor\Editor Scene Loader\SceneLoader
-    toolName: 
-    toolTip: 
-    toolIconPath: d_winbtn_win_restore@2x
-  - toolScriptPath: Assets\Editor\Editor Scene Loader\SceneLoader
-    toolName: 
-    toolTip: 
+  - tool: {fileID: 11400000, guid: 47e585e7e722fa342a46685e8de90eee, type: 2}
+    toolName: To Do
+    toolTip: Open ToDo List
+    toolIconPath: Assets\Editor\Editor UI\Build.png
+  - tool: {fileID: 11400000, guid: 5107d63940fbb12419a9aae372a6b8d5, type: 2}
+    toolName: Scene Loader
+    toolTip: Open Scene Loader
     toolIconPath: d_winbtn_win_restore@2x
