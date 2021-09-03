@@ -3,14 +3,14 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public class EditorEditScript : EditorWindow
+public class FastEditScript : EditorWindow
 {
     static bool scriptSelected;
     static MonoScript[] scripts;
 
     [SerializeField] MonoScript script;
 
-    string content = "";
+    [SerializeField] string content = "";
     string backup = "";
     string currentPath = "";
 
@@ -19,7 +19,9 @@ public class EditorEditScript : EditorWindow
     GUIStyle a;
     GUIStyle b;
 
-    [MenuItem("Assets/Fast Edit... &#c")]
+    [SerializeField] public int id;
+
+    [MenuItem("Assets/Fast Edit...")]
     public static void Edit()
     {
         if (scripts == null || scripts.Length == 0)
@@ -30,14 +32,14 @@ public class EditorEditScript : EditorWindow
     }
     static void Create()
     {
-        EditorEditScript window;
-        if (HasOpenInstances<EditorEditScript>())
+        FastEditScript window;
+        if (HasOpenInstances<FastEditScript>())
         {
-            window = CreateWindow<EditorEditScript>(scripts[0].name + ".cs", GetWindow<EditorEditScript>().GetType());
+            window = CreateWindow<FastEditScript>(scripts[0].name + ".cs", GetWindow<FastEditScript>().GetType());
         }
         else
         {
-            window = CreateWindow<EditorEditScript>();
+            window = CreateWindow<FastEditScript>();
             window.position = new Rect(20, 80, 600, 600);
         }
 
@@ -64,9 +66,9 @@ public class EditorEditScript : EditorWindow
             scripts = Selection.GetFiltered<MonoScript>(SelectionMode.Assets);
             script = scripts[0];
 
-            int selectedScript = script.GetInstanceID();
+            id = script.GetInstanceID();
 
-            backup = content = ReadFile(AssetDatabase.GetAssetPath(selectedScript));
+            backup = content = ReadFile(AssetDatabase.GetAssetPath(id));
 
             a = new GUIStyle();
             a.normal.textColor = Color.white;
@@ -75,6 +77,8 @@ public class EditorEditScript : EditorWindow
             b = new GUIStyle("TextArea");
             b.wordWrap = false;
         }
+
+        backup = content = ReadFile(AssetDatabase.GetAssetPath(id));
     }
 
     string ReadFile(string filePath)
@@ -115,6 +119,26 @@ public class EditorEditScript : EditorWindow
 
     void OnGUI()
     {
+        if (hasFocus)
+        {
+            if (Event.current != null && Event.current.isKey)
+            {
+                if (Event.current.control)
+                {
+                    if (Event.current.keyCode == KeyCode.Z && Event.current.type == EventType.KeyDown)
+                    {
+                        UndoCmd();
+                        Event.current.Use();
+                    }
+                    if (Event.current.keyCode == KeyCode.Y && Event.current.type == EventType.KeyDown)
+                    {
+                        RedoCmd();
+                        Event.current.Use();
+                    }
+                }                
+            }
+        }
+
         string[] lines = content.Split('\n');
 
         int d = GetDigits(lines.Length - 1, 0);
@@ -148,7 +172,13 @@ public class EditorEditScript : EditorWindow
 
         EditorGUILayout.EndVertical();
 
-        content = GUILayout.TextArea(content, b);
+        EditorGUI.BeginChangeCheck();
+        string c = GUILayout.TextArea(content, b);
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(this, "Modify Editor Script edit");
+            content = c;
+        }
 
         EditorGUILayout.EndHorizontal();
 
@@ -157,7 +187,16 @@ public class EditorEditScript : EditorWindow
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndVertical();
     }
-    
+
+    void UndoCmd()
+    {
+        Undo.PerformUndo();
+    }
+    void RedoCmd()
+    {
+        Undo.PerformRedo();
+    }
+
     void Restore()
     {
         content = backup;

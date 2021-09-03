@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Tasks", menuName = "ScriptableObjects/Tasks")]
+[CreateAssetMenu(fileName = "Tasks", menuName = "ScriptableObjects/Toolbar/To Do/Tasks")]
 public class Tasks : ScriptableObject
 {
     public List<Task> tasks = new List<Task>();

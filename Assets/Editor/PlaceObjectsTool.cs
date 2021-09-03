@@ -80,6 +80,11 @@ public class PlaceObjectsTool : EditorTool
         }
         else
         {
+            if (Event.current.alt)
+            {
+                return;
+            }
+
             if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
             {
                 _receivedClickDownEvent = true;
@@ -129,7 +134,7 @@ public class PlaceObjectsTool : EditorTool
             newObjectInstance.transform.position = GetCurrentMousePositionInScene();
 
             Undo.RegisterCreatedObjectUndo(newObjectInstance, "Place new object");
-            
+
             Event.current.Use();
             _receivedClickUpEvent = false;
         }
