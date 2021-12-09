@@ -1,10 +1,9 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
-public class SceneAttribute : PropertyAttribute {}
-
 [CustomPropertyDrawer(typeof(SceneAttribute))]
-public class SceneDrawer : PropertyDrawer
+public class SceneAttributeDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
@@ -44,4 +43,4 @@ public class SceneDrawer : PropertyDrawer
         return null;
     }
 }
-
+#endif

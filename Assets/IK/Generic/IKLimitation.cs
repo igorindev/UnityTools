@@ -23,7 +23,7 @@ public class IKLimitation : MonoBehaviour
     {
         if (type == Type.LookAt)
         {
-            if (MathExtra.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle))
+            if (MathExtension.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle))
             {
                 lookAtConstraint.weight = Mathf.Lerp(lookAtConstraint.weight, 1, Time.deltaTime);
             }
@@ -34,7 +34,7 @@ public class IKLimitation : MonoBehaviour
         }
         else if (type == Type.AimIk)
         {
-            if (MathExtra.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle))
+            if (MathExtension.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle))
             {
                 aimConstraint.weight = Mathf.Lerp(aimConstraint.weight, 1, Time.deltaTime);
             }
@@ -45,7 +45,7 @@ public class IKLimitation : MonoBehaviour
         }
         else if (type == Type.IKControll)
         {
-            iKControll.enabled = MathExtra.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle);
+            iKControll.enabled = MathExtension.TargetDirection(target.position, transform.position, transform.forward, visibilityAngle);
         }
         
     }

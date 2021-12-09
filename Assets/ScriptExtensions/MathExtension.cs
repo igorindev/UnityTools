@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public struct MathExtra
+public struct MathExtension
 {
     /// <summary>
     /// Return true if the target is in distance and the direction passed is in the angle
@@ -131,12 +130,6 @@ public struct MathExtra
         return 360 - angle;
     }
 
-    public static void AddUniqueToList<T>(ref List<T> list, T item)
-    {
-        if (!list.Contains(item))
-            list.Add(item);
-    }
-
     public static float Pulse(float time, float maxFrequency = 5, float frequencyMultiplier = 1)
     {
         float pi = 3.14f;
@@ -161,5 +154,17 @@ public struct MathExtra
         Vector2 currentDisplacement = currentPosition - startPosition;
 
         return Vector2.Dot(currentDisplacement, totalDisplacement) / totalDisplacement.sqrMagnitude;
+    }
+
+    public static float GetTargetAngle(Transform self, Vector3 incomingDir)
+    {
+        // Flatten to plane
+        var otherDir = new Vector3(-incomingDir.x, 0f, -incomingDir.z);
+        var playerFwd = Vector3.ProjectOnPlane(self.forward, Vector3.up);
+
+        // Direction between player fwd and incoming object
+        var angle = Vector3.SignedAngle(playerFwd, otherDir, Vector3.up);
+
+        return angle;
     }
 }
