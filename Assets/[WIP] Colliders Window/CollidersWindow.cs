@@ -13,6 +13,7 @@ public class CollidersWindow : EditorWindow
     {
         CollidersWindow sizeWindow = GetWindow<CollidersWindow>("Colliders In Scene");
         sizeWindow.autoRepaintOnSceneChange = true;
+        sizeWindow.titleContent = new GUIContent("Colliders In Scene", EditorGUIUtility.IconContent("BoxCollider Icon").image);
         sizeWindow.Show();
     }
     void OnGUI()
