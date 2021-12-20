@@ -15,7 +15,15 @@ public class CollidersWindow : EditorWindow
         sizeWindow.autoRepaintOnSceneChange = true;
         sizeWindow.titleContent = new GUIContent("Colliders In Scene", EditorGUIUtility.IconContent("BoxCollider Icon").image);
         sizeWindow.Show();
+
+        
     }
+
+    void OnEnable()
+    {
+        TraverseList = StartTraverse();
+    }
+
     void OnGUI()
     {
         using (new EditorGUILayout.HorizontalScope(GUILayout.MaxWidth(500), GUILayout.ExpandWidth(false)))
