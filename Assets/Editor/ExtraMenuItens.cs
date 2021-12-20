@@ -20,27 +20,6 @@ namespace NineRealmsTools
             GameObject _object = new GameObject("_________________________________________________________________________________________");
             _object.tag = "EditorOnly";
         }
-        [MenuItem("GameObject/Trigger/Trigger Box", false, 0)]
-        static void CreateTriggerBox()
-        {
-            GameObject _object = new GameObject("Trigger Box");
-            _object.AddComponent<BoxCollider>();
-            _object.AddComponent<TriggerCaller>();
-        }
-        [MenuItem("GameObject/Trigger/Trigger Sphere", false, 0)]
-        static void CreateTriggerSphere()
-        {
-            GameObject _object = new GameObject("Trigger Sphere");
-            _object.AddComponent<SphereCollider>();
-            _object.AddComponent<TriggerCaller>();
-        }
-        [MenuItem("GameObject/Trigger/Trigger Capsule", false, 0)]
-        static void CreateTriggerCapsule()
-        {
-            GameObject _object = new GameObject("Trigger Capsule");
-            _object.AddComponent<CapsuleCollider>();
-            _object.AddComponent<TriggerCaller>();
-        }
 
         [MenuItem("GameObject/UI/Page", false, 0)]
         static void CreatePage()
