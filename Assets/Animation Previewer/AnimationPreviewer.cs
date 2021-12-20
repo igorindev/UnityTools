@@ -10,7 +10,6 @@ public class AnimationPreviewer : EditorWindow
     [SerializeField] bool autoPlay;
     [SerializeField] float autoPlaySpeed;
 
-    public string[] Strings = { "Larry", "Curly", "Moe" };
     [MenuItem("Tools/Animation Previewer")]
     static void Create()
     {
