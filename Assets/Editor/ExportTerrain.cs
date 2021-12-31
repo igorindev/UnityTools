@@ -23,7 +23,7 @@ class ExportTerrain : EditorWindow
     int totalCount;
     int progressUpdateInterval = 10000;
 
-    [MenuItem("Tools/Terrain/Export")]
+    [MenuItem("Tools/Mesh/Export Terrain...")]
     static void Init()
     {
         terrain = null;

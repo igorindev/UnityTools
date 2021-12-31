@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SetCursor : MonoBehaviour
+public class CursorState : MonoBehaviour
 {
     [SerializeField] CursorLockMode cursorLockMode = CursorLockMode.None;
     [SerializeField] bool visible = true;

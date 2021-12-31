@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Screenshot : MonoBehaviour
+public class ScreenshotMono : MonoBehaviour
 {
     public int resWidth = 1920;
     public int resHeight = 1080;
