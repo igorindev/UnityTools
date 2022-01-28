@@ -11,7 +11,7 @@ public class CollidersExplorer : EditorWindow
     Vector2 scroll;
     int selected;
     string toSearch;
-
+    bool drawShapes;
     GUIContent[] textures;
 
     [MenuItem("Tools/Colliders Explorer")]
@@ -81,6 +81,12 @@ public class CollidersExplorer : EditorWindow
             GUILayout.FlexibleSpace();
         }
         GUILayout.Space(20);
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            GUILayout.Space(10);
+            drawShapes = GUILayout.Toggle(drawShapes, "Draw Shapes");
+        }
+        GUILayout.Space(1);
         using (var scrollScope = new EditorGUILayout.ScrollViewScope(scroll, EditorStyles.helpBox))
         {
             scroll = scrollScope.scrollPosition;
