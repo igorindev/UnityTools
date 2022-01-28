@@ -257,17 +257,6 @@ namespace SceneLoader
             }
             throw new System.NotSupportedException("Can't find internal main window. Maybe something has changed inside Unity");
         }
-
-        public static void CenterOnMainWin(this UnityEditor.EditorWindow aWin)
-        {
-            var main = GetEditorMainWindowPos();
-            var pos = aWin.position;
-            float w = (main.width - pos.width) * 0.5f;
-            float h = (main.height - pos.height) * 0.5f;
-            pos.x = main.x + w;
-            pos.y = main.y + h;
-            aWin.position = pos;
-        }
     }
 
 #if UNITY_2021_2_OR_NEWER
