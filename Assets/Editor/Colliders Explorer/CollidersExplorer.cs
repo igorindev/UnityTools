@@ -66,12 +66,10 @@ public class CollidersExplorer : EditorWindow
             }
             GUILayout.FlexibleSpace();
         }
-        GUILayout.Space(-10);
+        GUILayout.Space(0);
         using (new EditorGUILayout.HorizontalScope())
         {
-            GUILayout.FlexibleSpace();
-            GUILayout.Label("__________________________________________________________________");
-            GUILayout.FlexibleSpace();
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
         using (new EditorGUILayout.HorizontalScope())
         {
