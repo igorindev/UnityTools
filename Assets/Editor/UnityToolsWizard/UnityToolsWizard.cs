@@ -23,6 +23,21 @@ public class UnityToolsWizard : EditorWindow
 
     void OnEnable()
     {
+        tools = new UnityTools[]
+        {
+            new UnityTools("Colliders Explorer", "Editor/Colliders Explorer","Open a window where you can see all the colliders in the scene", new string[]{}),
+
+            new UnityTools("Scene Loader", "Editor/SceneLoader", "Fast load scenes using the quick access window", new string[]
+            {
+                "Script Attributes"
+            }),
+
+            new UnityTools("Script Extension", "Script Extensions", "Extra reusable functions for calculations, debugging, fast use", new string[]{}),
+
+            new UnityTools("Script Attributes", "Script Attributes", "Atrributes for code", new string[]{}),
+
+            new UnityTools("Trigger Caller", "Trigger Caller", "Fast create primitive shaped trigger zones; define tags to collide, and assign functions to the OnEnter and OnExit UnityEvents.", new string[]{})
+        };
     }
 
     void OnGUI()
@@ -52,7 +67,7 @@ public class UnityToolsWizard : EditorWindow
             {
                 scroll = scrollScope.scrollPosition;
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < tools.Length; i++)
                 {
                     using (new EditorGUILayout.HorizontalScope())
                     {
@@ -62,12 +77,26 @@ public class UnityToolsWizard : EditorWindow
                             {
                                 ImportAsset("");
                             }
-                            EditorGUILayout.LabelField("Scene Loader", EditorStyles.boldLabel, GUILayout.Height(28));
+                            string Name = tools[i].toolName;
 
-                            string description = Random.Range(0, 2) == 1 ? "Add a new window where you can configure this is ahah hah aha ha hha ha hah ah ahh ah ah  dd saas  w wedw  dsad sasd das ah" : "Add a new window where you can configure this";
-                            float h = 15 * (int)(description.Length / 30f);
-                            EditorGUILayout.LabelField(description, EditorStyles.wordWrappedLabel, GUILayout.Height(50));
+                            using (new EditorGUILayout.VerticalScope())
+                            {
+                                EditorGUILayout.LabelField(tools[i].toolName, EditorStyles.boldLabel, GUILayout.Height(28));
+                                if (tools[i].dependeciesPath.Length > 0)
+                                {
+                                    EditorGUILayout.LabelField("Dependencies: ", GUILayout.Height(15));
+                                    for (int j = 0; j < tools[i].dependeciesPath.Length; j++)
+                                    {
+                                        EditorGUILayout.LabelField("- " + tools[i].dependeciesPath[j], GUILayout.Height(15));
+                                    }
+                                }
+                            }
 
+                            string description = tools[i].toolDescription;
+                            int m = Mathf.RoundToInt(description.Length / 25f);
+                            float h = 30 + 8.5f * m;
+                            EditorGUILayout.LabelField(description, EditorStyles.wordWrappedLabel, GUILayout.Height(h));
+                            
                             GUILayout.FlexibleSpace();
                         }
                     }
@@ -88,13 +117,26 @@ public class UnityToolsWizard : EditorWindow
         {
             Debug.LogError("This Tool is already on your project, or you have a folder with the same name and path as the import, not allowing a copy.");
         }
+
+        //check if need dependencie
+
+        //ImportAsset()
+
     }
 
     [System.Serializable]
     public struct UnityTools
     {
+        public UnityTools(string _toolName, string _toolPath, string _toolDescription, string[] _dependeciesPath)
+        {
+            toolName = _toolName;
+            toolPath = _toolPath;
+            toolDescription = _toolDescription;
+            dependeciesPath = _dependeciesPath;
+        }
         public string toolName;
         public string toolPath;
+        public string toolDescription;
         public string[] dependeciesPath;
     }
 }

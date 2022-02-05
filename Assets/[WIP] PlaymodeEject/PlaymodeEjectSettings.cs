@@ -3,7 +3,7 @@ using UnityEditor;
 
 public class PlaymodeEjectSettings : ScriptableObject
 {
-    [SerializeField] static bool showCursor = false;
+    //[SerializeField] static bool showCursor = false;
     [SerializeField] static bool pauseTimeScale = false;
 
     static PlaymodeEject playmodeEject;

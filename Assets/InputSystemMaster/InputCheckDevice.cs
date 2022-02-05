@@ -88,8 +88,6 @@ public class InputCheckDevice : MonoBehaviour
                     break;
                 case InputDeviceChange.ConfigurationChanged:
                     break;
-                case InputDeviceChange.Destroyed:
-                    break;
             }
         };
     }
