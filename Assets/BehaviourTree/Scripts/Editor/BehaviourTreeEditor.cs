@@ -24,7 +24,7 @@ namespace TheKiwiCoder
         SerializedObject treeObject;
         SerializedProperty blackboardProperty;
 
-        [MenuItem("Tools/AI/BehaviourTreeEditor ...")]
+        [MenuItem("Tools/AI/BehaviourTreeEditor...")]
         public static void OpenWindow() {
             BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
             wnd.titleContent = new GUIContent("BehaviourTreeEditor");

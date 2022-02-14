@@ -46,7 +46,7 @@ public class FastEditScript : EditorWindow
         window.titleContent = new GUIContent(scripts[0].name + ".cs", EditorGUIUtility.IconContent("d_cs Script Icon").image);
     }
 
-    [MenuItem("Assets/Fast Edit... &#c", true)]
+    [MenuItem("Assets/Fast Edit...", true)]
     public static bool CheckIfScriptFile()
     {
         // enable the menu item only if a script file is selected

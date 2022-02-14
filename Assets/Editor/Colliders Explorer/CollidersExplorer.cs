@@ -14,12 +14,12 @@ public class CollidersExplorer : EditorWindow
     bool drawShapes;
     GUIContent[] textures;
 
-    [MenuItem("Tools/Colliders Explorer")]
+    [MenuItem("Tools/Colliders Explorer...")]
     static void Init()
     {
         CollidersExplorer sizeWindow = GetWindow<CollidersExplorer>("Colliders Explorer");
-        sizeWindow.autoRepaintOnSceneChange = true;
-        sizeWindow.titleContent = new GUIContent("Colliders Explorer", EditorGUIUtility.IconContent("BoxCollider Icon").image);
+        sizeWindow.autoRepaintOnSceneChange = true; 
+        sizeWindow.titleContent = new GUIContent("Colliders Explorer", EditorGUIUtility.IconContent("d_Search Icon").image);
         sizeWindow.Show();
     }
 

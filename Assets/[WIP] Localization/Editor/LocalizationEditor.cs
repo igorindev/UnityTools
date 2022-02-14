@@ -3,9 +3,9 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public class LanguageLoaderEditor : EditorWindow
+public class LocalizationEditor : EditorWindow
 {
-    [SerializeField] string filePath = "Assets/Language/LanguageFile.cvs";
+    [SerializeField] string filePath = "Assets/Localization/LocalizationFile.csv";
     [SerializeField] bool replaceFile = false;
 
     int numOfLines = 0;
@@ -15,15 +15,15 @@ public class LanguageLoaderEditor : EditorWindow
 
     bool[] selected;
 
-    const char splitValue = '~';
+    const char splitValue = ';';
 
     Vector2 scroll;
     Vector2[,] scrollArea;
 
-    [MenuItem("Tools/Language Editor")]
+    [MenuItem("Tools/Localization/Localization Editor...")]
     static void Create()
     {
-        var window = GetWindow<LanguageLoaderEditor>("Language Editor");
+        var window = GetWindow<LocalizationEditor>("Localization Editor");
         window.position = new Rect(0, 0, 900, 600);
         window.Show();
     }
@@ -52,7 +52,13 @@ public class LanguageLoaderEditor : EditorWindow
 
     void ModifyLines(int add = 1)
     {
-        numOfLines += 1 * add;
+        numOfLines += add;
+        if (numOfLines < 2)
+        {
+            numOfLines = 2;
+            return;
+        }
+
         string[,] temp = texts;
 
         Reload();
@@ -89,7 +95,11 @@ public class LanguageLoaderEditor : EditorWindow
     void ModifyLanguage(int add = 1)
     {
         string[] t = languagesFoundInFile;
-        languagesFoundInFile = new string[t.Length + (1 * add)];
+
+        int toAdd = t.Length + add;
+        toAdd = toAdd < 2 ? 2 : toAdd;
+
+        languagesFoundInFile = new string[toAdd];
 
         for (int i = 0; i < languagesFoundInFile.Length; i++)
         {
@@ -285,54 +295,60 @@ public class LanguageLoaderEditor : EditorWindow
 
     void OnGUI()
     {
-        GUILayout.Label("");
-
-        GUI.BeginGroup(new Rect(20, 10, Screen.width, Screen.height));
-        EditorGUILayout.BeginVertical(GUILayout.Width(500), GUILayout.Height(15));
-
-        filePath = EditorGUILayout.TextField("File Path", filePath);
-        replaceFile = EditorGUILayout.Toggle("Replace Current File", replaceFile);
-
-        EditorGUILayout.EndVertical();
-        GUILayout.Label("");
-
-        if (Application.isPlaying)
+        if (EditorApplication.isPlaying)
         {
-            GUI.Label(new Rect(15, 70, 1000, 1000), "Disabled during PlayMode", EditorStyles.largeLabel);
+            GUILayout.Label("Disabled during PlayMode", EditorStyles.largeLabel);
             return;
         }
 
-        EditorGUILayout.BeginHorizontal(GUILayout.Width(100), GUILayout.Height(15));
-        if (GUILayout.Button("Add new Language", GUILayout.Width(130), GUILayout.Height(22)))
+        GUILayout.Label("");
+
+        GUI.BeginGroup(new Rect(20, 10, Screen.width, Screen.height));
+        using (new EditorGUILayout.VerticalScope(GUILayout.Width(500), GUILayout.Height(15)))
         {
-            ModifyLanguage();
+            filePath = EditorGUILayout.TextField("File Path", filePath);
+            replaceFile = EditorGUILayout.Toggle("Replace Current File", replaceFile);
         }
-        if (GUILayout.Button("Remove Language", GUILayout.Width(130), GUILayout.Height(22)))
+
+        GUILayout.Label("");
+
+        using (new EditorGUILayout.HorizontalScope(GUILayout.Width(100), GUILayout.Height(15)))
         {
-            ModifyLanguage(-1);
+            if (GUILayout.Button("Add new Language", GUILayout.Width(130), GUILayout.Height(22)))
+            {
+                ModifyLanguage();
+            }
+            if (languagesFoundInFile.Length <= 2) { GUI.enabled = false; }
+            if (GUILayout.Button("Remove Language", GUILayout.Width(130), GUILayout.Height(22)))
+            {
+                ModifyLanguage(-1);
+            }
+            GUI.enabled = true;
+            if (GUILayout.Button("Add new Line", GUILayout.Width(130), GUILayout.Height(22)))
+            {
+                ModifyLines();
+            }
+            if (numOfLines <= 2) { GUI.enabled = false; }
+            if (GUILayout.Button("Remove Line", GUILayout.Width(130), GUILayout.Height(22)))
+            {
+                ModifyLines(-1);
+            }
+            GUI.enabled = true;
+            if (GUILayout.Button("Save", GUILayout.Width(130), GUILayout.Height(22)))
+            {
+                SaveTexts();
+            }
+            if (GUILayout.Button("Reload", GUILayout.Width(130), GUILayout.Height(22)))
+            {
+                ReadLanguageFile();
+            }
         }
-        if (GUILayout.Button("Add new Line", GUILayout.Width(130), GUILayout.Height(22)))
-        {
-            ModifyLines();
-        }
-        if (GUILayout.Button("Remove Line", GUILayout.Width(130), GUILayout.Height(22)))
-        {
-            ModifyLines(-1);
-        }
-        if (GUILayout.Button("Save", GUILayout.Width(130), GUILayout.Height(22)))
-        {
-            SaveTexts();
-        }
-        if (GUILayout.Button("Reload", GUILayout.Width(130), GUILayout.Height(22)))
-        {
-            ReadLanguageFile();
-        }
-        EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.Space(10);
-        EditorGUILayout.BeginVertical(GUILayout.Width(800));
-        DrawHorizontalUILine(Color.gray, 6, 1, 0);
-        EditorGUILayout.EndVertical();
+        using (new EditorGUILayout.VerticalScope(GUILayout.Width(800)))
+        {
+            DrawHorizontalUILine(Color.gray, 6, 1, 0);
+        }
 
         EditorGUILayout.Space(10);
 

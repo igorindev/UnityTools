@@ -13,14 +13,14 @@ namespace com.pellegrinoprincipe
 {
     public class FixClassName : Editor
     {
-        private static string errorMessage = "Ops, something has gone wrong: {0}.";
-        private static string refactoringMessage = "The class has been successfully renamed.";
-        private static string noRefactoringMessage = "The class name is the same of the file name. No renaming performed.";
+        private static readonly string errorMessage = "Ops, something has gone wrong: {0}.";
+        private static readonly string refactoringMessage = "The class has been successfully renamed.";
+        private static readonly string noRefactoringMessage = "The class name is the same of the file name. No renaming performed.";
         private static bool scriptSelected;
         private static MonoScript[] scripts;
 
         // hotkey to activate the item: ALT + SHIFT + f 
-        [MenuItem("Assets/Fix Class Name... &#f")]
+        [MenuItem("Assets/Fix Class Name...")]
         public static void Fix()
         {
             if (scripts != null && scripts.Length != 0)
@@ -32,11 +32,11 @@ namespace com.pellegrinoprincipe
                 string unityAssetPath = AssetDatabase.GetAssetPath(selectedScript);
                 string currentClassName = script.name;
 
-                replaceClassName(currentClassName, AssetDatabase.GetAssetPath(selectedScript));
+                ReplaceClassName(currentClassName, AssetDatabase.GetAssetPath(selectedScript));
             }
         }
 
-        [MenuItem("Assets/Fix Class Name... &#f", true)]
+        [MenuItem("Assets/Fix Class Name...", true)]
         public static bool CheckIfScriptFile()
         {
             // enable the menu item only if a script file is selected
@@ -49,7 +49,7 @@ namespace com.pellegrinoprincipe
             return scriptSelected;
         }
 
-        private static void replaceClassName(string className, string scriptPath)
+        private static void ReplaceClassName(string className, string scriptPath)
         {
             try
             {

@@ -17,7 +17,7 @@ public class UnityToolsWizard : EditorWindow
     {
         UnityToolsWizard sizeWindow = GetWindow<UnityToolsWizard>("Unity Tools Wizard");
         sizeWindow.autoRepaintOnSceneChange = true;
-        sizeWindow.titleContent = new GUIContent("Unity Tools Wizard");
+        sizeWindow.titleContent = new GUIContent("Unity Tools Wizard", EditorGUIUtility.IconContent("VerticalLayoutGroup Icon").image);
         sizeWindow.Show();
     }
 
@@ -26,6 +26,8 @@ public class UnityToolsWizard : EditorWindow
         tools = new UnityTools[]
         {
             new UnityTools("Colliders Explorer", "Editor/Colliders Explorer","Open a window where you can see all the colliders in the scene", new string[]{}),
+
+            new UnityTools("Localization", "Localization", "Add a Localization package that reads .CSV files to localize texts and images.", new string[]{}),
 
             new UnityTools("Scene Loader", "Editor/SceneLoader", "Fast load scenes using the quick access window", new string[]
             {
