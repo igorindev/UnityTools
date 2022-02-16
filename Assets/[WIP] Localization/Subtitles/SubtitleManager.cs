@@ -5,22 +5,24 @@ using TMPro;
 
 public class SubtitleManager : MonoBehaviour
 {
-    [SerializeField] Subtitle[] substitles;
+    [SerializeField] Subtitle[] subtitles;
     [SerializeField] int simultaneous = 3;
 
     bool coroutineStarted = false;
+    List<int> subtitlesQueued = new List<int>();
 
     void Start()
     {
-        for (int i = 0; i < substitles.Length; i++)
+        for (int i = 0; i < subtitles.Length; i++)
         {
-            substitles[i].text.verticalAlignment = VerticalAlignmentOptions.Middle;
-            substitles[i].text.horizontalAlignment = HorizontalAlignmentOptions.Center;
+            subtitles[i].text.verticalAlignment = VerticalAlignmentOptions.Middle;
+            subtitles[i].text.horizontalAlignment = HorizontalAlignmentOptions.Center;
 
-            substitles[i].canvasGroup.alpha = 0;
+            subtitles[i].canvasGroup.alpha = 0;
+            subtitles[i].background.anchoredPosition = new Vector2(0, -47.92969f);
         }
     }
-   
+
 
     [ContextMenu("a")]
     void Test()
@@ -34,22 +36,22 @@ public class SubtitleManager : MonoBehaviour
 
     }
 
-    public void SetText(string text, float duration = 3f, bool priority = false)
+    public void SetText(string text, float duration = 5f, bool priority = false)
     {
         //if duration is too short, increase to 1.5f sec fixed
         duration = duration < 1.5f ? 1.5f : duration;
 
         int toUse = -1;
         //allocate subtitle that is not in use
-        for (int i = 0; i < substitles.Length; i++)
+        for (int i = 0; i < subtitles.Length; i++)
         {
-            if (substitles[i].InUse == false)
+            if (subtitles[i].InUse == false)
             {
                 toUse = i;
-                substitles[toUse].text.text = text;
-                substitles[toUse].Duration = duration;
-                substitles[toUse].InUse = true;
-                substitles[toUse].Priority = priority;
+                subtitles[toUse].text.text = text;
+                subtitles[toUse].Duration = duration;
+                subtitles[toUse].InUse = true;
+                subtitles[toUse].Priority = priority;
                 break;
             }
         }
@@ -57,16 +59,21 @@ public class SubtitleManager : MonoBehaviour
         //if there is none availble, get the first, that is not priority
         if (toUse == -1) //Not found
         {
-            for (int i = 0; i < substitles.Length; i++)
-            {
-                if (substitles[i].Priority == false)
-                {
-                    toUse = i;
-                    substitles[toUse].Duration = duration;
-                    substitles[toUse].InUse = true;
-                    break;
-                }
-            }
+            // for (int i = 0; i < subtitles.Length; i++)
+            // {
+            //     if (subtitles[i].Priority == false)
+            //     {
+            //         toUse = i;
+            //         subtitles[toUse].Duration = duration;
+            //         subtitles[toUse].InUse = true;
+            //         break;
+            //     }
+            // }
+            toUse = subtitlesQueued[0];
+            subtitles[toUse].text.text = text;
+            subtitles[toUse].Duration = duration;
+            subtitles[toUse].InUse = true;
+            subtitles[toUse].Priority = priority;
         }
 
         //override a priority with less duration remaining if other priority need, and all texts are already priority
@@ -83,12 +90,36 @@ public class SubtitleManager : MonoBehaviour
         }
     }
 
-    IEnumerator WaitFrameToDrawText(int i)
+    IEnumerator WaitFrameToDrawText(int index)
     {
         yield return null;
         yield return null;
 
-        substitles[i].background.sizeDelta = new(substitles[i].text.renderedWidth + 20, substitles[i].text.renderedHeight + 20);
+        if (subtitlesQueued.Contains(index))
+        {
+            subtitlesQueued.Remove(index);
+        }
+
+        subtitles[index].background.sizeDelta = new(subtitles[index].text.renderedWidth + 20, subtitles[index].text.renderedHeight + 20);
+        for (int i = 0; i < subtitlesQueued.Count; i++)
+        {
+            subtitles[subtitlesQueued[i]].Height += subtitles[index].background.sizeDelta.y;
+        }
+
+        subtitles[index].background.anchoredPosition = subtitlesQueued.Count < 1 ? Vector2.zero : Vector2.down * subtitles[index].background.sizeDelta.y;
+        subtitles[index].Height = 0;
+        subtitlesQueued.Add(index);
+    }
+
+    float ToUp(int pos)
+    {
+        float total = 0;
+        for (int i = 0; i < pos; i++)
+        {
+            total += subtitles[subtitlesQueued[i]].background.sizeDelta.y;
+        }
+
+        return total;
     }
 
     //if none in use, disable counter
@@ -100,30 +131,43 @@ public class SubtitleManager : MonoBehaviour
         {
             thereIsSuntitleInUse = false;
 
-            for (int i = 0; i < substitles.Length; i++)
+            for (int i = 0; i < subtitles.Length; i++)
             {
-                if (substitles[i].InUse)
+                if (subtitles[i].InUse)
                 {
-                    substitles[i].Duration -= Time.deltaTime;
-                    if (substitles[i].Duration <= 0)
+                    subtitles[i].Duration -= Time.deltaTime;
+
+                    //Move up
+                    if (subtitles[i].background.anchoredPosition.y < subtitles[i].Height)
                     {
-                        if (substitles[i].canvasGroup.alpha > 0)
+                        subtitles[i].background.anchoredPosition += Vector2.up * Time.deltaTime * 100;
+                        if (subtitles[i].background.anchoredPosition.y >= subtitles[i].Height)
+                        {
+                            subtitles[i].background.anchoredPosition = new Vector2(subtitles[i].background.anchoredPosition.x, subtitles[i].Height);
+                        }
+                    }
+
+                    if (subtitles[i].Duration <= 0)
+                    {
+                        if (subtitles[i].canvasGroup.alpha > 0)
                         {
                             //fade out
-                            substitles[i].canvasGroup.alpha -= Time.deltaTime;
+                            subtitles[i].canvasGroup.alpha -= Time.deltaTime;
                         }
                         else
                         {
-                            substitles[i].canvasGroup.alpha = 0;
-                            substitles[i].InUse = false;
+                            subtitles[i].canvasGroup.alpha = 0;
+                            subtitles[i].InUse = false;
+                            subtitles[i].background.anchoredPosition = new Vector2(0, -47.92969f);
+                            subtitlesQueued.Remove(i);
                         }
                     }
                     else
                     {
-                        if (substitles[i].canvasGroup.alpha < 1)
+                        if (subtitles[i].canvasGroup.alpha < 1)
                         {
                             //fade in
-                            substitles[i].canvasGroup.alpha += Time.deltaTime;
+                            subtitles[i].canvasGroup.alpha += Time.deltaTime;
                         }
                     }
                     thereIsSuntitleInUse = true; //there is one in use
@@ -145,5 +189,6 @@ public class SubtitleManager : MonoBehaviour
         public bool InUse { get; set; }
         public bool Priority { get; set; }
         public float Duration { get; set; }
+        public float Height { get; set; }
     }
 }
