@@ -111,17 +111,6 @@ public class SubtitleManager : MonoBehaviour
         subtitlesQueued.Add(index);
     }
 
-    float ToUp(int pos)
-    {
-        float total = 0;
-        for (int i = 0; i < pos; i++)
-        {
-            total += subtitles[subtitlesQueued[i]].background.sizeDelta.y;
-        }
-
-        return total;
-    }
-
     //if none in use, disable counter
     IEnumerator SubtitlesCounter()
     {
