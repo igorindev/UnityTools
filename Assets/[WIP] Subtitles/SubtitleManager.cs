@@ -137,7 +137,6 @@ public class SubtitleManager : MonoBehaviour
             {
                 if (subtitles[i].InUse && subtitles[i].Ready)
                 {
-                    Debug.LogWarning("a");
                     subtitles[i].Duration -= Time.deltaTime;
 
                     //Move up
