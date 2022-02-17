@@ -11,6 +11,16 @@ public class SubtitleManager : MonoBehaviour
     bool coroutineStarted = false;
     List<int> subtitlesQueued = new List<int>();
 
+    string[] testPhrases = { "This is a test", 
+                             "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...", 
+                             "Where does it come from?", 
+                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit", 
+                             "Where is this?", 
+                             "Get over here", 
+                             "Over", 
+                             "Kill me NOW", 
+    };
+
     void Start()
     {
         for (int i = 0; i < subtitles.Length; i++)
@@ -24,11 +34,11 @@ public class SubtitleManager : MonoBehaviour
     }
 
 
-    [ContextMenu("a")]
+    [ContextMenu("Test")]
     void Test()
     {
         //need to add offst
-        SetText("Meu cu Meu cu Meu cuMeu cuMeu cu Meu cu");
+        SetText(testPhrases.GetRandom());
     }
 
     void UpdateTextsSize()
@@ -51,7 +61,9 @@ public class SubtitleManager : MonoBehaviour
                 subtitles[toUse].text.text = text;
                 subtitles[toUse].Duration = duration;
                 subtitles[toUse].InUse = true;
+                subtitles[toUse].Ready = false;
                 subtitles[toUse].Priority = priority;
+                subtitles[toUse].canvasGroup.alpha = 0;
                 break;
             }
         }
@@ -73,21 +85,15 @@ public class SubtitleManager : MonoBehaviour
             subtitles[toUse].text.text = text;
             subtitles[toUse].Duration = duration;
             subtitles[toUse].InUse = true;
+            subtitles[toUse].Ready = false;
             subtitles[toUse].Priority = priority;
+            subtitles[toUse].canvasGroup.alpha = 0;
         }
 
         //override a priority with less duration remaining if other priority need, and all texts are already priority
 
         //Update size of background
         StartCoroutine(WaitFrameToDrawText(toUse));
-
-        //Move old up - DO NOT move if is a priority
-
-        //Start counter to disapear text based on duration
-        if (coroutineStarted == false)
-        {
-            StartCoroutine(SubtitlesCounter());
-        }
     }
 
     IEnumerator WaitFrameToDrawText(int index)
@@ -108,7 +114,14 @@ public class SubtitleManager : MonoBehaviour
 
         subtitles[index].background.anchoredPosition = subtitlesQueued.Count < 1 ? Vector2.zero : Vector2.down * subtitles[index].background.sizeDelta.y;
         subtitles[index].Height = 0;
+        subtitles[index].Ready = true;
         subtitlesQueued.Add(index);
+
+        //Start counter to disapear text based on duration
+        if (coroutineStarted == false)
+        {
+            StartCoroutine(SubtitlesCounter());
+        }
     }
 
     //if none in use, disable counter
@@ -122,14 +135,15 @@ public class SubtitleManager : MonoBehaviour
 
             for (int i = 0; i < subtitles.Length; i++)
             {
-                if (subtitles[i].InUse)
+                if (subtitles[i].InUse && subtitles[i].Ready)
                 {
+                    Debug.LogWarning("a");
                     subtitles[i].Duration -= Time.deltaTime;
 
                     //Move up
                     if (subtitles[i].background.anchoredPosition.y < subtitles[i].Height)
                     {
-                        subtitles[i].background.anchoredPosition += Vector2.up * Time.deltaTime * 100;
+                        subtitles[i].background.anchoredPosition += 100 * Time.deltaTime * Vector2.up;
                         if (subtitles[i].background.anchoredPosition.y >= subtitles[i].Height)
                         {
                             subtitles[i].background.anchoredPosition = new Vector2(subtitles[i].background.anchoredPosition.x, subtitles[i].Height);
@@ -147,6 +161,7 @@ public class SubtitleManager : MonoBehaviour
                         {
                             subtitles[i].canvasGroup.alpha = 0;
                             subtitles[i].InUse = false;
+                            subtitles[i].Ready = false;
                             subtitles[i].background.anchoredPosition = new Vector2(0, -47.92969f);
                             subtitlesQueued.Remove(i);
                         }
@@ -176,6 +191,7 @@ public class SubtitleManager : MonoBehaviour
         public RectTransform background;
         public CanvasGroup canvasGroup;
         public bool InUse { get; set; }
+        public bool Ready { get; set; }
         public bool Priority { get; set; }
         public float Duration { get; set; }
         public float Height { get; set; }
