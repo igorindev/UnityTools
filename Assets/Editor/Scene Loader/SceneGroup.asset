@@ -17,17 +17,17 @@ MonoBehaviour:
   - Assets/[OLD] Intro Player/VideoPlayer.unity
   - Assets/[WIP] AI Perseption/AI.unity
   - Assets/[WIP] Color Bar Picker/ColorPicker.unity
-  - Assets/[WIP] Dialog System/Subtitle.unity
-  - Assets/[WIP] Language Manager/Language Test.unity
+  - Assets/[WIP] Localization/Language Test.unity
   - Assets/[WIP] PhotoMode/PhotoMode.unity
+  - Assets/[WIP] Replay System/Replay.unity
   - Assets/[WIP] Spring Bone/SpringBone.unity
+  - Assets/[WIP] Subtitles/Subtitle.unity
   - Assets/[WIP] Terrain Audio/Terrain.unity
   - Assets/Audio Visualizer/AudioVisualizer.unity
   - Assets/BehaviourTree/Example/ExampleScene.unity
   - Assets/InputSystemMaster/InputSystemMaster.unity
   - Assets/Loading System/S1.unity
   - Assets/Loading System/S2.unity
-  - Assets/Replay System/Replay.unity
   - Assets/Spline/Spline.unity
   - Assets/UI Canvas Fade/FadeTest.unity
   - Assets/UI World2DPosition/Map.unity

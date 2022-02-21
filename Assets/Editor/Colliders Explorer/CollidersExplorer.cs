@@ -6,7 +6,7 @@ using UnityEngine;
 public class CollidersExplorer : EditorWindow
 {
     List<GameObject> TraverseList = new List<GameObject>();
-    Vector3 objectSizeAlert = new(0.25f, 0.25f, 0.25f);
+    Vector3 objectSizeAlert = new Vector3(0.25f, 0.25f, 0.25f);
 
     Vector2 scroll;
     int selected;
