@@ -17,22 +17,30 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
     [SerializeField] static int buildsCount;
     [SerializeField] static BuildPlayerOptionsInspector[] buildsStatic;
 
+    SerializedObject so;
+
     [MenuItem("Tools/Auto Builder")]
     static void Init()
     {
         Builder window = CreateInstance<Builder>();
-        window.titleContent = new GUIContent("Builder", EditorGUIUtility.IconContent("Collab.Build").image);
         window.Show();
+    }
+
+    void OnEnable()
+    {
+        ScriptableObject target = this;
+        so = new SerializedObject(target);
     }
 
     void OnGUI()
     {
         GUILayout.Label("");
 
-        ScriptableObject target = this;
-        SerializedObject so = new SerializedObject(target);
+        so.Update();
+
         SerializedProperty build = so.FindProperty("buildPlayerOptions");
         SerializedProperty stringsProperty = so.FindProperty("builds");
+
         EditorGUILayout.PropertyField(build, new GUIContent("Add Build Options"), true);
 
         if (buildPlayerOptions == null) { so.ApplyModifiedProperties(); return; }
@@ -97,6 +105,10 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
         buildPlayerOptions.targetGroup = buildsStatic[buildsMade].targetGroup;
         buildPlayerOptions.options = buildsStatic[buildsMade].options;
 
+#if UNITY_2021_2_OR_NEWER
+        buildPlayerOptions.subtarget = (int)buildsStatic[buildsMade].subtarget;
+#endif
+
         buildPlayerOptions.scenes = buildsStatic[buildsMade].scenes;
         buildPlayerOptions.extraScriptingDefines = buildsStatic[buildsMade].extraScriptingDefines;
 
@@ -145,6 +157,11 @@ public struct BuildPlayerOptionsInspector
     public string assetBundleManifestPath;
     public BuildTargetGroup targetGroup;
     public BuildTarget target;
+
+#if UNITY_2021_2_OR_NEWER
+    public StandaloneBuildSubtarget subtarget;
+#endif
+
     public BuildOptions options;
     public string[] scenes;
     public string[] extraScriptingDefines;

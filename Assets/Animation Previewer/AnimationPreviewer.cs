@@ -1,90 +1,83 @@
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
 public class AnimationPreviewer : EditorWindow
 {
-    [SerializeField] GameObject animatedGameObject;
+    [SerializeField] Animator animatedGameObject;
     [SerializeField] AnimationClip[] clips = new AnimationClip[0];
     [SerializeField] int currentClip;
     [SerializeField] float time;
-    [SerializeField] bool autoPlay;
-    [SerializeField] float autoPlaySpeed;
 
-    [MenuItem("Tools/Animation Previewer")]
+    static AnimationPreviewer window;
+
+    SerializedObject so;
+
+    [MenuItem("Tools/Animation Previewer...")]
     static void Create()
     {
-        var window = GetWindow<AnimationPreviewer>();
+        window = GetWindow<AnimationPreviewer>();
         window.position = new Rect(0, 0, 250, 200);
         window.titleContent = new GUIContent("Animation Previewer", EditorGUIUtility.IconContent("UnityEditor.ProfilerWindow").image, "Animation Previewer");
         window.Show();
     }
 
-    void Update()
+    void OnEnable()
     {
-        if (EditorApplication.isPlayingOrWillChangePlaymode)
-        { return; }
-        if (autoPlay)
-        {
-            time += autoPlaySpeed * Time.deltaTime;
-            float value = clips[currentClip].length * time / 100;
-            if (time >= 100)
-            {
-                time = 0;
-            }
-            else if (time < 0)
-            {
-                time = 100;
-            }
-            clips[currentClip].SampleAnimation(animatedGameObject, value);
-        }
+        ScriptableObject target = this;
+        so = new SerializedObject(target);
     }
 
     void OnGUI()
     {
         GUILayout.Label("");
+
+        so.Update();
+
         if (EditorApplication.isPlayingOrWillChangePlaymode)
         {
             GUILayout.Label("Disabled during PlayMode");
             return;
         }
 
-        GUILayout.Label("Preview an Animation Clip of a player");
+        GUILayout.Label("Preview Animations from animator");
 
         EditorGUILayout.Space(10);
         using (new EditorGUILayout.HorizontalScope())
         {
             GUILayout.Space(15);
-            using (var m = new EditorGUILayout.VerticalScope())
+            using (new EditorGUILayout.VerticalScope())
             {
-                animatedGameObject = EditorGUILayout.ObjectField(animatedGameObject, typeof(GameObject), true) as GameObject;
+                animatedGameObject = EditorGUILayout.ObjectField(animatedGameObject, typeof(Animator), true) as Animator;
                 if (!animatedGameObject)
                 {
                     return;
                 }
 
-                animatedGameObject = animatedGameObject.GetComponentInChildren<Animator>().gameObject;
                 time = EditorGUILayout.Slider("Sequence", time, 0, 100);
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    autoPlay = EditorGUILayout.Toggle("Auto Play", autoPlay);
-                    autoPlaySpeed = EditorGUILayout.FloatField("Auto Play Speed", autoPlaySpeed);
-                }
             }
         }
-        GUILayout.Space(10);
+        EditorGUILayout.Space(10);
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Create Prefab"))
+            {
+                CreatePrefabWithPose();
+            }
+        }
+
         GUILayout.Label("Animation Clips");
         using (new EditorGUILayout.HorizontalScope())
         {
             GUILayout.Space(15);
             using (new EditorGUILayout.VerticalScope())
             {
-                ScriptableObject target = this;
-                SerializedObject so = new SerializedObject(target);
-                SerializedProperty property = so.FindProperty("clips");
-                currentClip = EditorGUILayout.IntField("Current Clip", currentClip);
-                EditorGUILayout.PropertyField(property, true);
-                so.ApplyModifiedProperties();
+                SerializedProperty clipsProperty = so.FindProperty("clips");
 
+                currentClip = EditorGUILayout.IntField("Current Clip", currentClip);
+
+                EditorGUILayout.PropertyField(clipsProperty, true);
             }
         }
 
@@ -104,7 +97,7 @@ public class AnimationPreviewer : EditorWindow
                 if (clips[currentClip])
                 {
                     float value = clips[currentClip].length * time / 100;
-                    clips[currentClip].SampleAnimation(animatedGameObject, value);
+                    clips[currentClip].SampleAnimation(animatedGameObject.gameObject, value);
                 }
             }
             else
@@ -112,9 +105,22 @@ public class AnimationPreviewer : EditorWindow
                 currentClip = 0;
             }
         }
+
+        so.ApplyModifiedProperties();
+    }
+
+    public void CreatePrefabWithPose()
+    {
+        PrefabUtility.SaveAsPrefabAsset(animatedGameObject.gameObject, "Assets/" + animatedGameObject.gameObject.name + ".prefab", out bool success);
+        if (success)
+        {
+            Debug.Log("Prefab created at: " + "Assets/" + animatedGameObject.gameObject.name + ".prefab");
+        }
         else
         {
-            currentClip = 0;
+            Debug.LogError("Failed creating prefab.");
         }
+
+        AssetDatabase.Refresh();
     }
 }

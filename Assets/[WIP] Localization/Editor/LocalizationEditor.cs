@@ -166,7 +166,7 @@ public class LocalizationEditor : EditorWindow
         }
         else
         {
-            Debug.LogError("File not found");
+            Debug.LogError("Localization file not found");
             return "File not found or is empty.";
         }
     }
