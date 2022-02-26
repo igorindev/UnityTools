@@ -1,6 +1,3 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
-
 using System;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -19,7 +16,7 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
 
     SerializedObject so;
 
-    [MenuItem("Tools/Auto Builder")]
+    [MenuItem("Tools/Builder")]
     static void Init()
     {
         Builder window = CreateInstance<Builder>();
