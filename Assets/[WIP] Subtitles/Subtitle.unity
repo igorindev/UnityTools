@@ -757,7 +757,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1625766515}
   - component: {fileID: 1625766516}
-  - component: {fileID: 1625766517}
   - component: {fileID: 1625766518}
   m_Layer: 0
   m_Name: NPC
@@ -795,20 +794,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcDialogs:
   - {fileID: 11400000, guid: dc69bedde5a5b024cb6c197fa3b309eb, type: 2}
---- !u!114 &1625766517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1625766514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c3ec7f808f7275499698a23fd04ff71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resWidth: 2550
-  resHeight: 3300
 --- !u!20 &1625766518
 Camera:
   m_ObjectHideFlags: 0
