@@ -15,7 +15,7 @@ public static class Extensions
         return (byte)(f * 255);
     }
 
-    public static string Color(this string text, Color color)
+    public static string AddColor(this string text, Color color)
     {
         return string.Format("<color={0}>{1}</color>", color.ToHex(), text);
     }
@@ -34,7 +34,7 @@ public static class Extensions
         list.Remove(item);
         return item;
     }
-    public static int GetRandomInRangeExclusive(this Vector2Int range)
+    public static float GetRandomInRange(this Vector2 range)
     {
         return Random.Range(range.x, range.y);
     }
@@ -42,14 +42,34 @@ public static class Extensions
     {
         return Random.Range(range.x, range.y + 1);
     }
-    public static float GetRandomInRange(this Vector2 range)
+    public static int GetRandomInRangeExclusive(this Vector2Int range)
     {
         return Random.Range(range.x, range.y);
     }
 
-    public static float RandomNegateThisValue(this float value)
+    public static float RandomPositiveOrNegative(this float value)
     {
         return value * (Random.Range(0, 2) == 0 ? 1 : -1);
+    }
+    public static int RandomPositiveOrNegative(this int value)
+    {
+        return value * (Random.Range(0, 2) == 0 ? 1 : -1);
+    }
+
+    public static Vector3 ZeroX(this Vector3 vector)
+    {
+        vector.x = 0;
+        return vector;
+    }
+    public static Vector3 ZeroY(this Vector3 vector)
+    {
+        vector.y = 0;
+        return vector;
+    }
+    public static Vector3 ZeroZ(this Vector3 vector)
+    {
+        vector.z = 0;
+        return vector;
     }
 
     public static void Shuffle<T>(this IList<T> list)
