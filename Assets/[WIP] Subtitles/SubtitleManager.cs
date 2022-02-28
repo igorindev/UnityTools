@@ -10,6 +10,7 @@ public class SubtitleManager : MonoBehaviour
     [SerializeField] int simultaneous = 3;
     [SerializeField] float fadeInSpeed = 1;
     [SerializeField] float fadeOutSpeed = 1;
+    [SerializeField] float moveUpSpeed = 1;
 
     bool coroutineStarted = false;
     List<int> subtitlesQueued = new List<int>();
@@ -163,7 +164,7 @@ public class SubtitleManager : MonoBehaviour
                     //Move up
                     if (subtitles[i].background.anchoredPosition.y < subtitles[i].Height)
                     {
-                        subtitles[i].background.anchoredPosition += 100 * Time.deltaTime * Vector2.up;
+                        subtitles[i].background.anchoredPosition += moveUpSpeed * 100 * Time.deltaTime * Vector2.up;
                         if (subtitles[i].background.anchoredPosition.y >= subtitles[i].Height)
                         {
                             subtitles[i].background.anchoredPosition = new Vector2(subtitles[i].background.anchoredPosition.x, subtitles[i].Height);
@@ -182,7 +183,7 @@ public class SubtitleManager : MonoBehaviour
                             subtitles[i].canvasGroup.alpha = 0;
                             subtitles[i].InUse = false;
                             subtitles[i].Ready = false;
-                            subtitles[i].background.anchoredPosition = new Vector2(0, -47.92969f);
+                            subtitlesQueued.Remove(i);
                         }
                     }
                     else

@@ -251,7 +251,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 315, y: 47.929688}
+  m_SizeDelta: {x: 179.88373, y: 47.929688}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &138178430
 MonoBehaviour:
@@ -1353,7 +1353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Where does it come from?
+  m_text: Where is this?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1645,6 +1645,9 @@ MonoBehaviour:
     background: {fileID: 1574694685}
     canvasGroup: {fileID: 1574694686}
   simultaneous: 3
+  fadeInSpeed: 2
+  fadeOutSpeed: 2
+  moveUpSpeed: 1
 --- !u!224 &9152750416529646735
 RectTransform:
   m_ObjectHideFlags: 0
