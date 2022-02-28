@@ -11,6 +11,7 @@ public class SubtitleManager : MonoBehaviour
     [SerializeField] float fadeInSpeed = 1;
     [SerializeField] float fadeOutSpeed = 1;
     [SerializeField] float moveUpSpeed = 1;
+    [SerializeField] bool alertIfToLong;
 
     bool coroutineStarted = false;
     List<int> subtitlesQueued = new List<int>();
@@ -57,7 +58,7 @@ public class SubtitleManager : MonoBehaviour
         SetText(testPhrases.GetRandom(),Random.Range(5f, 5f));
     }
 
-    void UpdateTextsSize()
+    public void UpdateTextsSize(float size)
     {
 
     }
