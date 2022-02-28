@@ -2,24 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
 
 public class SubtitleManager : MonoBehaviour
 {
     [SerializeField] Subtitle[] subtitles;
     [SerializeField] int simultaneous = 3;
+    [SerializeField] float fadeInSpeed = 1;
+    [SerializeField] float fadeOutSpeed = 1;
 
     bool coroutineStarted = false;
     List<int> subtitlesQueued = new List<int>();
 
-    string[] testPhrases = { "This is a test", 
-                             "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...", 
-                             "Where does it come from?", 
-                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit", 
-                             "Where is this?", 
-                             "Get over here", 
-                             "Over", 
-                             "Kill me NOW", 
+    string[] testPhrases = { "This is a test",
+                             "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+                             "Where does it come from?",
+                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                             "Where is this?",
+                             "Get over here",
+                             "Over",
+                             "Kill me NOW",
     };
+
+    void OnValidate()
+    {
+        subtitles = new Subtitle[transform.GetChild(0).childCount];
+
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        {
+            Debug.Log(transform.GetChild(0).GetChild(i).GetComponentInChildren<TextMeshProUGUI>());
+            subtitles[i].text = transform.GetChild(0).GetChild(i).GetComponentInChildren<TextMeshProUGUI>();
+            subtitles[i].background = transform.GetChild(0).GetChild(i).GetComponent<RectTransform>();
+            subtitles[i].canvasGroup = transform.GetChild(0).GetChild(i).GetComponent<CanvasGroup>();
+        }
+    }
 
     void Start()
     {
@@ -29,16 +45,15 @@ public class SubtitleManager : MonoBehaviour
             subtitles[i].text.horizontalAlignment = HorizontalAlignmentOptions.Center;
 
             subtitles[i].canvasGroup.alpha = 0;
-            subtitles[i].background.anchoredPosition = new Vector2(0, -47.92969f);
+            subtitles[i].background.anchoredPosition = new Vector2(0, -subtitles[i].Height);
         }
     }
-
 
     [ContextMenu("Test")]
     void Test()
     {
         //need to add offst
-        SetText(testPhrases.GetRandom());
+        SetText(testPhrases.GetRandom(),Random.Range(5f, 5f));
     }
 
     void UpdateTextsSize()
@@ -117,6 +132,12 @@ public class SubtitleManager : MonoBehaviour
         subtitles[index].Ready = true;
         subtitlesQueued.Add(index);
 
+        if (subtitlesQueued.Count > simultaneous)
+        {
+            subtitles[subtitlesQueued[0]].Duration = subtitles[subtitlesQueued[0]].Duration < 0 ? subtitles[subtitlesQueued[0]].Duration : 0;
+            subtitlesQueued.RemoveAt(0);
+        }
+
         //Start counter to disapear text based on duration
         if (coroutineStarted == false)
         {
@@ -154,7 +175,7 @@ public class SubtitleManager : MonoBehaviour
                         if (subtitles[i].canvasGroup.alpha > 0)
                         {
                             //fade out
-                            subtitles[i].canvasGroup.alpha -= Time.deltaTime;
+                            subtitles[i].canvasGroup.alpha -= fadeOutSpeed * Time.deltaTime;
                         }
                         else
                         {
@@ -162,7 +183,6 @@ public class SubtitleManager : MonoBehaviour
                             subtitles[i].InUse = false;
                             subtitles[i].Ready = false;
                             subtitles[i].background.anchoredPosition = new Vector2(0, -47.92969f);
-                            subtitlesQueued.Remove(i);
                         }
                     }
                     else
@@ -170,7 +190,7 @@ public class SubtitleManager : MonoBehaviour
                         if (subtitles[i].canvasGroup.alpha < 1)
                         {
                             //fade in
-                            subtitles[i].canvasGroup.alpha += Time.deltaTime;
+                            subtitles[i].canvasGroup.alpha += fadeInSpeed * Time.deltaTime;
                         }
                     }
                     thereIsSuntitleInUse = true; //there is one in use
@@ -183,9 +203,8 @@ public class SubtitleManager : MonoBehaviour
     }
 
     [System.Serializable]
-    public class Subtitle
+    public struct Subtitle
     {
-        [Header("Subtitle")]
         public TextMeshProUGUI text;
         public RectTransform background;
         public CanvasGroup canvasGroup;
