@@ -5,6 +5,18 @@ using Random = UnityEngine.Random;
 
 public static class Extensions
 {
+    public static Color ToColor(this string hex)
+    {
+        if (ColorUtility.TryParseHtmlString(hex, out Color newCol))
+        {
+            return newCol;
+        }
+        else
+        {
+            Debug.LogError("Error: Can not convert color");
+            return Color.white;
+        }
+    }
     public static string ToHex(this Color color)
     {
         return string.Format("#{0:X2}{1:X2}{2:X2}", ToByte(color.r), ToByte(color.g), ToByte(color.b));

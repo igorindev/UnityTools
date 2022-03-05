@@ -1,17 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class SubtitleManager : MonoBehaviour
 {
-    [SerializeField] Subtitle[] subtitles;
     [SerializeField] int simultaneous = 3;
+
+    [Header("Text")]
+    [SerializeField] float textSize = 25;
+
+    [Header("Effects")]
     [SerializeField] float fadeInSpeed = 1;
     [SerializeField] float fadeOutSpeed = 1;
     [SerializeField] float moveUpSpeed = 1;
-    [SerializeField] bool alertIfToLong;
+
+    [Header("Background")]
+    [SerializeField] Color backgroundColor = new Color(0, 0, 0, 0.313f);
+    [SerializeField] float textOffsetWidth = 20;
+    [SerializeField] float textOffsetHeight = 20;
+
+    [Header("Alert")]
+    [SerializeField] bool alertIfTextToLong;
+    [SerializeField] int textLimitSize = 60;
+
+    [Header("")]
+    [SerializeField] Subtitle[] subtitles;
 
     bool coroutineStarted = false;
     List<int> subtitlesQueued = new List<int>();
@@ -32,9 +47,9 @@ public class SubtitleManager : MonoBehaviour
 
         for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
-            Debug.Log(transform.GetChild(0).GetChild(i).GetComponentInChildren<TextMeshProUGUI>());
             subtitles[i].text = transform.GetChild(0).GetChild(i).GetComponentInChildren<TextMeshProUGUI>();
-            subtitles[i].background = transform.GetChild(0).GetChild(i).GetComponent<RectTransform>();
+            subtitles[i].subtitleRect = transform.GetChild(0).GetChild(i).GetComponent<RectTransform>();
+            subtitles[i].background = transform.GetChild(0).GetChild(i).GetComponent<Image>();
             subtitles[i].canvasGroup = transform.GetChild(0).GetChild(i).GetComponent<CanvasGroup>();
         }
     }
@@ -47,20 +62,44 @@ public class SubtitleManager : MonoBehaviour
             subtitles[i].text.horizontalAlignment = HorizontalAlignmentOptions.Center;
 
             subtitles[i].canvasGroup.alpha = 0;
-            subtitles[i].background.anchoredPosition = new Vector2(0, -subtitles[i].Height);
+            subtitles[i].subtitleRect.anchoredPosition = new Vector2(0, -subtitles[i].Height);
+            subtitles[i].background.color = backgroundColor;
+            subtitles[i].subtitleRect.pivot = new Vector2(0.5f, 0);
         }
+
+        UpdateTextsSize(textSize);
     }
 
     [ContextMenu("Test")]
     void Test()
     {
-        //need to add offst
-        SetText(testPhrases.GetRandom(),Random.Range(5f, 5f));
+        InvokeRepeating(nameof(InvokeTest), 1, 0.2f);
+    }
+    void InvokeTest()
+    {
+        SetText(testPhrases.GetRandom(), Random.Range(5f, 5f));
+    }
+
+    [ContextMenu("Update Text")]
+    void UpdateText()
+    {
+        UpdateTextsSize(textSize);
     }
 
     public void UpdateTextsSize(float size)
     {
+        for (int i = 0; i < subtitles.Length; i++)
+        {
+            subtitles[i].text.fontSize = size;
+        }
+    }
+    void InstantiateIfNeeded()
+    {
 
+    }
+    public void ChangeBackgroundColor(Color color)
+    {
+        backgroundColor = color;
     }
 
     public void SetText(string text, float duration = 5f, bool priority = false)
@@ -75,12 +114,6 @@ public class SubtitleManager : MonoBehaviour
             if (subtitles[i].InUse == false)
             {
                 toUse = i;
-                subtitles[toUse].text.text = text;
-                subtitles[toUse].Duration = duration;
-                subtitles[toUse].InUse = true;
-                subtitles[toUse].Ready = false;
-                subtitles[toUse].Priority = priority;
-                subtitles[toUse].canvasGroup.alpha = 0;
                 break;
             }
         }
@@ -88,24 +121,16 @@ public class SubtitleManager : MonoBehaviour
         //if there is none availble, get the first, that is not priority
         if (toUse == -1) //Not found
         {
-            // for (int i = 0; i < subtitles.Length; i++)
-            // {
-            //     if (subtitles[i].Priority == false)
-            //     {
-            //         toUse = i;
-            //         subtitles[toUse].Duration = duration;
-            //         subtitles[toUse].InUse = true;
-            //         break;
-            //     }
-            // }
             toUse = subtitlesQueued[0];
-            subtitles[toUse].text.text = text;
-            subtitles[toUse].Duration = duration;
-            subtitles[toUse].InUse = true;
-            subtitles[toUse].Ready = false;
-            subtitles[toUse].Priority = priority;
-            subtitles[toUse].canvasGroup.alpha = 0;
         }
+
+        subtitles[toUse].text.text = (text.Length > textLimitSize && alertIfTextToLong) ? "<color=red>Attention: this text is to long.</color> " + text : text;
+        subtitles[toUse].Duration = duration;
+        subtitles[toUse].InUse = true;
+        subtitles[toUse].Ready = false;
+        subtitles[toUse].Priority = priority;
+        subtitles[toUse].canvasGroup.alpha = 0;
+        subtitles[toUse].background.color = backgroundColor;
 
         //override a priority with less duration remaining if other priority need, and all texts are already priority
 
@@ -123,13 +148,21 @@ public class SubtitleManager : MonoBehaviour
             subtitlesQueued.Remove(index);
         }
 
-        subtitles[index].background.sizeDelta = new(subtitles[index].text.renderedWidth + 20, subtitles[index].text.renderedHeight + 20);
+        subtitles[index].subtitleRect.sizeDelta = new(subtitles[index].text.renderedWidth + textOffsetWidth, subtitles[index].text.renderedHeight + textOffsetHeight);
         for (int i = 0; i < subtitlesQueued.Count; i++)
         {
-            subtitles[subtitlesQueued[i]].Height += subtitles[index].background.sizeDelta.y;
+            subtitles[subtitlesQueued[i]].Height += subtitles[index].subtitleRect.sizeDelta.y;
         }
 
-        subtitles[index].background.anchoredPosition = subtitlesQueued.Count < 1 ? Vector2.zero : Vector2.down * subtitles[index].background.sizeDelta.y;
+        subtitles[index].subtitleRect.anchoredPosition = subtitlesQueued.Count < 1 ? Vector2.zero :
+                                                                                    (Vector2.down * subtitles[index].subtitleRect.sizeDelta.y)
+                                                                                    + subtitles[subtitlesQueued[subtitlesQueued.Count - 1]].subtitleRect.anchoredPosition;
+
+        if (subtitlesQueued.Count > 0)
+        {
+            Debug.Log((Vector2.down * subtitles[index].subtitleRect.sizeDelta.y) + " | " + subtitles[subtitlesQueued[subtitlesQueued.Count - 1]].subtitleRect.anchoredPosition);
+        }
+
         subtitles[index].Height = 0;
         subtitles[index].Ready = true;
         subtitlesQueued.Add(index);
@@ -163,12 +196,12 @@ public class SubtitleManager : MonoBehaviour
                     subtitles[i].Duration -= Time.deltaTime;
 
                     //Move up
-                    if (subtitles[i].background.anchoredPosition.y < subtitles[i].Height)
+                    if (subtitles[i].subtitleRect.anchoredPosition.y < subtitles[i].Height)
                     {
-                        subtitles[i].background.anchoredPosition += moveUpSpeed * 100 * Time.deltaTime * Vector2.up;
-                        if (subtitles[i].background.anchoredPosition.y >= subtitles[i].Height)
+                        subtitles[i].subtitleRect.anchoredPosition += moveUpSpeed * 100 * Time.deltaTime * Vector2.up;
+                        if (subtitles[i].subtitleRect.anchoredPosition.y >= subtitles[i].Height)
                         {
-                            subtitles[i].background.anchoredPosition = new Vector2(subtitles[i].background.anchoredPosition.x, subtitles[i].Height);
+                            subtitles[i].subtitleRect.anchoredPosition = new Vector2(subtitles[i].subtitleRect.anchoredPosition.x, subtitles[i].Height);
                         }
                     }
 
@@ -208,7 +241,8 @@ public class SubtitleManager : MonoBehaviour
     public struct Subtitle
     {
         public TextMeshProUGUI text;
-        public RectTransform background;
+        public RectTransform subtitleRect;
+        public Image background;
         public CanvasGroup canvasGroup;
         public bool InUse { get; set; }
         public bool Ready { get; set; }
