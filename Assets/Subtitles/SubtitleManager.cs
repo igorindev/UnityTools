@@ -21,9 +21,13 @@ public class SubtitleManager : MonoBehaviour
     [SerializeField] float textOffsetWidth = 20;
     [SerializeField] float textOffsetHeight = 20;
 
-    [Header("Alert")]
+    [Header("Extras")]
+    [SerializeField] bool instantiateIfNeeeded;
     [SerializeField] bool alertIfTextToLong;
     [SerializeField] int textLimitSize = 60;
+
+    [Header("Debug")]
+    [SerializeField] float testSpawnTimer = 0.2f;
 
     [Header("")]
     [SerializeField] Subtitle[] subtitles;
@@ -40,6 +44,9 @@ public class SubtitleManager : MonoBehaviour
                              "Over",
                              "Kill me NOW",
     };
+
+    Vector2 startPos;
+    float counter;
 
     void OnValidate()
     {
@@ -70,14 +77,15 @@ public class SubtitleManager : MonoBehaviour
         UpdateTextsSize(textSize);
     }
 
-    [ContextMenu("Test")]
+    [ContextMenu("Test All")]
     void Test()
     {
-        InvokeRepeating(nameof(InvokeTest), 1, 0.2f);
+        InvokeRepeating(nameof(InvokeTest), 1, testSpawnTimer);
     }
+    [ContextMenu("Test One")]
     void InvokeTest()
     {
-        SetText(testPhrases.GetRandom(), Random.Range(5f, 5f));
+        SetText(testPhrases.GetRandom(), Random.Range(1f, 5f));
     }
 
     [ContextMenu("Update Text")]
@@ -142,27 +150,30 @@ public class SubtitleManager : MonoBehaviour
     {
         yield return null;
         yield return null;
-
+        counter = 0;
         if (subtitlesQueued.Contains(index))
         {
             subtitlesQueued.Remove(index);
         }
 
         subtitles[index].subtitleRect.sizeDelta = new(subtitles[index].text.renderedWidth + textOffsetWidth, subtitles[index].text.renderedHeight + textOffsetHeight);
-        for (int i = 0; i < subtitlesQueued.Count; i++)
-        {
-            subtitles[subtitlesQueued[i]].Height += subtitles[index].subtitleRect.sizeDelta.y;
-        }
 
         subtitles[index].subtitleRect.anchoredPosition = subtitlesQueued.Count < 1 ? Vector2.zero :
                                                                                     (Vector2.down * subtitles[index].subtitleRect.sizeDelta.y)
                                                                                     + subtitles[subtitlesQueued[subtitlesQueued.Count - 1]].subtitleRect.anchoredPosition;
+        float h = subtitles[index].subtitleRect.sizeDelta.y;
+        for (int i = 0; i < subtitlesQueued.Count; i++)
+        {
+            subtitles[subtitlesQueued[i]].Start = subtitles[subtitlesQueued[i]].subtitleRect.anchoredPosition.y;
+            subtitles[subtitlesQueued[i]].Height += h;
+        }
 
         if (subtitlesQueued.Count > 0)
         {
             Debug.Log((Vector2.down * subtitles[index].subtitleRect.sizeDelta.y) + " | " + subtitles[subtitlesQueued[subtitlesQueued.Count - 1]].subtitleRect.anchoredPosition);
         }
 
+        subtitles[index].Start = subtitles[index].subtitleRect.anchoredPosition.y;
         subtitles[index].Height = 0;
         subtitles[index].Ready = true;
         subtitlesQueued.Add(index);
@@ -170,7 +181,7 @@ public class SubtitleManager : MonoBehaviour
         if (subtitlesQueued.Count > simultaneous)
         {
             subtitles[subtitlesQueued[0]].Duration = subtitles[subtitlesQueued[0]].Duration < 0 ? subtitles[subtitlesQueued[0]].Duration : 0;
-            subtitlesQueued.RemoveAt(0);
+            subtitles[subtitlesQueued[0]].canvasGroup.alpha = 0;
         }
 
         //Start counter to disapear text based on duration
@@ -188,7 +199,7 @@ public class SubtitleManager : MonoBehaviour
         while (thereIsSuntitleInUse)
         {
             thereIsSuntitleInUse = false;
-
+            counter += Time.deltaTime * 2;
             for (int i = 0; i < subtitles.Length; i++)
             {
                 if (subtitles[i].InUse && subtitles[i].Ready)
@@ -198,7 +209,10 @@ public class SubtitleManager : MonoBehaviour
                     //Move up
                     if (subtitles[i].subtitleRect.anchoredPosition.y < subtitles[i].Height)
                     {
-                        subtitles[i].subtitleRect.anchoredPosition += moveUpSpeed * 100 * Time.deltaTime * Vector2.up;
+                        float h = Mathf.Lerp(subtitles[i].Start, subtitles[i].Height, counter);
+
+                        subtitles[i].subtitleRect.anchoredPosition = new Vector2(0, h);
+
                         if (subtitles[i].subtitleRect.anchoredPosition.y >= subtitles[i].Height)
                         {
                             subtitles[i].subtitleRect.anchoredPosition = new Vector2(subtitles[i].subtitleRect.anchoredPosition.x, subtitles[i].Height);
@@ -248,6 +262,7 @@ public class SubtitleManager : MonoBehaviour
         public bool Ready { get; set; }
         public bool Priority { get; set; }
         public float Duration { get; set; }
+        public float Start { get; set; }
         public float Height { get; set; }
     }
 }
