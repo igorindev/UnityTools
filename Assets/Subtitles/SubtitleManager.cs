@@ -10,6 +10,7 @@ public class SubtitleManager : MonoBehaviour
 
     [Header("Text")]
     [SerializeField] float textSize = 25;
+    [SerializeField] float textWidth = 550;
 
     [Header("Effects")]
     [SerializeField] float fadeInSpeed = 1;
@@ -21,13 +22,13 @@ public class SubtitleManager : MonoBehaviour
     [SerializeField] float textOffsetWidth = 20;
     [SerializeField] float textOffsetHeight = 20;
 
-    [Header("Extras")]
+    [Header("Allocation")]
     [SerializeField] bool instantiateIfNeeeded;
-    [SerializeField] bool alertIfTextToLong;
-    [SerializeField] int textLimitSize = 60;
 
     [Header("Debug")]
     [SerializeField] float testSpawnTimer = 0.2f;
+    [SerializeField] bool alertIfTextToLong;
+    [SerializeField] int textLimitSize = 60;
 
     [Header("")]
     [SerializeField] Subtitle[] subtitles;
@@ -65,13 +66,14 @@ public class SubtitleManager : MonoBehaviour
     {
         for (int i = 0; i < subtitles.Length; i++)
         {
+            subtitles[i].text.rectTransform.sizeDelta.Set(subtitles[i].text.rectTransform.sizeDelta.x, textWidth);
             subtitles[i].text.verticalAlignment = VerticalAlignmentOptions.Middle;
             subtitles[i].text.horizontalAlignment = HorizontalAlignmentOptions.Center;
 
             subtitles[i].canvasGroup.alpha = 0;
             subtitles[i].subtitleRect.anchoredPosition = new Vector2(0, -subtitles[i].Height);
-            subtitles[i].background.color = backgroundColor;
             subtitles[i].subtitleRect.pivot = new Vector2(0.5f, 0);
+            subtitles[i].background.color = backgroundColor;
         }
 
         UpdateTextsSize(textSize);
@@ -129,7 +131,14 @@ public class SubtitleManager : MonoBehaviour
         //if there is none availble, get the first, that is not priority
         if (toUse == -1) //Not found
         {
-            toUse = subtitlesQueued[0];
+            if (instantiateIfNeeeded)
+            {
+                InstantiateIfNeeded();
+            }
+            else
+            {
+                toUse = subtitlesQueued[0];
+            }
         }
 
         subtitles[toUse].text.text = (text.Length > textLimitSize && alertIfTextToLong) ? "<color=red>Attention: this text is to long.</color> " + text : text;
