@@ -176,9 +176,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localizatedSprites:
   - {fileID: 21300000, guid: d0a887db6f906334da3e6129e3d85876, type: 3}
-  - {fileID: 21300000, guid: 1ea8a2d718963f54caf0e77c92873f8d, type: 3}
-  - {fileID: 21300000, guid: 94ea54d14802d494aae3b12842fc3d1b, type: 3}
   - {fileID: 21300000, guid: abca736c7fa76416cadbe2ce8bdbe6cd, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &527369823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d0a887db6f906334da3e6129e3d85876, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -398,24 +400,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filePath: Assets/[WIP] Localization/LocalizationFile.cvs
-  fileContent: '(Fake Position - Ignore)~New Language~New Language~New Language~New
-    Language
-
-    -ddd~-2~-~-~-
-
-    -~-wdawdwf~-~-~-
-
-    -~-wfafwa~-~-~-
-
-    -~-fawwaf~-~-~-
-
-'
+  fileContent: File not found or is empty.
   languagesFoundInFile:
   - (Fake Position - Ignore)
-  - New Language
-  - New Language
-  - New Language
-  - New Language
   selectedLanguageIndex: 0
   localization: []
 --- !u!4 &683004961

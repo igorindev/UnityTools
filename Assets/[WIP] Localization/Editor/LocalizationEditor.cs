@@ -222,7 +222,7 @@ public class LocalizationEditor : EditorWindow
             while (File.Exists(path))
             {
                 string temp = path.Split('.')[0];
-                path = temp + "New.cvs";
+                path = temp + "New.csv";
             }
 
             string file = CreateFileContent();
@@ -310,7 +310,7 @@ public class LocalizationEditor : EditorWindow
             {
                 GUILayout.Space(5);
 
-                filePath = EditorGUILayout.TextField("Project Path", filePath);
+                filePath = EditorGUILayout.TextField("File Path", filePath);
 
                 if (GUILayout.Button("...", GUILayout.Width(20)))
                 {
@@ -327,7 +327,7 @@ public class LocalizationEditor : EditorWindow
                     Application.OpenURL("https://github.com/igorindev/UnityTools");
                 }
                 GUILayout.Space(20);
-;            }
+;           }
             replaceFile = EditorGUILayout.Toggle("Replace Current File", replaceFile);
         }
 

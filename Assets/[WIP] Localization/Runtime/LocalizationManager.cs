@@ -64,7 +64,7 @@ namespace Localization
             set => languagesFoundInFile = value;
         }
 
-        const char splitValue = '~';
+        const char splitValue = ';';
 
         void Awake()
         {
@@ -97,14 +97,14 @@ namespace Localization
         [ContextMenu("Read")] //Read the file content and store inside the string
         void ReadContent()
         {
-            fileContent = Read();
+            fileContent = Read(filePath);
             if (fileContent != "")
             {
-                languagesFoundInFile = GetLine(1).Split(splitValue);
+                languagesFoundInFile = GetLine(fileContent, 1).Split(splitValue);
                 languagesFoundInFile[0] = "(Fake Position - Ignore)";
             }
         }
-        string Read()
+        static string Read(string filePath)
         {
             if (File.Exists(filePath))
             {
@@ -164,10 +164,25 @@ namespace Localization
             Debug.LogError("LocalizationManager: The context <b><color=red>" + textIdentifier + "</color></b> of the colunm " + (SelectedLanguageIndex + 1) + " do not exists. " + (!ReferenceEquals(caller, null) ? ("Called by: " + caller.name) : ""), caller);
             return "Error";
         }
-        string GetLine(int lineNo)
+        static string GetLine(string fileContent, int lineNo)
         {
             string[] lines = fileContent.Replace("\r", "").Split('\n');
             return lines.Length >= lineNo ? lines[lineNo - 1] : null;
+        }
+
+        public static string[] GetLocalization(string path = "Assets/Localization/LocalizationFile.csv")
+        {
+            string fileContent = Read(path);
+            string[] languagesFoundInFile = new string[0];
+            if (fileContent != "")
+            {
+                languagesFoundInFile = GetLine(fileContent, 1).Split(splitValue);
+                languagesFoundInFile[0] = "(Fake Position - Ignore)";
+            }
+
+            List<string> temp = languagesFoundInFile.ToList();
+            temp.RemoveAt(0);
+            return temp.ToArray();
         }
     }
 }
