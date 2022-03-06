@@ -304,15 +304,36 @@ public class LocalizationEditor : EditorWindow
         GUILayout.Label("");
 
         GUI.BeginGroup(new Rect(20, 10, Screen.width, Screen.height));
-        using (new EditorGUILayout.VerticalScope(GUILayout.Width(500), GUILayout.Height(15)))
+        using (new EditorGUILayout.VerticalScope(GUILayout.MaxWidth(810)))
         {
-            filePath = EditorGUILayout.TextField("File Path", filePath);
+            using (new EditorGUILayout.HorizontalScope(GUILayout.Height(20)))
+            {
+                GUILayout.Space(5);
+
+                filePath = EditorGUILayout.TextField("Project Path", filePath);
+
+                if (GUILayout.Button("...", GUILayout.Width(20)))
+                {
+                    string temp = EditorUtility.OpenFilePanel("Unity Tools Project", "", "csv");
+                    if (string.IsNullOrEmpty(temp) == false)
+                    {
+                        filePath = temp;
+                    }
+                    GUI.FocusControl("None");
+                }
+
+                if (GUILayout.Button("Download", GUILayout.Width(100)))
+                {
+                    Application.OpenURL("https://github.com/igorindev/UnityTools");
+                }
+                GUILayout.Space(20);
+;            }
             replaceFile = EditorGUILayout.Toggle("Replace Current File", replaceFile);
         }
 
         GUILayout.Label("");
 
-        using (new EditorGUILayout.HorizontalScope(GUILayout.Width(100), GUILayout.Height(15)))
+        using (new EditorGUILayout.HorizontalScope(GUILayout.Width(780), GUILayout.Height(15)))
         {
             if (GUILayout.Button("Add new Language", GUILayout.Width(130), GUILayout.Height(22)))
             {
