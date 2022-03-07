@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.Experimental.GraphView;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -40,6 +41,7 @@ namespace Localization
     {
         SerializedProperty sp;
         string[] localization;
+        public string a;
         string filePath = "Assets/[WIP] Localization/LocalizationFile.csv";
 
         void OnEnable()
@@ -47,22 +49,7 @@ namespace Localization
             sp = serializedObject.FindProperty("localizatedSprites");
 
             localization = LocalizationManager.GetLocalization(filePath);
-            if (sp.arraySize != localization.Length)
-            {                
-                Sprite[] temp = new Sprite[sp.arraySize];
-                for (int i = 0; i < sp.arraySize; i++)
-                {
-                    temp[i] = (Sprite)sp.GetArrayElementAtIndex(i).objectReferenceValue;
-                }
-                sp.arraySize = localization.Length;
-
-                for (int i = 0; i < temp.Length; i++)
-                {
-                    sp.GetArrayElementAtIndex(i).objectReferenceValue = temp[i];
-                }
-
-                serializedObject.ApplyModifiedProperties();
-            }
+            UpdateSize();
         }
 
         public override void OnInspectorGUI()
@@ -71,6 +58,8 @@ namespace Localization
 
             using (new EditorGUI.DisabledScope(true))
                 EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour((MonoBehaviour)target), GetType(), false);
+
+            UpdateSize();
 
             for (int i = 0; i < localization.Length; i++)
             {
@@ -100,6 +89,35 @@ namespace Localization
             }
 
             serializedObject.ApplyModifiedProperties();
+        }
+
+        void UpdateSize()
+        {
+            if (sp.arraySize != localization.Length)
+            {
+                Sprite[] temp = new Sprite[sp.arraySize];
+                for (int i = 0; i < sp.arraySize; i++)
+                {
+                    temp[i] = (Sprite)sp.GetArrayElementAtIndex(i).objectReferenceValue;
+                }
+
+                sp.arraySize = localization.Length;
+
+                for (int i = 0; i < sp.arraySize; i++)
+                {
+
+                    if (i > temp.Length - 1)
+                    {
+                        sp.GetArrayElementAtIndex(i).objectReferenceValue = null;
+                    }
+                    else
+                    {
+                        sp.GetArrayElementAtIndex(i).objectReferenceValue = temp[i];
+                    }
+                }
+
+                serializedObject.ApplyModifiedProperties();
+            }
         }
     }
 #endif

@@ -184,5 +184,19 @@ namespace Localization
             temp.RemoveAt(0);
             return temp.ToArray();
         }
+        public static string[] GetContexts(string path = "Assets/Localization/LocalizationFile.csv")
+        {
+            string fileContent = Read(path);
+            string[] content = fileContent.Replace("\r", "").Split('\n');
+            List<string> lines = new List<string>();
+            for (int i = 0; i < content.Length; i++)
+            {
+                if (content[i].Contains(';') == false || content[i].Split(';')[0] == "" || content[i].Split(';')[0] == "-") { continue; }
+                
+                lines.Add(i + " - " + content[i].Split(';')[0]);
+            }
+            lines.RemoveAt(0);
+            return lines.ToArray();
+        }
     }
 }

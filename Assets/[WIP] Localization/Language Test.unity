@@ -178,9 +178,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d0a887db6f906334da3e6129e3d85876, type: 3}
   - {fileID: 21300000, guid: abca736c7fa76416cadbe2ce8bdbe6cd, type: 3}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &527369823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,8 +226,8 @@ GameObject:
   m_Component:
   - component: {fileID: 671195269}
   - component: {fileID: 671195271}
-  - component: {fileID: 671195272}
   - component: {fileID: 671195270}
+  - component: {fileID: 671195272}
   m_Layer: 5
   m_Name: Text (TMP) (3)
   m_TagString: Untagged
@@ -368,8 +365,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indexType: 0
-  index: 1
-  contextIndex: context_name_value
+  index: 2
+  contextIndex: adsdsa
 --- !u!1 &683004959
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,10 +396,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c2b530359a4904e8e16bf7a272fe57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePath: Assets/[WIP] Localization/LocalizationFile.cvs
-  fileContent: File not found or is empty.
+  filePath: Assets/[WIP] Localization/LocalizationFile.csv
+  fileContent: "(Fake Position - Ignore);Portugu\xEAs;English;New Language;New Language\nddd;-2;weeee;-;-\n-;-;-;-;-\n-;-;-;-;-\n-;-;-;-;-\n"
   languagesFoundInFile:
   - (Fake Position - Ignore)
+  - "Portugu\xEAs"
+  - English
+  - New Language
+  - New Language
   selectedLanguageIndex: 0
   localization: []
 --- !u!4 &683004961
@@ -429,9 +430,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 981784260}
-  - component: {fileID: 981784263}
   - component: {fileID: 981784262}
   - component: {fileID: 981784261}
+  - component: {fileID: 981784263}
   m_Layer: 5
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
@@ -569,8 +570,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indexType: 0
-  index: 2
-  contextIndex: context_name_value
+  index: 1
+  contextIndex: ddd
 --- !u!1 &1204242183
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,9 +786,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1961934494}
-  - component: {fileID: 1961934497}
   - component: {fileID: 1961934496}
   - component: {fileID: 1961934495}
+  - component: {fileID: 1961934497}
   m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
@@ -925,8 +926,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indexType: 1
-  index: 1
-  contextIndex: fg
+  index: 4
+  contextIndex: asdasd
 --- !u!1 &2101726572
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,4 +1078,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indexType: 0
   index: 1
-  contextIndex: context_name_value
+  contextIndex: 1
