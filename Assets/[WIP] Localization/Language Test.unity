@@ -175,8 +175,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizatedSprites:
-  - {fileID: 21300000, guid: d0a887db6f906334da3e6129e3d85876, type: 3}
-  - {fileID: 21300000, guid: abca736c7fa76416cadbe2ce8bdbe6cd, type: 3}
+  - {fileID: 21300000, guid: 1ea8a2d718963f54caf0e77c92873f8d, type: 3}
+  - {fileID: 21300000, guid: b7c92def0dfb9f549b1030f85127903e, type: 3}
+  - {fileID: 21300000, guid: 94ea54d14802d494aae3b12842fc3d1b, type: 3}
   - {fileID: 0}
 --- !u!114 &527369823
 MonoBehaviour:
@@ -364,8 +365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6adc7c68abf26146aa197d32e98d3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 6
-  contextIndex: ghhg
+  index: 4
+  contextIndex: asdasd
 --- !u!1 &683004959
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +396,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c2b530359a4904e8e16bf7a272fe57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePath: Assets/[WIP] Localization/LocalizationFile.csv
   fileContent: "(Fake Position - Ignore);Portugu\xEAs;English;New Language;New Language\nddd;-2;weeee;-;-\n-;-;-;-;-\n-;-;-;-;-\n-;-;-;-;-\n"
   languagesFoundInFile:
   - (Fake Position - Ignore)
@@ -568,8 +568,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6adc7c68abf26146aa197d32e98d3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 1
-  contextIndex: ddd
+  index: 2
+  contextIndex: adsdsa
 --- !u!1 &1204242183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1073,5 +1073,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6adc7c68abf26146aa197d32e98d3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 1
-  contextIndex: ddd
+  index: 3
+  contextIndex: SSSS

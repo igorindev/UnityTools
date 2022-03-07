@@ -28,7 +28,8 @@ namespace Localization
             }
             else
             {
-                Debug.LogError("There is no LocalizationManager created");
+                if (Application.isPlaying == false)
+                    Debug.LogError("There is no LocalizationManager created");
             }
         }
     }

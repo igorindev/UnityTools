@@ -41,14 +41,12 @@ namespace Localization
     {
         SerializedProperty sp;
         string[] localization;
-        public string a;
-        string filePath = "Assets/[WIP] Localization/LocalizationFile.csv";
 
         void OnEnable()
         {
             sp = serializedObject.FindProperty("localizatedSprites");
 
-            localization = LocalizationManager.GetLocalization(filePath);
+            localization = LocalizationManager.GetLocalization();
             UpdateSize();
         }
 
@@ -69,23 +67,9 @@ namespace Localization
 
             EditorGUILayout.Space(10);
 
-            using (new EditorGUILayout.HorizontalScope(GUILayout.Height(20)))
-            {
-                filePath = EditorGUILayout.TextField("File Path", filePath);
-
-                if (GUILayout.Button("...", GUILayout.Width(20)))
-                {
-                    string temp = EditorUtility.OpenFilePanel("Unity Tools Project", "", "csv");
-                    if (string.IsNullOrEmpty(temp) == false)
-                    {
-                        filePath = temp;
-                    }
-                    GUI.FocusControl("None");
-                }
-            }
             if (GUILayout.Button("Update Localizations"))
             {
-                localization = LocalizationManager.GetLocalization(filePath);
+                localization = LocalizationManager.GetLocalization();
             }
 
             serializedObject.ApplyModifiedProperties();

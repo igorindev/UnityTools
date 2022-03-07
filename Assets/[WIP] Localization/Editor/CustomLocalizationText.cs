@@ -10,7 +10,6 @@ namespace Localization
         SerializedProperty index;
         SerializedProperty context;
         public string text;
-        string filePath = "Assets/[WIP] Localization/LocalizationFile.csv";
 
         void OnEnable()
         {
@@ -26,21 +25,6 @@ namespace Localization
             using (new EditorGUI.DisabledScope(true))
                 EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour((MonoBehaviour)target), GetType(), false);
 
-            using (new EditorGUILayout.HorizontalScope(GUILayout.Height(20)))
-            {
-                filePath = EditorGUILayout.TextField("File Path", filePath);
-
-                if (GUILayout.Button("...", GUILayout.Width(20)))
-                {
-                    string temp = EditorUtility.OpenFilePanel("Unity Tools Project", "", "csv");
-                    if (string.IsNullOrEmpty(temp) == false)
-                    {
-                        filePath = temp;
-                    }
-                    GUI.FocusControl("None");
-                }
-            }
-
             using (new EditorGUILayout.HorizontalScope())
             {
                 GUILayout.Label("Text Context", GUILayout.Width(200));
@@ -48,7 +32,7 @@ namespace Localization
                 if (GUILayout.Button(text, EditorStyles.popup))
                 {
                     SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)),
-                                      new StringListSearchProvider(LocalizationManager.GetContexts(filePath), (x) => { text = x; }));
+                                      new StringListSearchProvider(LocalizationManager.GetContexts(), (x) => { text = x; }));
                 }
             }
 

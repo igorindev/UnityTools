@@ -12,8 +12,6 @@ namespace Localization
     {
         public static LocalizationManager instance;
 
-        [SerializeField] string filePath = "Assets/Localization/LocalizationFile.csv";
-
         [SerializeField] [TextArea(5, 1000)] string fileContent;
 
         [Header("Languages")]
@@ -97,7 +95,7 @@ namespace Localization
         [ContextMenu("Read")] //Read the file content and store inside the string
         void ReadContent()
         {
-            fileContent = Read(filePath);
+            fileContent = Read(SOLocalizationConfig.filePath);
             if (fileContent != "")
             {
                 languagesFoundInFile = GetLine(fileContent, 1).Split(splitValue);
@@ -170,9 +168,15 @@ namespace Localization
             return lines.Length >= lineNo ? lines[lineNo - 1] : null;
         }
 
-        public static string[] GetLocalization(string path = "Assets/Localization/LocalizationFile.csv")
+        public static string[] GetLocalization()
         {
-            string fileContent = Read(path);
+            string fileContent = Read(SOLocalizationConfig.filePath);
+
+            if (string.IsNullOrEmpty(fileContent))
+            {
+                return new string[] { "Empty" };
+            }
+
             string[] languagesFoundInFile = new string[0];
             if (fileContent != "")
             {
@@ -184,9 +188,14 @@ namespace Localization
             temp.RemoveAt(0);
             return temp.ToArray();
         }
-        public static string[] GetContexts(string path = "Assets/Localization/LocalizationFile.csv")
+        public static string[] GetContexts()
         {
-            string fileContent = Read(path);
+            string fileContent = Read(SOLocalizationConfig.filePath);
+            if (fileContent == "File not found or is empty.")
+            {
+                return new string[] { };
+            }
+
             string[] content = fileContent.Replace("\r", "").Split('\n');
             List<string> lines = new List<string>();
             for (int i = 0; i < content.Length; i++)
