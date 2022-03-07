@@ -1,43 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEditor.Experimental.GraphView;
-
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
-namespace Localization
-{
-    [DisallowMultipleComponent]
-    public class LocalizationImage : Localization
-    {
-        [SerializeField] Sprite[] localizatedSprites;
-        Image image;
-
-        protected override void Initialize()
-        {
-            image = GetComponent<Image>();
-        }
-
-        public override void UpdateLocalization()
-        { 
-            int i = LocalizationManager.instance.SelectedLanguageIndex;
-            if(i < localizatedSprites.Length)
-            {
-                image.sprite = localizatedSprites[i];
-            }
-            else
-            {
-                Debug.LogError("The language do not have an image setted, changing to first");
-                image.sprite = localizatedSprites[0];
-            }
-            
-        }
-    }
-
-#if UNITY_EDITOR
+namespace Localization 
+{ 
     [CustomEditor(typeof(LocalizationImage))]
-    public class CustomLocalizationImageInspector : Editor
+    public class CustomLocalizationImage : Editor
     {
         SerializedProperty sp;
         string[] localization;
@@ -104,5 +71,4 @@ namespace Localization
             }
         }
     }
-#endif
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Localization
 {
     [CustomEditor(typeof(LocalizationText))]
-    public class CustomLocalizationTextInspector : Editor
+    public class CustomLocalizationText : Editor
     {
         SerializedProperty index;
         SerializedProperty context;

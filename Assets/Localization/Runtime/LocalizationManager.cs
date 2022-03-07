@@ -12,14 +12,16 @@ namespace Localization
     {
         public static LocalizationManager instance;
 
-        [SerializeField] [TextArea(5, 1000)] string fileContent;
+        [SerializeField] SOLocalizationConfig localizationConfig;
+
+        [TextArea(5, 1000)] string fileContent;
 
         [Header("Languages")]
-        [SerializeField] string[] languagesFoundInFile;
+        string[] languagesFoundInFile;
         [SerializeField] [Min(0)] int selectedLanguageIndex = 0;
         
         [Header("Localizations")]
-        [SerializeField] List<Localization> localization = new List<Localization>();
+        List<Localization> localization = new List<Localization>();
         public List<Localization> Localization { get => localization; private set => localization = value; }
 
         public int SelectedLanguageIndex
@@ -95,7 +97,7 @@ namespace Localization
         [ContextMenu("Read")] //Read the file content and store inside the string
         void ReadContent()
         {
-            fileContent = Read(SOLocalizationConfig.filePath);
+            fileContent = Read(localizationConfig.filePath);
             if (fileContent != "")
             {
                 languagesFoundInFile = GetLine(fileContent, 1).Split(splitValue);
@@ -170,7 +172,7 @@ namespace Localization
 
         public static string[] GetLocalization()
         {
-            string fileContent = Read(SOLocalizationConfig.filePath);
+            string fileContent = Read(SOLocalizationConfig.editorFilePath);
 
             if (string.IsNullOrEmpty(fileContent))
             {
@@ -190,7 +192,7 @@ namespace Localization
         }
         public static string[] GetContexts()
         {
-            string fileContent = Read(SOLocalizationConfig.filePath);
+            string fileContent = Read(SOLocalizationConfig.editorFilePath);
             if (fileContent == "File not found or is empty.")
             {
                 return new string[] { };

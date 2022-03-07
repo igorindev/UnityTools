@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb32737e913a7b408914361619d8edf, type: 3}
   m_Name: LocalizationConfig
   m_EditorClassIdentifier: 
-  path: D:/UnityProjects/UnityTools/Assets/[WIP] Localization/LocalizationFile.csv
+  filePath: D:/UnityProjects/UnityTools/Assets/[WIP] Localization/LocalizationFile.csv
