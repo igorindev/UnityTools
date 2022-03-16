@@ -1,19 +1,31 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using UnityEditor.SceneManagement;
 using System.IO;
 using System.Linq;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+
+[System.Serializable]
+public struct Chuncks
+{
+    public List<MeshFilter> meshFilters;
+}
 
 public class MeshCombinerBuilder : MonoBehaviour
 {
     [SerializeField] float gridSize = 32;
-    List<GameObject> traverseList = new List<GameObject>();
+    [SerializeField] List<Chuncks> chuncks = new List<Chuncks>();
+    [SerializeField] List<MeshFilter> foundMeshes = new List<MeshFilter>();
+    [SerializeField] List<MeshFilter> remainMeshes = new List<MeshFilter>();
+    [SerializeField] List<GameObject> traverseList = new List<GameObject>();
+    int forwardCount = 0;
+    int rightCount = 0;
+    int upCount = 0;
 
+    int forwards = 0;
+    int rights = 0;
 
-    [ContextMenu("Build")]
-    void Combine()
+    void StartCombine()
     {
         string[] scenes = EditorBuildSettingsScene.GetActiveSceneList(EditorBuildSettings.scenes);
         //Open all scenes sequentiali and combine meshes
@@ -21,33 +33,80 @@ public class MeshCombinerBuilder : MonoBehaviour
         {
             EditorSceneManager.LoadScene(scenes[i]);
 
-            //Start Combine
-            //Find all assets in hierarchy
-            traverseList = StartTraverse();
-
-            List<MeshFilter> meshes = new List<MeshFilter>();
-
-            for (int j = 0; j < traverseList.Count; j++)
-            {
-                if (traverseList[j].TryGetComponent(out MeshFilter meshFilter) && traverseList[j].isStatic)
-                {
-                    meshes.Add(meshFilter);
-                }
-            }
-
-            //Find the world bounds
-
-            //Look for close meshes (inside chunk range?)
-            //Ignore child meshes and include in same group of parent (simply check in same pos of the root that has mesh filter)
-
-            //Look for same materials
-
-            //Combine each group
-
-            //Delete old GameObjects but preserve colliders
+            Combine();
         }
 
         //Real build
+    }
+
+    [ContextMenu("Build")]
+    void Combine()
+    {
+        //Start Combine
+        //Find all assets in hierarchy
+        traverseList = StartTraverse();
+
+        foundMeshes = new List<MeshFilter>();
+
+        for (int i = 0; i < traverseList.Count; i++)
+        {
+            if (traverseList[i].TryGetComponent(out MeshFilter meshFilter))
+            {
+                foundMeshes.Add(meshFilter);
+            }
+        }
+
+        //Find the world bounds
+        Bounds worldBounds = WorldBounds();
+        Vector3 min = worldBounds.min;
+
+        remainMeshes = foundMeshes.GetRange(0, foundMeshes.Count);
+
+        chuncks = new List<Chuncks>();
+
+        //Num of chunks
+        forwardCount = 0;
+        rightCount = 0;
+        upCount = 0;
+        Bounds currentBounds = new Bounds(min + (gridSize * forwardCount * Vector3.forward) + (gridSize * upCount * Vector3.up) + (gridSize * rightCount * Vector3.right), (Vector3.one * gridSize));
+
+        while (currentBounds.max.x <= worldBounds.max.x)
+        {
+            currentBounds = new Bounds(min + (gridSize * forwardCount * Vector3.forward) + (gridSize * upCount * Vector3.up) + (gridSize * rightCount * Vector3.right), (Vector3.one * gridSize));
+            while (currentBounds.max.z <= worldBounds.max.z)
+            {
+                Chuncks newChunck = new Chuncks();
+                newChunck.meshFilters = new List<MeshFilter>();
+
+                currentBounds = new Bounds(min + (gridSize * forwardCount * Vector3.forward) + (gridSize * upCount * Vector3.up) + (gridSize * rightCount * Vector3.right), (Vector3.one * gridSize));
+
+                for (int i = remainMeshes.Count - 1; i >= 0; i--)
+                {
+                    if (currentBounds.Contains(remainMeshes[i].transform.position))
+                    {
+                        newChunck.meshFilters.Add(remainMeshes[i]);
+                        remainMeshes.Remove(remainMeshes[i]);
+                    }
+                }
+
+                chuncks.Add(newChunck);
+                forwardCount += 1;
+            }
+            forwards = forwardCount;
+            forwardCount = 0;
+            rightCount += 1;
+            rights = rightCount;
+        }
+
+        //Look for close meshes (inside chunk range?)
+        //Ignore child meshes and include in same group of parent (simply check in same pos of the root that has mesh filter)
+
+        //Look for same materials
+
+        //Combine each group
+
+        //Delete old GameObjects but preserve colliders
+
     }
 
     [ContextMenu("Combine in Editor")]
@@ -148,5 +207,13 @@ public class MeshCombinerBuilder : MonoBehaviour
     {
         Bounds bounds = WorldBounds();
         Gizmos.DrawWireCube(bounds.center, bounds.size);
+
+        for (int i = 0; i < rights; i++)
+        {
+            for (int j = 0; j < forwards; j++)
+            {
+                Gizmos.DrawWireCube(bounds.min + (gridSize * j * Vector3.forward) + (gridSize * i * Vector3.right), (Vector3.one * gridSize));
+            }
+        }
     }
 }
