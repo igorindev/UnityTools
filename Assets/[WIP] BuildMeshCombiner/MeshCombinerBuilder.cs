@@ -24,6 +24,7 @@ public class MeshCombinerBuilder : MonoBehaviour
 
     int forwards = 0;
     int rights = 0;
+    int ups = 0;
 
     void StartCombine()
     {
@@ -64,44 +65,56 @@ public class MeshCombinerBuilder : MonoBehaviour
 
         chuncks = new List<Chuncks>();
 
+        //Look for close meshes (inside chunk range?)
+
         //Num of chunks
         forwardCount = 0;
         rightCount = 0;
         upCount = 0;
-        Bounds currentBounds = new Bounds(min + (gridSize * forwardCount * Vector3.forward) + (gridSize * upCount * Vector3.up) + (gridSize * rightCount * Vector3.right), (Vector3.one * gridSize));
-
-        while (currentBounds.max.x <= worldBounds.max.x)
+        Bounds currentBounds;
+        do
         {
-            currentBounds = new Bounds(min + (gridSize * forwardCount * Vector3.forward) + (gridSize * upCount * Vector3.up) + (gridSize * rightCount * Vector3.right), (Vector3.one * gridSize));
-            while (currentBounds.max.z <= worldBounds.max.z)
+            do
             {
-                Chuncks newChunck = new Chuncks();
-                newChunck.meshFilters = new List<MeshFilter>();
-
-                currentBounds = new Bounds(min + (gridSize * forwardCount * Vector3.forward) + (gridSize * upCount * Vector3.up) + (gridSize * rightCount * Vector3.right), (Vector3.one * gridSize));
-
-                for (int i = remainMeshes.Count - 1; i >= 0; i--)
+                do
                 {
-                    if (currentBounds.Contains(remainMeshes[i].transform.position))
-                    {
-                        newChunck.meshFilters.Add(remainMeshes[i]);
-                        remainMeshes.Remove(remainMeshes[i]);
-                    }
-                }
+                    Chuncks newChunck = new Chuncks();
+                    newChunck.meshFilters = new List<MeshFilter>();
 
-                chuncks.Add(newChunck);
-                forwardCount += 1;
+                    currentBounds = new Bounds(min + (gridSize * forwardCount * Vector3.forward) + (gridSize * upCount * Vector3.up) + (gridSize * rightCount * Vector3.right), (Vector3.one * gridSize));
+
+                    for (int i = remainMeshes.Count - 1; i >= 0; i--)
+                    {
+                        if (currentBounds.Contains(remainMeshes[i].transform.position))
+                        {
+                            newChunck.meshFilters.Add(remainMeshes[i]);
+                            remainMeshes.Remove(remainMeshes[i]);
+                        }
+                    }
+
+                    chuncks.Add(newChunck);
+                    forwardCount += 1;
+                }
+                while (currentBounds.max.z <= worldBounds.max.z);
+
+                forwards = forwardCount;
+                forwardCount = 0;
+                upCount += 1;
             }
-            forwards = forwardCount;
-            forwardCount = 0;
+            while (currentBounds.max.y <= worldBounds.max.y);
+
+            ups = upCount;
+            upCount = 0;
+
             rightCount += 1;
             rights = rightCount;
         }
-
-        //Look for close meshes (inside chunk range?)
+        while (currentBounds.max.x <= worldBounds.max.x);
         //Ignore child meshes and include in same group of parent (simply check in same pos of the root that has mesh filter)
 
         //Look for same materials
+
+        //Look for num of verices and separete group in small groups
 
         //Combine each group
 
@@ -207,12 +220,20 @@ public class MeshCombinerBuilder : MonoBehaviour
     {
         Bounds bounds = WorldBounds();
         Gizmos.DrawWireCube(bounds.center, bounds.size);
-
+        Gizmos.color = Color.blue;
+        int count = 0;
         for (int i = 0; i < rights; i++)
         {
-            for (int j = 0; j < forwards; j++)
+            for (int j = 0; j < ups; j++)
             {
-                Gizmos.DrawWireCube(bounds.min + (gridSize * j * Vector3.forward) + (gridSize * i * Vector3.right), (Vector3.one * gridSize));
+                for (int k = 0; k < forwards; k++)
+                {
+                    if (chuncks[count].meshFilters.Count > 0) 
+                    {
+                        Gizmos.DrawWireCube(bounds.min + (gridSize * k * Vector3.forward) + (gridSize * j * Vector3.up) + (gridSize * i * Vector3.right), (Vector3.one * gridSize));
+                    }
+                    count += 1;
+                }
             }
         }
     }
