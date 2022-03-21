@@ -103,6 +103,14 @@ public static class Extensions
         }
     }
 
+    public static bool CompareLists<T>(this List<T> list, List<T> list2)
+    {
+        return list == list2;
+    }
+    public static bool CompareArray<T>(this T[] array, T[] array2)
+    {
+        return array == array2;
+    }
     public static void AddUnique<T>(this List<T> list, T item)
     {
         if (!list.Contains(item))

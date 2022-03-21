@@ -9,11 +9,21 @@ using UnityEngine;
 public struct Chuncks
 {
     public List<MeshFilter> meshFilters;
+    public List<SubChuncks> subChunks;
+}
+[System.Serializable]
+public struct SubChuncks
+{
+    public Material[] materialsSubChunck;
+    public List<MeshFilter> meshFilters;
 }
 
 public class MeshCombinerBuilder : MonoBehaviour
 {
     [SerializeField] float gridSize = 32;
+    [SerializeField] int vertLimitToInclude = 5000;
+
+    [SerializeField] List<Chuncks> selectedChunks = new List<Chuncks>();
     [SerializeField] List<Chuncks> chuncks = new List<Chuncks>();
     [SerializeField] List<MeshFilter> foundMeshes = new List<MeshFilter>();
     [SerializeField] List<MeshFilter> remainMeshes = new List<MeshFilter>();
@@ -43,12 +53,11 @@ public class MeshCombinerBuilder : MonoBehaviour
     [ContextMenu("Build")]
     void Combine()
     {
-        //Start Combine
-        //Find all assets in hierarchy
+        //Find all GameObjects in hierarchy
         traverseList = StartTraverse();
 
+        //Get the GameObjects with a Mesh
         foundMeshes = new List<MeshFilter>();
-
         for (int i = 0; i < traverseList.Count; i++)
         {
             if (traverseList[i].TryGetComponent(out MeshFilter meshFilter))
@@ -61,13 +70,11 @@ public class MeshCombinerBuilder : MonoBehaviour
         Bounds worldBounds = WorldBounds();
         Vector3 min = worldBounds.min;
 
+        //Initiate new chunks
         remainMeshes = foundMeshes.GetRange(0, foundMeshes.Count);
-
         chuncks = new List<Chuncks>();
 
-        //Look for close meshes (inside chunk range?)
-
-        //Num of chunks
+        //Look for close meshes inside chunk range
         forwardCount = 0;
         rightCount = 0;
         upCount = 0;
@@ -87,7 +94,12 @@ public class MeshCombinerBuilder : MonoBehaviour
                     {
                         if (currentBounds.Contains(remainMeshes[i].transform.position))
                         {
-                            newChunck.meshFilters.Add(remainMeshes[i]);
+                            //Remove meshes with more than the defined by player limit vertices to merge
+                            if (remainMeshes[i].sharedMesh.vertexCount <= vertLimitToInclude)
+                            {
+                                newChunck.meshFilters.Add(remainMeshes[i]);
+                            }
+                            
                             remainMeshes.Remove(remainMeshes[i]);
                         }
                     }
@@ -99,6 +111,7 @@ public class MeshCombinerBuilder : MonoBehaviour
 
                 forwards = forwardCount;
                 forwardCount = 0;
+
                 upCount += 1;
             }
             while (currentBounds.max.y <= worldBounds.max.y);
@@ -110,16 +123,88 @@ public class MeshCombinerBuilder : MonoBehaviour
             rights = rightCount;
         }
         while (currentBounds.max.x <= worldBounds.max.x);
-        //Ignore child meshes and include in same group of parent (simply check in same pos of the root that has mesh filter)
 
-        //Look for same materials
+        Chuncks[] temp = new Chuncks[chuncks.Count];
+        chuncks.CopyTo(temp);
+        selectedChunks = temp.ToList();
+        for (int i = selectedChunks.Count - 1; i >= 0; i--)
+        {
+            if (selectedChunks[i].meshFilters.Count == 0)
+            {
+                selectedChunks.RemoveAt(i);
+            }
+        }
 
-        //Look for num of verices and separete group in small groups
+        //Include child meshes in same group of parent with mesh (is better? do inside the while loop)
 
-        //Combine each group
+        ///Inside the chunk
+        //Look for same materials and separete group in subgroups (When combine materials?)
+        for (int i = 0; i < selectedChunks.Count; i++)
+        {
+            List<Material[]> materialsGroup = new List<Material[]>();
+
+            for (int j = 0; j < selectedChunks[i].meshFilters.Count; j++)
+            {
+                Material[] materials = selectedChunks[i].meshFilters[j].GetComponent<Renderer>().sharedMaterials;
+                bool have = false;
+                for (int k = 0; k < materialsGroup.Count; k++)
+                {
+                    if (materials.Length == materialsGroup[k].Length && materials.SequenceEqual(materialsGroup[k]))
+                    {
+                        have = true;
+                        break;
+                    }
+                }
+
+                if (have == false)
+                    materialsGroup.Add(materials);
+                    
+            }
+
+            Chuncks c = selectedChunks[i];
+            List<SubChuncks> subChunk = new List<SubChuncks>();
+            for (int j = 0; j < materialsGroup.Count; j++)
+            {
+                subChunk.Add(new SubChuncks());
+                SubChuncks s = subChunk[j];
+                s.meshFilters = new List<MeshFilter>();
+                subChunk[j] = s;
+            }
+            
+            c.subChunks = subChunk;
+            selectedChunks[i] = c;
+
+            for (int j = 0; j < selectedChunks[i].meshFilters.Count; j++)
+            {
+                Material[] thisGroup = selectedChunks[i].meshFilters[j].GetComponent<Renderer>().sharedMaterials;
+                
+                for (int k = 0; k < materialsGroup.Count; k++)
+                {
+                    if (thisGroup.Length == materialsGroup[k].Length && thisGroup.SequenceEqual(materialsGroup[k]))
+                    {
+                        SubChuncks s = selectedChunks[i].subChunks[k];
+                        s.materialsSubChunck = materialsGroup[k].ToArray();
+                        selectedChunks[i].subChunks[k] = s;
+
+                        selectedChunks[i].subChunks[k].meshFilters.AddUnique(selectedChunks[i].meshFilters[j]);
+                    }
+                }
+            }
+        }
+
+        //Look for limit num of vertices (64k) and separete group in small groups based on total number to divide this number
+
+        //Combine each group and subgroup
+        for (int i = 0; i < selectedChunks.Count; i++)
+        {
+            for (int j = 0; j < selectedChunks[i].subChunks.Count; j++)
+            {
+                //Combine meshes
+                //selectedChunks[i].subChunks[j].meshFilters
+            }
+        }
 
         //Delete old GameObjects but preserve colliders
-
     }
 
     [ContextMenu("Combine in Editor")]
@@ -228,7 +313,7 @@ public class MeshCombinerBuilder : MonoBehaviour
             {
                 for (int k = 0; k < forwards; k++)
                 {
-                    if (chuncks[count].meshFilters.Count > 0) 
+                    if (chuncks[count].meshFilters.Count > 0)
                     {
                         Gizmos.DrawWireCube(bounds.min + (gridSize * k * Vector3.forward) + (gridSize * j * Vector3.up) + (gridSize * i * Vector3.right), (Vector3.one * gridSize));
                     }
