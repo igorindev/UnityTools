@@ -1915,271 +1915,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: 32
   vertLimitToInclude: 5000
-  selectedChunks:
-  - meshFilters:
-    - {fileID: 342059273}
-    - {fileID: 113301251}
-    - {fileID: 519800172}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      - {fileID: 2100000, guid: 36d9c05329653ed449877e9abf93e640, type: 2}
-      meshFilters:
-      - {fileID: 342059273}
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 113301251}
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 519800172}
-  - meshFilters:
-    - {fileID: 1141320441}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 1141320441}
-  - meshFilters:
-    - {fileID: 194662093}
-    - {fileID: 1486267541}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 194662093}
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 1486267541}
-  - meshFilters:
-    - {fileID: 654530233}
-    - {fileID: 918875086}
-    - {fileID: 584428433}
-    - {fileID: 1171740250}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      - {fileID: 2100000, guid: 36d9c05329653ed449877e9abf93e640, type: 2}
-      meshFilters:
-      - {fileID: 654530233}
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 918875086}
-      - {fileID: 1171740250}
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 584428433}
-  - meshFilters:
-    - {fileID: 1333283612}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 1333283612}
-  - meshFilters:
-    - {fileID: 593237176}
-    - {fileID: 205660059}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 593237176}
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 205660059}
-  - meshFilters:
-    - {fileID: 1829435096}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 1829435096}
-  - meshFilters:
-    - {fileID: 1575609627}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 1575609627}
-  - meshFilters:
-    - {fileID: 1037771118}
-    - {fileID: 1953960645}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 1037771118}
-      - {fileID: 1953960645}
-  - meshFilters:
-    - {fileID: 1920144041}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 1920144041}
-  - meshFilters:
-    - {fileID: 1152521289}
-    - {fileID: 861236863}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 1152521289}
-      - {fileID: 861236863}
-  - meshFilters:
-    - {fileID: 1668818323}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 1668818323}
-  - meshFilters:
-    - {fileID: 623770669}
-    - {fileID: 1090782732}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      - {fileID: 2100000, guid: 36d9c05329653ed449877e9abf93e640, type: 2}
-      meshFilters:
-      - {fileID: 623770669}
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 1090782732}
-  - meshFilters:
-    - {fileID: 245835367}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 245835367}
-  - meshFilters:
-    - {fileID: 1035554095}
-    - {fileID: 2030097480}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 1035554095}
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 2030097480}
-  - meshFilters:
-    - {fileID: 1004981819}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 1004981819}
-  - meshFilters:
-    - {fileID: 1521053669}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 1521053669}
-  - meshFilters:
-    - {fileID: 2106111629}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 2106111629}
-  - meshFilters:
-    - {fileID: 1143031609}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 149fb71dbd3d2f24e9a43f49dead6af9, type: 2}
-      meshFilters:
-      - {fileID: 1143031609}
-  - meshFilters:
-    - {fileID: 628372984}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 628372984}
-  - meshFilters:
-    - {fileID: 1150556984}
-    subChunks:
-    - materialsSubChunck:
-      - {fileID: 2100000, guid: 5496e660cc7734945aca1adc38a6a4ca, type: 2}
-      meshFilters:
-      - {fileID: 1150556984}
+  selectedChunks: []
   chuncks:
-  - meshFilters:
-    - {fileID: 342059273}
-    - {fileID: 113301251}
-    - {fileID: 519800172}
-    subChunks: []
-  - meshFilters:
-    - {fileID: 1141320441}
-    subChunks: []
-  - meshFilters:
-    - {fileID: 194662093}
-    - {fileID: 1486267541}
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters:
-    - {fileID: 654530233}
-    - {fileID: 918875086}
-    - {fileID: 584428433}
-    - {fileID: 1171740250}
-    subChunks: []
-  - meshFilters:
-    - {fileID: 1333283612}
-    subChunks: []
-  - meshFilters:
-    - {fileID: 593237176}
-    - {fileID: 205660059}
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
-  - meshFilters: []
-    subChunks: []
   - meshFilters: []
     subChunks: []
   - meshFilters: []
@@ -2193,50 +1930,19 @@ MonoBehaviour:
   - meshFilters: []
     subChunks: []
   - meshFilters: []
-    subChunks: []
-  - meshFilters:
-    - {fileID: 1829435096}
     subChunks: []
-  - meshFilters:
-    - {fileID: 1575609627}
-    subChunks: []
   - meshFilters: []
-    subChunks: []
-  - meshFilters:
-    - {fileID: 1037771118}
-    - {fileID: 1953960645}
     subChunks: []
   - meshFilters: []
     subChunks: []
-  - meshFilters:
-    - {fileID: 1920144041}
-    subChunks: []
   - meshFilters: []
     subChunks: []
   - meshFilters: []
-    subChunks: []
-  - meshFilters:
-    - {fileID: 1152521289}
-    - {fileID: 861236863}
     subChunks: []
   - meshFilters: []
     subChunks: []
-  - meshFilters:
-    - {fileID: 1668818323}
-    subChunks: []
   - meshFilters: []
-    subChunks: []
-  - meshFilters:
-    - {fileID: 623770669}
-    - {fileID: 1090782732}
     subChunks: []
-  - meshFilters:
-    - {fileID: 245835367}
-    subChunks: []
-  - meshFilters:
-    - {fileID: 1035554095}
-    - {fileID: 2030097480}
-    subChunks: []
   - meshFilters: []
     subChunks: []
   - meshFilters: []
@@ -2245,9 +1951,6 @@ MonoBehaviour:
     subChunks: []
   - meshFilters: []
     subChunks: []
-  - meshFilters:
-    - {fileID: 1004981819}
-    subChunks: []
   - meshFilters: []
     subChunks: []
   - meshFilters: []
@@ -2257,9 +1960,6 @@ MonoBehaviour:
   - meshFilters: []
     subChunks: []
   - meshFilters: []
-    subChunks: []
-  - meshFilters:
-    - {fileID: 1521053669}
     subChunks: []
   - meshFilters: []
     subChunks: []
@@ -2267,9 +1967,6 @@ MonoBehaviour:
     subChunks: []
   - meshFilters: []
     subChunks: []
-  - meshFilters:
-    - {fileID: 2106111629}
-    subChunks: []
   - meshFilters: []
     subChunks: []
   - meshFilters: []
@@ -2277,9 +1974,6 @@ MonoBehaviour:
   - meshFilters: []
     subChunks: []
   - meshFilters: []
-    subChunks: []
-  - meshFilters:
-    - {fileID: 1143031609}
     subChunks: []
   - meshFilters: []
     subChunks: []
@@ -2289,9 +1983,6 @@ MonoBehaviour:
     subChunks: []
   - meshFilters: []
     subChunks: []
-  - meshFilters:
-    - {fileID: 628372984}
-    subChunks: []
   - meshFilters: []
     subChunks: []
   - meshFilters: []
@@ -2319,9 +2010,6 @@ MonoBehaviour:
   - meshFilters: []
     subChunks: []
   - meshFilters: []
-    subChunks: []
-  - meshFilters:
-    - {fileID: 1150556984}
     subChunks: []
   - meshFilters: []
     subChunks: []
@@ -2340,24 +2028,6 @@ MonoBehaviour:
   - {fileID: 194662093}
   - {fileID: 584428433}
   - {fileID: 1152521289}
-  - {fileID: 1668818323}
-  - {fileID: 1920144041}
-  - {fileID: 1333283612}
-  - {fileID: 205660059}
-  - {fileID: 918875086}
-  - {fileID: 654530233}
-  - {fileID: 593237176}
-  - {fileID: 1829435096}
-  - {fileID: 1521053669}
-  - {fileID: 628372984}
-  - {fileID: 1143031609}
-  - {fileID: 245835367}
-  - {fileID: 2030097480}
-  - {fileID: 1090782732}
-  - {fileID: 623770669}
-  - {fileID: 1035554095}
-  - {fileID: 2106111629}
-  - {fileID: 1150556984}
   remainMeshes: []
   traverseList:
   - {fileID: 1146349502}
@@ -2377,24 +2047,6 @@ MonoBehaviour:
   - {fileID: 194662090}
   - {fileID: 584428430}
   - {fileID: 1152521286}
-  - {fileID: 1668818320}
-  - {fileID: 1920144038}
-  - {fileID: 1333283609}
-  - {fileID: 205660056}
-  - {fileID: 918875083}
-  - {fileID: 654530230}
-  - {fileID: 593237173}
-  - {fileID: 1829435093}
-  - {fileID: 1521053666}
-  - {fileID: 628372981}
-  - {fileID: 1143031606}
-  - {fileID: 245835364}
-  - {fileID: 2030097477}
-  - {fileID: 1090782729}
-  - {fileID: 623770666}
-  - {fileID: 1035554092}
-  - {fileID: 2106111626}
-  - {fileID: 1150556981}
 --- !u!1 &1141320438
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,10 +8,10 @@ public class DontDestroy : MonoBehaviour
     }
 
     public void DontDestroyThis(GameObject gameObject)
-   {
-       DontDestroyOnLoad(gameObject);
-   }
-    public void DestroyManagers()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+    public void DestroyThis()
     {
         Destroy(gameObject);
     }

@@ -3,7 +3,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public class FastEditScript : EditorWindow
+public class CodeEditor : EditorWindow
 {
     static bool scriptSelected;
     static MonoScript[] scripts;
@@ -32,14 +32,14 @@ public class FastEditScript : EditorWindow
     }
     static void Create()
     {
-        FastEditScript window;
-        if (HasOpenInstances<FastEditScript>())
+        CodeEditor window;
+        if (HasOpenInstances<CodeEditor>())
         {
-            window = CreateWindow<FastEditScript>(scripts[0].name + ".cs", GetWindow<FastEditScript>().GetType());
+            window = CreateWindow<CodeEditor>(scripts[0].name + ".cs", GetWindow<CodeEditor>().GetType());
         }
         else
         {
-            window = CreateWindow<FastEditScript>();
+            window = CreateWindow<CodeEditor>();
             window.position = new Rect(20, 80, 600, 600);
         }
 

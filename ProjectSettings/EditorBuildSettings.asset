@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Loading System/S1.unity
+    path: Assets/[WIP] Loading System/S1.unity
     guid: 50dcaf33bc67f11498431a8e1d4520f6
   - enabled: 1
-    path: Assets/Loading System/S2.unity
+    path: Assets/[WIP] Loading System/S2.unity
     guid: 7c7118257c4238647914a92ed538594e
   - enabled: 0
     path: 
