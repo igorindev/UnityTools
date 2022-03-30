@@ -1,16 +1,16 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class FadeAnimation : MonoBehaviour
+public class UIFade : MonoBehaviour
 {
     [Header("Fade")]
     [SerializeField] bool playOnStart = true;
     [SerializeField] bool isTimeDependent = true;
     [SerializeField] float startFadeInDelay = 0;
     [SerializeField] float startFadeOutDelay = 0;
-    [SerializeField] FadeType type = 0;
+    [SerializeField] FADETYPE type = 0;
 
     [Header("Durations")]
     float InDuration = 2f;
@@ -34,7 +34,7 @@ public class FadeAnimation : MonoBehaviour
     public void StartFade()
     {
         StopFade();
-        if (type == FadeType.OnlyIn || type == FadeType.InOut)
+        if (type == FADETYPE.OnlyIn || type == FADETYPE.InOut)
         {
             active = StartCoroutine(FadeIn());
         }
@@ -44,14 +44,14 @@ public class FadeAnimation : MonoBehaviour
         }
     }
 
-    public void StarFade(FadeType fadeType, float inDuration = 1, float outDuration = 1)
+    public void StarFade(FADETYPE fadeType, float inDuration = 1, float outDuration = 1)
     {
         StopFade();
         InDuration = inDuration;
         OutDuration = outDuration;
         type = fadeType;
 
-        if (type == FadeType.OnlyIn || type == FadeType.InOut)
+        if (type == FADETYPE.OnlyIn || type == FADETYPE.InOut)
         {
             active = StartCoroutine(FadeIn());
         }
@@ -96,7 +96,7 @@ public class FadeAnimation : MonoBehaviour
         }
         canvasGroup.alpha = 1;
 
-        if (type == FadeType.InOut)
+        if (type == FADETYPE.InOut)
         {
             if (isTimeDependent)
             {
@@ -127,7 +127,7 @@ public class FadeAnimation : MonoBehaviour
         }
         canvasGroup.alpha = 0;
 
-        if (type == FadeType.OutIn)
+        if (type == FADETYPE.OutIn)
         {
             if (isTimeDependent)
             {
@@ -143,26 +143,26 @@ public class FadeAnimation : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    [CustomEditor(typeof(FadeAnimation))]
-    public class FadeAnimationEditor : Editor
+    [CustomEditor(typeof(UIFade))]
+    public class UIFadeEditor : Editor
     {
         override public void OnInspectorGUI()
         {
             DrawDefaultInspector();
 
-            var myScript = target as FadeAnimation;
+            var myScript = target as UIFade;
             EditorGUILayout.Space(5);
-            if (myScript.type == FadeType.OnlyIn)
+            if (myScript.type == FADETYPE.OnlyIn)
             {
                 myScript.InDuration = EditorGUILayout.FloatField("In Duration", myScript.InDuration);
             }
 
-            if (myScript.type == FadeType.OnlyOut)
+            if (myScript.type == FADETYPE.OnlyOut)
             {
                 myScript.OutDuration = EditorGUILayout.FloatField("Out Duration", myScript.OutDuration);
             }
 
-            if (myScript.type == FadeType.InOut || myScript.type == FadeType.OutIn)
+            if (myScript.type == FADETYPE.InOut || myScript.type == FADETYPE.OutIn)
             {
                 myScript.InDuration = EditorGUILayout.FloatField("In Duration", myScript.InDuration);
                 myScript.WaitDuration = EditorGUILayout.FloatField("Wait Duration", myScript.WaitDuration);
@@ -172,7 +172,7 @@ public class FadeAnimation : MonoBehaviour
     }
 #endif
 }
-public enum FadeType
+public enum FADETYPE
 {
     OnlyIn,
     OnlyOut,

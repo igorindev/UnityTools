@@ -51,12 +51,14 @@ public class AudioSystem : MonoBehaviour
         }
 
         source2D = GetComponent<AudioSource>();
+        source2D.spatialBlend = 0;
+        source2D.playOnAwake = false;
         poolAudioSources = GetComponentsInChildren<AudioSourceEntity>();
 
         DontDestroyOnLoad(gameObject);
     }
 
-    public void PlayOnShot(string name) 
+    public void PlayOneShot(string name) 
     {
         if (!audioList.ContainsKey(name))
         {
@@ -70,10 +72,7 @@ public class AudioSystem : MonoBehaviour
         source2D.loop = audioData.loop;
 
         audioData.GetConfigs(out float volume, out float pitch);
-        source2D.volume = volume;
-        source2D.pitch = pitch;
-
-        source2D.PlayOneShot(audioData.clips[rand]);
+        source2D.PlayOneShot(audioData.clips[rand], volume);
     }
     public void Play(string name)
     {

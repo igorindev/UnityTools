@@ -20,13 +20,7 @@ public class ScenePartition : MonoBehaviour
     {
         if (active)
         {
-            if (ReferenceEquals(player, null))
-            {
-                if (GameManager.instance.Player)
-                {
-                    player = GameManager.instance.Player.transform;
-                }
-            }
+            HasPlayer();
 
             if (Time.time >= lastCheck + checkDelay)
             {
@@ -36,6 +30,14 @@ public class ScenePartition : MonoBehaviour
                 }
                 lastCheck = Time.time;
             }
+        }
+    }
+
+    void HasPlayer()
+    {
+        if (ReferenceEquals(player, null))
+        {
+            //Get player
         }
     }
 }

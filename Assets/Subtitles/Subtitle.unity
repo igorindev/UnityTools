@@ -985,7 +985,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Where is this?
+  m_text: Where does it come from?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1018,7 +1018,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2078,20 +2078,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4165fb608db96744aa18d6582fcd1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  simultaneous: 3
-  textSize: 25
+  simultaneous: 10
+  textSize: 15
   textWidth: 550
-  textHeight: 550
   fadeInSpeed: 2
   fadeOutSpeed: 2
   moveUpSpeed: 2
-  backgroundColor: {r: 0, g: 0, b: 0, a: 0.3137255}
   textOffsetWidth: 20
   textOffsetHeight: 20
   instantiateIfNeeeded: 0
+  low: {r: 0.65, g: 0.65, b: 0.65, a: 1}
+  normal: {r: 1, g: 1, b: 1, a: 1}
+  high: {r: 1, g: 1, b: 1, a: 1}
+  background: {r: 0, g: 0, b: 0, a: 0.313}
+  testSpawnTimer: 0.2
   alertIfTextToLong: 0
   textLimitSize: 60
-  testSpawnTimer: 0.2
   subtitles:
   - text: {fileID: 1329053052}
     subtitleRect: {fileID: 843589234}

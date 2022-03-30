@@ -8,6 +8,10 @@ public static class Audio
     {
         if (audioSystem != null && clipName != "") audioSystem.Play(clipName);
     }
+    public static void PlayOneShot(string clipName)
+    {
+        if (audioSystem != null && clipName != "") audioSystem.PlayOneShot(clipName);
+    }
     public static void PlayAtPosition(string clipName, Vector3 position, Transform parent = null) 
     {
         if (audioSystem != null && clipName != "") audioSystem.PlayAtPosition(clipName, position, parent);
