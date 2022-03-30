@@ -16,7 +16,7 @@ namespace Subtitles
 
     public class SubtitleManager : MonoBehaviour
     {
-        [SerializeField] int simultaneous = 3;
+        [SerializeField, Min(0)] int simultaneous = 3;
 
         [Header("Text")]
         [SerializeField] float textSize = 25;
@@ -189,7 +189,6 @@ namespace Subtitles
             if (closedCaption)
                 sb.Append("]");
 
-
             subtitles[toUse].text.text = sb.ToString();
             subtitles[toUse].Duration = duration;
             subtitles[toUse].InUse = true;
@@ -236,10 +235,13 @@ namespace Subtitles
             subtitles[index].Ready = true;
             subtitlesQueued.Add(index);
 
-            if (subtitlesQueued.Count > simultaneous)
+            if (simultaneous > 0)
             {
-                subtitles[subtitlesQueued[0]].Duration = subtitles[subtitlesQueued[0]].Duration < 0 ? subtitles[subtitlesQueued[0]].Duration : 0;
-                subtitles[subtitlesQueued[0]].canvasGroup.alpha = 0;
+                if (subtitlesQueued.Count > simultaneous)
+                {
+                    subtitles[subtitlesQueued[0]].Duration = subtitles[subtitlesQueued[0]].Duration < 0 ? subtitles[subtitlesQueued[0]].Duration : 0;
+                    subtitles[subtitlesQueued[0]].canvasGroup.alpha = 0;
+                }
             }
 
             //Start counter to disapear text based on duration
