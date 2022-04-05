@@ -8,7 +8,6 @@ public class Recycler : MonoBehaviour
 
     public static Dictionary<string, List<GameObject>> recyclables = new Dictionary<string, List<GameObject>>();
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     void OnValidate()
     {
         recyclables.Clear();
@@ -20,13 +19,15 @@ public class Recycler : MonoBehaviour
     }
 
     public static void AddToRecycler(string key, GameObject recycledObject)
-    {
+    { 
         recyclables[key].Add(recycledObject);
+        Debug.Log(recyclables[key].Count);
     }
 
     public static GameObject Recycle(string key)
     {
         GameObject recycled = null;
+        Debug.Log(recyclables[key].Count);
         if (recyclables[key].Count > 0)
         {
             recycled = recyclables[key][0];
@@ -36,6 +37,7 @@ public class Recycler : MonoBehaviour
         {
             //Create
         }
+
 
         return recycled;
     }
