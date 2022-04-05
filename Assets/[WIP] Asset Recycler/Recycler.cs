@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Recycler : MonoBehaviour
 {
-    public string[] recyclableTags; 
+    public GameObject[] recyclableTags; 
 
     public static Dictionary<string, List<GameObject>> recyclables = new Dictionary<string, List<GameObject>>();
 
@@ -14,7 +14,7 @@ public class Recycler : MonoBehaviour
 
         for (int i = 0; i < recyclableTags.Length; i++)
         {
-            recyclables.Add(recyclableTags[i], new List<GameObject>());
+            recyclables.Add(recyclableTags[i].name, new List<GameObject>());
         }
     }
 

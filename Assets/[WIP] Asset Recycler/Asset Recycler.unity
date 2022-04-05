@@ -520,7 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recyclableTags:
-  - Cube
+  - {fileID: 653148706}
 --- !u!4 &1846858981
 Transform:
   m_ObjectHideFlags: 0

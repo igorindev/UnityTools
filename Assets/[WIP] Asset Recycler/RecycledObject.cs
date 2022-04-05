@@ -12,12 +12,11 @@ public class RecycledObject : MonoBehaviour
         {
             Debug.Log(name + " | " + recycleObj);
             Recycler.AddToRecycler(key, recycleObj);
-            recycleObj = null;
             DontDestroyOnLoad(recycleObj);
         }
         else
         {
-            Debug.Log("Exists" + " | " + recycleObj);
+            Debug.Log("Null" + " | " + recycleObj);
             GameObject recycled = Recycler.Recycle(key);
             recycled.transform.SetPositionAndRotation(transform.position, transform.localRotation);
         }
