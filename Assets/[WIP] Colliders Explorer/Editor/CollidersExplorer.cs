@@ -11,7 +11,7 @@ public class CollidersExplorer : EditorWindow
     Vector2 scroll;
     int selected;
     string toSearch;
-    bool drawShapes;
+    string searchName;
     GUIContent[] textures;
 
     [MenuItem("Tools/Colliders Explorer...")]
@@ -72,6 +72,16 @@ public class CollidersExplorer : EditorWindow
         {
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
+        GUILayout.Space(1);
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Open Physics Debug"))
+            {
+                GetWindow<PhysicsDebugWindow>();
+            }
+        }
+        GUILayout.Space(20);
         using (new EditorGUILayout.HorizontalScope())
         {
             GUILayout.FlexibleSpace();
@@ -79,122 +89,122 @@ public class CollidersExplorer : EditorWindow
             objectSizeAlert = EditorGUILayout.Vector3Field("", objectSizeAlert);
             GUILayout.FlexibleSpace();
         }
-        GUILayout.Space(20);
+        GUILayout.Space(4);
         using (new EditorGUILayout.HorizontalScope())
         {
             GUILayout.Space(10);
-            drawShapes = GUILayout.Toggle(drawShapes, "Draw Shapes");
+            EditorGUILayout.LabelField("Search", GUILayout.Width(50));
+            searchName = EditorGUILayout.TextField(searchName);
         }
-        GUILayout.Space(1);
-
         using (var scrollScope = new EditorGUILayout.ScrollViewScope(scroll, EditorStyles.helpBox))
-        {
-            EditorGUILayout.Space(3);
-            scroll = scrollScope.scrollPosition;
-            for (int i = 0; i < TraverseList.Count; i++)
             {
-                using (new EditorGUILayout.HorizontalScope())
+                EditorGUILayout.Space(3);
+                scroll = scrollScope.scrollPosition;
+                for (int i = 0; i < TraverseList.Count; i++)
                 {
-                    if (TraverseList[i] == null)
+                    using (new EditorGUILayout.HorizontalScope())
                     {
-                        continue;
-                    }
-
-                    Collider[] colliders = TraverseList[i].GetComponents<Collider>();
-                    if (colliders.Length == 0)
-                    {
-                        continue;
-                    }
-                    using (new EditorGUILayout.VerticalScope())
-                    {
-                        bool none = true;
-                        int count = 0;
-                        foreach (Collider item in colliders)
-                        {
-                            if (toSearch == "Sphere")
-                            {
-                                if (item.GetType() != typeof(SphereCollider))
-                                {
-                                    continue;
-                                }
-                            }
-                            else if (toSearch == "Capsule")
-                            {
-                                if (item.GetType() != typeof(CapsuleCollider))
-                                {
-                                    continue;
-                                }
-                            }
-                            else if (toSearch == "Box")
-                            {
-                                if (item.GetType() != typeof(BoxCollider))
-                                {
-                                    continue;
-                                }
-                            }
-                            else if (toSearch == "Mesh")
-                            {
-                                if (item.GetType() != typeof(MeshCollider))
-                                {
-                                    continue;
-                                }
-                            }
-
-                            using (new EditorGUILayout.HorizontalScope(GUILayout.MaxWidth(300)))
-                            {
-                                GUILayout.Space(3);
-
-                                if (item.isTrigger)
-                                {
-                                    GUI.color = Color.green;
-                                    GUILayout.Label("Trigger");
-                                    GUI.color = Color.white;
-                                }
-
-                                EditorGUILayout.ObjectField(item, typeof(Collider), true);
-                                count += 1; 
-                                none = false;
-                            }
-                        }
-
-                        if (none)
+                        if (TraverseList[i] == null)
                         {
                             continue;
                         }
-                    }
 
-                    using (new EditorGUILayout.HorizontalScope())
-                    {
-                        if (!TraverseList[i].TryGetComponent(out MeshFilter mf))
+                        Collider[] colliders = TraverseList[i].GetComponents<Collider>();
+                        if (colliders.Length == 0)
                         {
-                            GUI.color = Color.cyan;
-                            GUILayout.Label("(No Mesh Filter)");
-                            GUI.color = Color.white;
+                            continue;
                         }
-                        else
+                        using (new EditorGUILayout.VerticalScope())
                         {
-                            Mesh mesh = mf.sharedMesh;
-                            if (mesh)
+                            bool none = true;
+                            int count = 0;
+                            foreach (Collider item in colliders)
                             {
-                                Vector3 size = Vector3.Scale(mesh.bounds.size, TraverseList[i].transform.localScale);
-                                bool condition = size.x < objectSizeAlert.x && size.y < objectSizeAlert.y && size.z < objectSizeAlert.z;
-                                string message = size + (condition ? " Object is too small" : "");
+                                if (toSearch == "Sphere")
+                                {
+                                    if (item.GetType() != typeof(SphereCollider))
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else if (toSearch == "Capsule")
+                                {
+                                    if (item.GetType() != typeof(CapsuleCollider))
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else if (toSearch == "Box")
+                                {
+                                    if (item.GetType() != typeof(BoxCollider))
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else if (toSearch == "Mesh")
+                                {
+                                    if (item.GetType() != typeof(MeshCollider))
+                                    {
+                                        continue;
+                                    }
+                                }
 
-                                if (condition)
-                                    GUI.color = Color.red;
+                                using (new EditorGUILayout.HorizontalScope(GUILayout.MaxWidth(300)))
+                                {
+                                    GUILayout.Space(3);
 
-                                GUILayout.Label(message);
-                                GUI.color = Color.white;
+                                    if (item.isTrigger)
+                                    {
+                                        GUI.color = Color.green;
+                                        GUILayout.Label("Trigger");
+                                        GUI.color = Color.white;
+                                    }
+
+                                    EditorGUILayout.ObjectField(item, typeof(Collider), true);
+                                    count += 1;
+                                    none = false;
+                                }
+                            }
+
+                            if (none)
+                            {
+                                continue;
                             }
                         }
-                    }
 
-                    GUILayout.FlexibleSpace();
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            if (!TraverseList[i].TryGetComponent(out MeshFilter mf))
+                            {
+                                GUI.color = Color.cyan;
+                                GUILayout.Label("(No Mesh Filter)");
+                                GUI.color = Color.white;
+                            }
+                            else
+                            {
+                                Mesh mesh = mf.sharedMesh;
+                                if (mesh)
+                                {
+                                    Vector3 size = Vector3.Scale(mesh.bounds.size, TraverseList[i].transform.localScale);
+                                    bool condition = size.x < objectSizeAlert.x && size.y < objectSizeAlert.y && size.z < objectSizeAlert.z;
+                                    string message = size + (condition ? " Object is too small" : "");
+
+                                    if (condition)
+                                        GUI.color = Color.red;
+
+                                    GUILayout.Label(message);
+                                    GUI.color = Color.white;
+                                }
+                            }
+                        }
+
+                        GUILayout.FlexibleSpace();
+                    }
+                    EditorGUILayout.Space(2f);
                 }
-                EditorGUILayout.Space(2f);
             }
-        }
         EditorGUILayout.Space(5f);
+        
     }
 
     void Traverse(GameObject obj, ref List<GameObject> t)
@@ -219,5 +229,11 @@ public class CollidersExplorer : EditorWindow
         }
 
         return traverse;
+    }
+
+    void PhyscisVisualization()
+    {
+        PhysicsVisualizationSettings.GetShowBoxColliders();
+        PhysicsVisualizationSettings.SetShowBoxColliders(true);
     }
 }
