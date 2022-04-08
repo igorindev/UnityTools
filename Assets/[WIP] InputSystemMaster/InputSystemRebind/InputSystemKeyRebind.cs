@@ -45,6 +45,6 @@ public class InputSystemKeyRebind : MonoBehaviour
         waitingRebind.SetActive(false);
 
         playerInput.SwitchCurrentActionMap("Player");
-        PlayerInputController.instance.InputSystemCheckDevice.UpdateAllPaths();
+        PlayerInputController.Instance.InputSystemCheckDevice.UpdateAllPaths();
     }
 }

@@ -12,7 +12,7 @@ public class InputPlayerActions : MonoBehaviour
     {
         if (context.performed)
         {
-            DebugLogTest("Input by " + PlayerInputController.instance.PlayerInput.currentControlScheme);
+            DebugLogTest("Input by " + PlayerInputController.Instance.PlayerInput.currentControlScheme);
         }
     }
 

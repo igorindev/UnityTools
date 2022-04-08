@@ -10,6 +10,7 @@ public class CollidersExplorer : EditorWindow
 
     Vector2 scroll;
     int selected;
+    int wasSelected;
     string toSearch;
     string searchName;
     GUIContent[] textures;
@@ -20,14 +21,14 @@ public class CollidersExplorer : EditorWindow
         CollidersExplorer sizeWindow = GetWindow<CollidersExplorer>("Colliders Explorer");
         sizeWindow.autoRepaintOnSceneChange = true;
         sizeWindow.titleContent = new GUIContent("Colliders Explorer", EditorGUIUtility.IconContent("d_Search Icon").image);
-        sizeWindow.minSize = new Vector2(431.00f, 400f);   
+        sizeWindow.minSize = new Vector2(431.00f, 400f);
         sizeWindow.Show();
     }
 
     void OnEnable()
     {
         TraverseList = StartTraverse();
-
+        wasSelected = selected = 0;
         textures = new GUIContent[]
         {
             new GUIContent("All"),
@@ -45,25 +46,29 @@ public class CollidersExplorer : EditorWindow
         {
             GUILayout.FlexibleSpace();
             selected = GUILayout.Toolbar(selected, textures, GUILayout.MaxHeight(30), GUILayout.Width(300));
-            if (selected == 0)
+            if (wasSelected != selected)
             {
-                TraverseList = StartTraverse();
-            }
-            else if (selected == 1)
-            {
-                TraverseList = StartTraverse("Sphere");
-            }
-            else if (selected == 2)
-            {
-                TraverseList = StartTraverse("Capsule");
-            }
-            else if (selected == 3)
-            {
-                TraverseList = StartTraverse("Box");
-            }
-            else if (selected == 4)
-            {
-                TraverseList = StartTraverse("Mesh");
+                wasSelected = selected;
+                if (selected == 0)
+                {
+                    TraverseList = StartTraverse();
+                }
+                else if (selected == 1)
+                {
+                    TraverseList = StartTraverse("Sphere");
+                }
+                else if (selected == 2)
+                {
+                    TraverseList = StartTraverse("Capsule");
+                }
+                else if (selected == 3)
+                {
+                    TraverseList = StartTraverse("Box");
+                }
+                else if (selected == 4)
+                {
+                    TraverseList = StartTraverse("Mesh");
+                }
             }
             GUILayout.FlexibleSpace();
         }
@@ -96,115 +101,114 @@ public class CollidersExplorer : EditorWindow
             EditorGUILayout.LabelField("Search", GUILayout.Width(50));
             searchName = EditorGUILayout.TextField(searchName);
         }
+
         using (var scrollScope = new EditorGUILayout.ScrollViewScope(scroll, EditorStyles.helpBox))
+        {
+            EditorGUILayout.Space(3);
+            scroll = scrollScope.scrollPosition;
+            for (int i = 0; i < TraverseList.Count; i++)
             {
-                EditorGUILayout.Space(3);
-                scroll = scrollScope.scrollPosition;
-                for (int i = 0; i < TraverseList.Count; i++)
+                using (new EditorGUILayout.HorizontalScope())
                 {
-                    using (new EditorGUILayout.HorizontalScope())
+                    if (TraverseList[i] == null) { continue; }
+                    Collider[] colliders = TraverseList[i].GetComponents<Collider>();
+                    if (colliders.Length == 0) { continue; }
+
+                    using (new EditorGUILayout.VerticalScope())
                     {
-                        if (TraverseList[i] == null)
+                        bool none = true;
+                        int count = 0;
+                        foreach (Collider item in colliders)
                         {
-                            continue;
-                        }
-
-                        Collider[] colliders = TraverseList[i].GetComponents<Collider>();
-                        if (colliders.Length == 0)
-                        {
-                            continue;
-                        }
-                        using (new EditorGUILayout.VerticalScope())
-                        {
-                            bool none = true;
-                            int count = 0;
-                            foreach (Collider item in colliders)
+                            if (toSearch == "Sphere")
                             {
-                                if (toSearch == "Sphere")
+                                if (item.GetType() != typeof(SphereCollider))
                                 {
-                                    if (item.GetType() != typeof(SphereCollider))
-                                    {
-                                        continue;
-                                    }
+                                    continue;
                                 }
-                                else if (toSearch == "Capsule")
+                            }
+                            else if (toSearch == "Capsule")
+                            {
+                                if (item.GetType() != typeof(CapsuleCollider))
                                 {
-                                    if (item.GetType() != typeof(CapsuleCollider))
-                                    {
-                                        continue;
-                                    }
+                                    continue;
                                 }
-                                else if (toSearch == "Box")
+                            }
+                            else if (toSearch == "Box")
+                            {
+                                if (item.GetType() != typeof(BoxCollider))
                                 {
-                                    if (item.GetType() != typeof(BoxCollider))
-                                    {
-                                        continue;
-                                    }
+                                    continue;
                                 }
-                                else if (toSearch == "Mesh")
+                            }
+                            else if (toSearch == "Mesh")
+                            {
+                                if (item.GetType() != typeof(MeshCollider))
                                 {
-                                    if (item.GetType() != typeof(MeshCollider))
-                                    {
-                                        continue;
-                                    }
-                                }
-
-                                using (new EditorGUILayout.HorizontalScope(GUILayout.MaxWidth(300)))
-                                {
-                                    GUILayout.Space(3);
-
-                                    if (item.isTrigger)
-                                    {
-                                        GUI.color = Color.green;
-                                        GUILayout.Label("Trigger");
-                                        GUI.color = Color.white;
-                                    }
-
-                                    EditorGUILayout.ObjectField(item, typeof(Collider), true);
-                                    count += 1;
-                                    none = false;
+                                    continue;
                                 }
                             }
 
-                            if (none)
+                            using (new EditorGUILayout.HorizontalScope(GUILayout.MaxWidth(500)))
                             {
-                                continue;
-                            }
-                        }
-
-                        using (new EditorGUILayout.HorizontalScope())
-                        {
-                            if (!TraverseList[i].TryGetComponent(out MeshFilter mf))
-                            {
-                                GUI.color = Color.cyan;
-                                GUILayout.Label("(No Mesh Filter)");
-                                GUI.color = Color.white;
-                            }
-                            else
-                            {
-                                Mesh mesh = mf.sharedMesh;
-                                if (mesh)
+                                GUILayout.Space(3);
+                                if (count > 0)
                                 {
-                                    Vector3 size = Vector3.Scale(mesh.bounds.size, TraverseList[i].transform.localScale);
-                                    bool condition = size.x < objectSizeAlert.x && size.y < objectSizeAlert.y && size.z < objectSizeAlert.z;
-                                    string message = size + (condition ? " Object is too small" : "");
-
-                                    if (condition)
-                                        GUI.color = Color.red;
-
-                                    GUILayout.Label(message);
+                                    GUI.color = Color.yellow;
+                                    GUILayout.Label("Same as Above", BackgroundStyle.Get(), GUILayout.Width(110));
                                     GUI.color = Color.white;
                                 }
+                                if (item.isTrigger)
+                                {
+                                    GUI.color = Color.green;
+                                    GUILayout.Label("Trigger", BackgroundStyle.Get(), GUILayout.Width(55));
+                                    GUI.color = Color.white;
+                                }
+
+                                EditorGUILayout.ObjectField(item, typeof(Collider), true);
+                                count += 1;
+                                none = false;
                             }
                         }
 
-                        GUILayout.FlexibleSpace();
+                        if (none)
+                        {
+                            continue;
+                        }
                     }
-                    EditorGUILayout.Space(2f);
+
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        if (!TraverseList[i].TryGetComponent(out MeshFilter mf))
+                        {
+                            GUI.color = Color.cyan;
+                            GUILayout.Label("No Mesh Filter", BackgroundStyle.Get(), GUILayout.MinWidth(110));
+                            GUI.color = Color.white;
+                        }
+                        else
+                        {
+                            Mesh mesh = mf.sharedMesh;
+                            if (mesh)
+                            {
+                                Vector3 size = Vector3.Scale(mesh.bounds.size, TraverseList[i].transform.localScale);
+                                bool condition = size.x < objectSizeAlert.x && size.y < objectSizeAlert.y && size.z < objectSizeAlert.z;
+                                string message = (condition ? " Too small" : size.ToString());
+
+                                if (condition)
+                                    GUI.color = Color.red;
+
+                                GUILayout.Label(message, BackgroundStyle.Get(), GUILayout.MinWidth(110));
+                                GUI.color = Color.white;
+                            }
+                        }
+                    }
+
+                    GUILayout.FlexibleSpace();
                 }
+                EditorGUILayout.Space(2f);
             }
+        }
         EditorGUILayout.Space(5f);
-        
     }
 
     void Traverse(GameObject obj, ref List<GameObject> t)
@@ -230,10 +234,12 @@ public class CollidersExplorer : EditorWindow
 
         return traverse;
     }
-
-    void PhyscisVisualization()
+    public static class BackgroundStyle
     {
-        PhysicsVisualizationSettings.GetShowBoxColliders();
-        PhysicsVisualizationSettings.SetShowBoxColliders(true);
+        private static GUIStyle style = new GUIStyle(GUI.skin.button);
+        public static GUIStyle Get()
+        {
+            return style;
+        }
     }
 }

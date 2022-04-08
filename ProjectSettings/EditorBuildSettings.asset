@@ -11,8 +11,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/[WIP] Loading System/S2.unity
     guid: 7c7118257c4238647914a92ed538594e
+  - enabled: 1
+    path: Assets/UI Canvas Manager/Canvas Manager.unity
+    guid: 670aea92eb41cc64ab3abaf5a1cd6c32
   - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+    path: Assets/aa 1.unity
+    guid: fab28578d93467f4b90169f15f55dba5
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 56ea975c4057d824296b59ead9957ee2, type: 2}

@@ -12,6 +12,6 @@ public class InputIcon : MonoBehaviour
     void Start()
     {
         Icon = GetComponent<Image>();
-        PlayerInputController.instance.InputSystemCheckDevice.AddIconToList(this);
+        PlayerInputController.Instance.InputSystemCheckDevice.AddIconToList(this);
     }
 }
