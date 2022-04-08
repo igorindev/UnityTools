@@ -1,53 +1,119 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CanvasManagement
 {
     public class UICanvasManager : Singleton<UICanvasManager>
     {
-        Stack<UICanvasController> canvasStack = new Stack<UICanvasController>();
+        readonly Stack<UICanvasController> canvasHudStack = new Stack<UICanvasController>();
+        readonly Stack<UICanvasController> canvasInteractableStack = new Stack<UICanvasController>();
 
-        public UICanvasController CurrentCanvas { get; private set; }
+        [field:SerializeField, ReadOnly] public UICanvasController CurrentCanvas { get; private set; }
+
+        [Space(15)]
+        [SerializeField] UnityEvent onEnterCanvas;
+        [SerializeField] UnityEvent onExitCanvas;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            SetCursor(false);
+        }
 
         public void AddCanvas(UICanvasController canvasController)
         {
-            if (HasCanvasOpen())
+            if (canvasInteractableStack.Contains(canvasController)) { return; }
+
+            canvasController.EnableCanvas(true);
+            canvasInteractableStack.Push(canvasController);
+            if (CurrentCanvas == null)
             {
-                //Show cursor
+                onEnterCanvas?.Invoke();
                 SetCursor(true);
-                //Stop player movement
             }
-            canvasStack.Push(canvasController);
+
             CurrentCanvas = canvasController;
         }
 
         public void CloseCanvas()
         {
-            RemoveCanvas();
-        }
+            if (HasCanvasOpen()) { return; }
 
-        UICanvasController RemoveCanvas()
-        {
-            UICanvasController closed = canvasStack.Pop();
-            closed.EnableCanvas(false);
-
-            if (HasCanvasOpen() == false)
+            //Check if there is a popup that not allow close
+            if (CurrentCanvas.confirmScreen && CurrentCanvas.confirmScreenActive)
             {
-                //Hide cursor
-                SetCursor(false);
-                //Allow player movement
+                CurrentCanvas.confirmScreen.EnableCanvas(true);
+                CurrentCanvas.confirmScreen.OpenCanvas();
             }
-
-            return closed;
+            else
+            {
+                if (HasCanvasOpen())
+                {
+                    canvasInteractableStack.Pop().EnableCanvas(false); 
+                    if (HasCanvasOpen()) 
+                    { 
+                        CurrentCanvas = canvasInteractableStack.Peek(); 
+                    }
+                    else 
+                    {
+                        SetCursor(false);
+                        CurrentCanvas = null;
+                        onExitCanvas?.Invoke();
+                    }
+                }
+                else
+                {
+                    if (CurrentCanvas)
+                    {
+                        SetCursor(false);
+                        CurrentCanvas = null;
+                        onExitCanvas?.Invoke();
+                    }
+                }
+            }
         }
+        public void CloseCanvasWithConfirmation()
+        {
+            if (HasCanvasOpen()) { return; }
+
+            canvasInteractableStack.Pop().EnableCanvas(false);
+            CurrentCanvas = canvasInteractableStack.Peek();
+
+            if (HasCanvasOpen())
+            {
+                canvasInteractableStack.Pop().EnableCanvas(false);
+                if (HasCanvasOpen())
+                {
+                    CurrentCanvas = canvasInteractableStack.Peek();
+                }
+                else
+                {
+                    SetCursor(false);
+                    CurrentCanvas = null;
+                    onExitCanvas?.Invoke();
+                }
+            }
+            else
+            {
+                if (CurrentCanvas)
+                {
+                    SetCursor(false);
+                    CurrentCanvas = null;
+                    onExitCanvas?.Invoke();
+                }
+            }
+        }
+
         public UICanvasController CurrentCanvasOnTop()
         {
-            return canvasStack.Peek();
+            return canvasInteractableStack.Peek();
         }
 
         public bool HasCanvasOpen()
         {
-            return canvasStack.Count > 0;
+            return canvasInteractableStack.Count > 0;
         }
 
         public void SetCursor(bool active)

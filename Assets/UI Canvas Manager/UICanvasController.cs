@@ -7,10 +7,14 @@ namespace CanvasManagement
     [RequireComponent(typeof(UnityEngine.UI.CanvasScaler))]
     public class UICanvasController : MonoBehaviour
     {
-        [Header("Conditions")]
+        [Header("Condition")]
         [SerializeField] bool executeOnStart = false;
-        [SerializeField] bool doNotDisable = false;
 
+        [Header("Confirm Screen")]
+        public bool confirmScreenActive = true;
+        public UICanvasController confirmScreen = null;
+
+        [Space(15)]
         [SerializeField] UnityEvent onEnableCanvas;
         [SerializeField] UnityEvent onDisableCanvas;
         Canvas canvas;
@@ -25,20 +29,32 @@ namespace CanvasManagement
 
         public void EnableCanvas(bool value)
         {
-            if (!doNotDisable || value)
-            {
-                canvas.enabled = value;
-            }
+            canvas.enabled = value;
 
             if (value)
             {
-                if (UICanvasManager.Instance) UICanvasManager.Instance.AddCanvas(this);
                 onEnableCanvas?.Invoke();
             }
             else
             {
                 onDisableCanvas?.Invoke();
             }
+        }
+
+        [ContextMenu("Open")]
+        public void OpenCanvas()
+        {
+            if (UICanvasManager.Instance) UICanvasManager.Instance.AddCanvas(this);
+        }
+        [ContextMenu("Close")]
+        public void CloseCanvas()
+        {
+            if (UICanvasManager.Instance) UICanvasManager.Instance.CloseCanvas();
+        }
+        [ContextMenu("Close Confirm Screen")]
+        public void CloseConfirmScreen()
+        {
+            if (UICanvasManager.Instance) UICanvasManager.Instance.CloseCanvasWithConfirmation();
         }
     }
 }
