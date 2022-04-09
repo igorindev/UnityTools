@@ -68,6 +68,16 @@ public static class Extensions
         return value * (Random.Range(0, 2) == 0 ? 1 : -1);
     }
 
+    public static float Float2Db(this float value)
+    {
+        return Mathf.Log10(value) * 20;
+    }
+    public static float DbToFloat(this float value)
+    {
+        value *= 0.05f;
+        return Mathf.Pow(10, value);
+    }
+
     public static Vector3 ZeroX(this Vector3 vector)
     {
         vector.x = 0;
@@ -120,20 +130,6 @@ public static class Extensions
     {
         if (!dictionary.ContainsKey(key))
             dictionary.Add(key, value);
-    }
-    public static T AllocateFromPool<T>(this T[] array, ref int count)
-    {
-        count += 1;
-        count %= array.Length;
-
-        return array[count];
-    }
-    public static T AllocateFromPool<T>(this List<T> list, ref int count)
-    {
-        count += 1;
-        count %= list.Count;
-
-        return list[count];
     }
 
     public static string ToTimer(this float time)
