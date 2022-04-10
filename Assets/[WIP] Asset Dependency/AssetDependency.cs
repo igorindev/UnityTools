@@ -13,38 +13,52 @@ public class AssetDependency : EditorWindow
     [SerializeField] UnityEngine.Object asset;
     [SerializeField] AssetUsedBy usedBy;
 
-    static Object[] scripts;
+    static List<Object> assets;
 
     SerializedObject so;
     SerializedProperty dependency;
     SerializedProperty assetProperty;
 
+    static string myPath;
+
     [MenuItem("Assets/Get Dependencies...")]
-    public static void Fix()
+    public static void GetReferences()
     {
-        if (scripts != null && scripts[0])
+        if (assets != null && assets.Count > 0)
         {
-            Find(AssetDatabase.GetAssetPath(scripts[0]));
+            for (int i = 0; i < assets.Count; i++)
+            {
+                Find(AssetDatabase.GetAssetPath(assets[i]));
+            }
         }
     }
 
     [MenuItem("Assets/Get Dependencies...", true)]
     public static bool CheckIfScriptFile()
     {
-        scripts = Selection.objects;
+        assets = Selection.objects.ToList();
 
-        return scripts[0] != null;
+        if (assets != null && assets.Count > 0)
+        {
+            for (int i = 0; i < assets.Count; i++)
+            {
+                if (AssetDatabase.IsValidFolder(AssetDatabase.GetAssetPath(assets[i]))) 
+                    assets.RemoveAt(i);
+            }
+        }
+        return assets != null && assets.Count > 0;
     }
 
     static void Find(string path)
     {
+        myPath = path;
         CreateWindow<AssetDependency>();
     }
 
     void OnEnable()
     {
         so = new SerializedObject(this);
-        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+        string path = myPath;
         asset = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
         AssetUsedBy dependencie = new AssetUsedBy
         {
