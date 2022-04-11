@@ -16,18 +16,25 @@ MonoBehaviour:
   - Assets/[OLD] Audio Play/AudioPlay.unity
   - Assets/[OLD] Intro Player/VideoPlayer.unity
   - Assets/[WIP] AI Perseption/AI.unity
-  - Assets/[WIP] Color Bar Picker/ColorPicker.unity
-  - Assets/[WIP] Localization/Language Test.unity
-  - Assets/[WIP] PhotoMode/PhotoMode.unity
+  - Assets/[WIP] Asset Recycler/Asset Recycler.unity
+  - Assets/[WIP] BuildMeshCombiner/Combiner.unity
+  - Assets/[WIP] BuildMeshCombiner/UncombinedScenes/Backup_Combiner.unity
+  - Assets/[WIP] Colliders Explorer/CollisionExplorer.unity
+  - Assets/[WIP] Impostor/Impostor.unity
+  - Assets/[WIP] InputSystemMaster/InputSystemMaster.unity
+  - Assets/[WIP] Loading System/S1.unity
+  - Assets/[WIP] Loading System/S2.unity
   - Assets/[WIP] Replay System/Replay.unity
   - Assets/[WIP] Spring Bone/SpringBone.unity
-  - Assets/[WIP] Subtitles/Subtitle.unity
   - Assets/[WIP] Terrain Audio/Terrain.unity
+  - Assets/Animation Previewer/Test/AnimationPreviewer.unity
+  - Assets/Audio System/Scene Test Audio.unity
   - Assets/Audio Visualizer/AudioVisualizer.unity
   - Assets/BehaviourTree/Example/ExampleScene.unity
-  - Assets/InputSystemMaster/InputSystemMaster.unity
-  - Assets/Loading System/S1.unity
-  - Assets/Loading System/S2.unity
+  - Assets/Localization/Language Test.unity
   - Assets/Spline/Spline.unity
+  - Assets/Subtitles/Subtitle.unity
   - Assets/UI Canvas Fade/FadeTest.unity
+  - Assets/UI Canvas Manager/Canvas Manager.unity
+  - Assets/UI Mobile Input System/Mobile Input.unity
   - Assets/UI World2DPosition/Map.unity
