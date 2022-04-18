@@ -72,7 +72,7 @@ public static class Extensions
     {
         return Mathf.Log10(value) * 20;
     }
-    public static float DbToFloat(this float value)
+    public static float Db2Float(this float value)
     {
         value *= 0.05f;
         return Mathf.Pow(10, value);
