@@ -5,10 +5,12 @@ using UnityEditor.SceneManagement;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
-[CreateAssetMenu(fileName ="ClearMeshRenderes", menuName = "ScriptableObject/Clear Mesh")]
+[CreateAssetMenu(fileName ="ClearMeshRenderes", menuName = "ScriptableObjects/Clear Mesh")]
 public class ClearMeshesOnBuild : ScriptableObject, IPreprocessBuildWithReport, IPostprocessBuildWithReport
 {
     [SerializeField] bool active;
+
+    [Header("Scenes to disable Meshes")]
     [SerializeField, Scene] string[] scenes;
 
     public int callbackOrder => 0;
