@@ -167,4 +167,11 @@ public struct MathExtension
 
         return angle;
     }
+
+    public static void RandomVector(out Vector3 vector, Vector3 min, Vector3 max)
+    {
+        vector = new Vector3(Random.Range(min.x, max.x),
+                             Random.Range(min.y, max.y),
+                             Random.Range(min.z, max.z));
+    }
 }
