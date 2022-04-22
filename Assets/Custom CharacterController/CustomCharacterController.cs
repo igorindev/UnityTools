@@ -36,6 +36,8 @@ public class CustomCharacterController : MonoBehaviour
 
     Vector3 move;
 
+    bool grounded;
+
     public Collider[] myColliders;
     
     readonly Collider[] groundCollisionBuffer = new Collider[1];
@@ -88,16 +90,65 @@ public class CustomCharacterController : MonoBehaviour
     }
     void ApplyResult(Vector3 result)
     {
-        transform.position = result;
-    }
+        //GroundChecking();
 
-    void Gravity()
-    {
-        
+        transform.position = result;
     }
 
     bool GroundCheck()
     {
         return Physics.OverlapSphereNonAlloc(CapsuleBottom, radius, groundCollisionBuffer, groundLayers) > 0;
+    }
+
+    void GroundChecking()
+    {
+        Ray ray = new Ray(CapsuleBottom, Vector3.down);
+
+        if (Physics.SphereCast(ray, radius, out RaycastHit tempHit, 20))
+        {
+           // GroundConfirm(tempHit);
+        }
+        else
+        {
+            grounded = false;
+        }
+
+    }
+    Vector3 GroundConfirm(RaycastHit tempHit, Vector3 newPos)
+    {
+        Collider[] col = new Collider[6];
+        int num = Physics.OverlapSphereNonAlloc(CapsuleBottom, radius, col);
+
+        grounded = false;
+
+        for (int i = 0; i < num; i++)
+        {
+            if (col[i].transform == tempHit.transform)
+            {
+                RaycastHit groundHit = tempHit;
+                grounded = true;
+
+                return new Vector3(newPos.x, (groundHit.point.y + HalfHeight), newPos.z);
+            }
+        }
+
+        if (num <= 1 && tempHit.distance <= 3.1f)
+        {
+            if (col[0] != null)
+            {
+                Ray ray = new Ray(CapsuleBottom, Vector3.down);
+
+                if (Physics.Raycast(ray, out RaycastHit hit, 3.1f))
+                {
+                    if (hit.transform != col[0].transform)
+                    {
+                        grounded = false;
+                        return newPos;
+                    }
+                }
+            }
+        }
+
+        return newPos;
     }
 }
