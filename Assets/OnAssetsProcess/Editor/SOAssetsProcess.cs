@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-[CreateAssetMenu(fileName = "AssetsPostProcess", menuName = "ScriptableObjects/AssetsPostProcess", order = 1)]
-public class SOAssetsPostProcess : ScriptableObject
+[CreateAssetMenu(fileName = "AssetsProcess", menuName = "ScriptableObjects/AssetsProcess", order = 1)]
+public class SOAssetsProcess : ScriptableObject
 {
     public static Action<string> onReimportAssetAction;
     public static Action<string> onDeleteAssetAction;
@@ -33,13 +33,13 @@ public class SOAssetsPostProcess : ScriptableObject
 
     void OnEnable()
     {
-        SOAssetsPostProcess.onReimportAssetAction -= OnReimportAsset;
-        SOAssetsPostProcess.onDeleteAssetAction -= OnDeleteAsset;
-        SOAssetsPostProcess.onMoveAssetAction -= OnMoveAsset;
+        SOAssetsProcess.onReimportAssetAction -= OnReimportAsset;
+        SOAssetsProcess.onDeleteAssetAction -= OnDeleteAsset;
+        SOAssetsProcess.onMoveAssetAction -= OnMoveAsset;
 
-        SOAssetsPostProcess.onReimportAssetAction += OnReimportAsset;
-        SOAssetsPostProcess.onDeleteAssetAction += OnDeleteAsset;
-        SOAssetsPostProcess.onMoveAssetAction += OnMoveAsset;
+        SOAssetsProcess.onReimportAssetAction += OnReimportAsset;
+        SOAssetsProcess.onDeleteAssetAction += OnDeleteAsset;
+        SOAssetsProcess.onMoveAssetAction += OnMoveAsset;
     }
 
     void OnReimportAsset(string assetPath)
@@ -68,17 +68,17 @@ public class AssetsPostProcess : AssetPostprocessor
     {
         foreach (string assetPath in importedAssets)
         {
-            SOAssetsPostProcess.onReimportAssetAction?.Invoke(assetPath);
+            SOAssetsProcess.onReimportAssetAction?.Invoke(assetPath);
             Debug.Log("Reimported Asset: " + assetPath);
         }
         foreach (string assetPath in deletedAssets)
         {
-            SOAssetsPostProcess.onDeleteAssetAction?.Invoke(assetPath);
+            SOAssetsProcess.onDeleteAssetAction?.Invoke(assetPath);
             Debug.Log("Deleted Asset: " + assetPath);
         }
         for (int i = 0; i < movedAssets.Length; i++)
         {
-            SOAssetsPostProcess.onMoveAssetAction?.Invoke(movedAssets[i], movedFromAssetPaths[i]);
+            SOAssetsProcess.onMoveAssetAction?.Invoke(movedAssets[i], movedFromAssetPaths[i]);
             Debug.Log("Moved Asset: " + movedAssets[i] + " from: " + movedFromAssetPaths[i]);
         }
     }
