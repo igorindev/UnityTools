@@ -166,10 +166,10 @@ public class CustomCharacterController : MonoBehaviour
     }
 
     private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow; for 
-        (int j = 0; j < hitBuffer.Length; j++)
+    { 
+        for (int j = 0; j < hitBuffer.Length; j++)
         {
+            Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(hitBuffer[j].bounds.center, 0.1f);
         }
     }

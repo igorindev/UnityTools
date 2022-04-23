@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class AssetReference : EditorWindow
+public class ShowAssetsReferences : EditorWindow
 {
     [SerializeField] Object asset;
     [SerializeField] List<Object> dependencies;
@@ -18,7 +18,7 @@ public class AssetReference : EditorWindow
     static string[] paths;
     Vector2 scroll;
 
-    static AssetReference window;
+    static ShowAssetsReferences window;
 
     [MenuItem("Assets/Show Asset(s) References...")]
     public static void GetReferences()
@@ -50,7 +50,7 @@ public class AssetReference : EditorWindow
     static void Find(string path)
     {
         myPath = path;
-        window = CreateInstance<AssetReference>();
+        window = CreateInstance<ShowAssetsReferences>();
         window.minSize = new Vector2(300, 300);
         window.Show();
     }

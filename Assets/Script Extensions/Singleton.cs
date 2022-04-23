@@ -2,6 +2,8 @@
 
 public abstract class Singleton<T> : MonoBehaviour where T : Component
 {
+    public bool dontDestroyOnLoad = true;
+
     private static T instance;
     public static T Instance
     {
@@ -21,7 +23,9 @@ public abstract class Singleton<T> : MonoBehaviour where T : Component
         else
         {
             instance = this as T;
-            DontDestroyOnLoad(gameObject);
+            
+            if (dontDestroyOnLoad) 
+                DontDestroyOnLoad(gameObject);
         }
     }
 }
