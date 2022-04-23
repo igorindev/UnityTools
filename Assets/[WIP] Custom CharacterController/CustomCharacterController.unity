@@ -213,8 +213,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 23328504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.39, y: 1, z: -1.49}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: -5.39, y: 1.25, z: -1.49}
+  m_LocalScale: {x: 1.6111, y: 0.30706248, z: 1.6111}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -430,9 +430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa040e937204d24aae4f5c3105a7806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capsuleCollider: {fileID: 439018274}
   center: {x: 0, y: 0, z: 0}
-  height: 2
-  radius: 0.5
   collideWithTrigges: 1
   collisionLayer:
     serializedVersion: 2
@@ -440,9 +439,6 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  hasGravity: 0
-  myColliders:
-  - {fileID: 439018274}
 --- !u!114 &439018279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,11 +718,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092056128}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.65, y: 2.5, z: 4.58}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalRotation: {x: 0.47557214, y: -0, z: -0, w: 0.8796768}
+  m_LocalPosition: {x: 0.65, y: 0.33, z: 6}
+  m_LocalScale: {x: 5, y: 16.7985, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 56.793, y: 0, z: 0}

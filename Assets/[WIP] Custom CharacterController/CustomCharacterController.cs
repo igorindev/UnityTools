@@ -3,26 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CapsuleCollider))]
 public class CustomCharacterController : MonoBehaviour
 {
     [Header("Body")]
+    public CapsuleCollider capsuleCollider;
     [SerializeField] Vector3 center;
-    [SerializeField, Min(0)] float height = 2;
-    [SerializeField, Min(0)] float radius = 0.5f;
     [SerializeField] bool collideWithTrigges = true;
     [SerializeField] LayerMask collisionLayer = ~0;
 
     [Header("Ground")]
     [SerializeField] LayerMask groundLayers = ~0;
 
-    [Header("Forces")]
-    [SerializeField] bool hasGravity;
-
     public Action<RaycastHit> onControllerHit;
         
     public bool IsGrounded => GroundCheck();
+    
+    float Radius => capsuleCollider.radius;
+    float Height => capsuleCollider.height;
+    float HalfHeight => Mathf.Max(Height * 0.5f, Radius);
 
-    float HalfHeight => Mathf.Max(height * 0.5f, radius);
     public Vector3 Center => center;
     Vector3 Bottom => center - HalfHeight * transform.up;
     Vector3 Top => center + HalfHeight * transform.up;
@@ -31,24 +31,27 @@ public class CustomCharacterController : MonoBehaviour
     public Vector3 WorldBottom => transform.position + Bottom;
     public Vector3 WorldTop => transform.position + Top;
 
-    public Vector3 CapsuleTop => WorldTop - (radius * transform.up);
-    public Vector3 CapsuleBottom => WorldBottom + (radius * transform.up);
+    public Vector3 CapsuleTop => WorldTop - (Radius * transform.up);
+    public Vector3 CapsuleBottom => WorldBottom + (Radius * transform.up);
+
+    public Vector3 Velocity { get; private set; }
+
+    Vector3 previousPos;
 
     Vector3 move;
 
     bool grounded;
-
-    public Collider[] myColliders;
     
-    readonly Collider[] groundCollisionBuffer = new Collider[1];
-
+    readonly Collider[] groundCollisionBuffer = new Collider[6];
+    Collider[] hitBuffer;
     void Reset()
     {
-        myColliders = GetComponentsInChildren<Collider>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
     public void Move(Vector3 motion)
     {
+        previousPos = transform.position;
         move = transform.position + motion;
         CollisionDetection();
     }
@@ -56,29 +59,27 @@ public class CustomCharacterController : MonoBehaviour
     void CollisionDetection()
     {
         //RaycastHit[] hitBuffer = Physics.CapsuleCastAll(CapsuleTop, CapsuleBottom, radius, transform.up, height, collisionLayer, (QueryTriggerInteraction)(collideWithTrigges ? 2 : 1));
-        Collider[] hitBuffer = Physics.OverlapCapsule(CapsuleTop, CapsuleBottom, radius, collisionLayer, (QueryTriggerInteraction)(collideWithTrigges ? 2 : 1));
+        hitBuffer = Physics.OverlapCapsule(CapsuleTop, CapsuleBottom, Radius, collisionLayer, (QueryTriggerInteraction)(collideWithTrigges ? 2 : 1));
         if (hitBuffer.Length > 0)
         {
-            for (int i = 0; i < myColliders.Length; i++)
+            for (int j = 0; j < hitBuffer.Length; j++)
             {
-                for (int j = 0; j < hitBuffer.Length; j++)
-                {
-                    if (myColliders[i] == hitBuffer[j]) { continue; }
+                if (capsuleCollider == hitBuffer[j]) { continue; }
+                if (hitBuffer[j].isTrigger) { continue; }
 
-                    if (Physics.ComputePenetration(myColliders[i],
+                if (Physics.ComputePenetration(capsuleCollider,
                                                move,
                                                transform.rotation,
                                                hitBuffer[j],
-                                               hitBuffer[j].transform.position,
+                                               hitBuffer[j].bounds.center,
                                                hitBuffer[j].transform.rotation,
                                                out Vector3 direction,
                                                out float distance))
-                    {
-                        ResolveIntersection(direction, distance);
-                    }
-
-                    //onControllerHit?.Invoke(hitBuffer[j]);
+                {
+                    ResolveIntersection(direction, distance);
                 }
+
+                //onControllerHit?.Invoke(hitBuffer[j]);
             }
         }
 
@@ -93,18 +94,30 @@ public class CustomCharacterController : MonoBehaviour
         //GroundChecking();
 
         transform.position = result;
+
+        Velocity = (transform.position - previousPos)/Time.deltaTime;
     }
 
     bool GroundCheck()
     {
-        return Physics.OverlapSphereNonAlloc(CapsuleBottom, radius, groundCollisionBuffer, groundLayers) > 0;
+        int hits = Physics.OverlapSphereNonAlloc(CapsuleBottom, Radius, groundCollisionBuffer, groundLayers);
+        for (int i = 0; i < hits; i++)
+        {
+            if (groundCollisionBuffer[i] == capsuleCollider)
+            {
+                hits -= 1;
+                break;
+            }
+        }
+
+        return hits > 0;
     }
 
     void GroundChecking()
     {
         Ray ray = new Ray(CapsuleBottom, Vector3.down);
 
-        if (Physics.SphereCast(ray, radius, out RaycastHit tempHit, 20))
+        if (Physics.SphereCast(ray, Radius, out RaycastHit tempHit, 20))
         {
            // GroundConfirm(tempHit);
         }
@@ -117,7 +130,7 @@ public class CustomCharacterController : MonoBehaviour
     Vector3 GroundConfirm(RaycastHit tempHit, Vector3 newPos)
     {
         Collider[] col = new Collider[6];
-        int num = Physics.OverlapSphereNonAlloc(CapsuleBottom, radius, col);
+        int num = Physics.OverlapSphereNonAlloc(CapsuleBottom, Radius, col);
 
         grounded = false;
 
@@ -150,5 +163,14 @@ public class CustomCharacterController : MonoBehaviour
         }
 
         return newPos;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow; for 
+        (int j = 0; j < hitBuffer.Length; j++)
+        {
+            Gizmos.DrawSphere(hitBuffer[j].bounds.center, 0.1f);
+        }
     }
 }
