@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-[CreateAssetMenu(fileName = "AssetsProcess", menuName = "ScriptableObjects/AssetsProcess", order = 1)]
+[CreateAssetMenu(fileName = "AssetsPostProcess", menuName = "ScriptableObjects/AssetsPostProcess", order = 1)]
 public class SOAssetsPostProcess : ScriptableObject
 {
     public static Action<string> onReimportAssetAction;
@@ -14,6 +14,22 @@ public class SOAssetsPostProcess : ScriptableObject
     [SerializeField] UnityEvent<string> onReimportAsset;
     [SerializeField] UnityEvent<string> onDeleteAsset;
     [SerializeField] UnityEvent<string, string> onMoveAsset;
+ 
+    void OnValidate()
+    {
+        for (int i = 0; i < onReimportAsset.GetPersistentEventCount(); i++)
+        {
+            onReimportAsset.SetPersistentListenerState(i, UnityEventCallState.EditorAndRuntime);
+        }
+        for (int i = 0; i < onDeleteAsset.GetPersistentEventCount(); i++)
+        {
+            onDeleteAsset.SetPersistentListenerState(i, UnityEventCallState.EditorAndRuntime);
+        }
+        for (int i = 0; i < onMoveAsset.GetPersistentEventCount(); i++)
+        {
+            onMoveAsset.SetPersistentListenerState(i, UnityEventCallState.EditorAndRuntime);
+        }
+    }
 
     void OnEnable()
     {
@@ -41,7 +57,7 @@ public class SOAssetsPostProcess : ScriptableObject
 
     public void Test(string value)
     {
-        Debug.Log(value);
+        Debug.Log("Event: " + value);
     }
 }
 

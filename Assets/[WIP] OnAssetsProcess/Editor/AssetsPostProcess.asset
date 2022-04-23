@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1326023b3f67a00488b74d73b77e0755, type: 3}
-  m_Name: AssetsProcess
+  m_Name: AssetsPostProcess
   m_EditorClassIdentifier: 
   onReimportAsset:
     m_PersistentCalls:
@@ -26,7 +26,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
   onDeleteAsset:
     m_PersistentCalls:
       m_Calls:
@@ -41,7 +41,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
   onMoveAsset:
     m_PersistentCalls:
       m_Calls:
@@ -56,4 +56,4 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: aaa
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
