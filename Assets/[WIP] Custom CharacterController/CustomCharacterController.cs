@@ -43,7 +43,7 @@ public class CustomCharacterController : MonoBehaviour
     bool grounded;
     
     readonly Collider[] groundCollisionBuffer = new Collider[6];
-    Collider[] hitBuffer;
+    Collider[] hitBuffer = new Collider[0];
     void Reset()
     {
         capsuleCollider = GetComponent<CapsuleCollider>();

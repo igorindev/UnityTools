@@ -33,13 +33,13 @@ public class SOAssetsProcess : ScriptableObject
 
     void OnEnable()
     {
-        SOAssetsProcess.onReimportAssetAction -= OnReimportAsset;
-        SOAssetsProcess.onDeleteAssetAction -= OnDeleteAsset;
-        SOAssetsProcess.onMoveAssetAction -= OnMoveAsset;
+        onReimportAssetAction -= OnReimportAsset;
+        onDeleteAssetAction -= OnDeleteAsset;
+        onMoveAssetAction -= OnMoveAsset;
 
-        SOAssetsProcess.onReimportAssetAction += OnReimportAsset;
-        SOAssetsProcess.onDeleteAssetAction += OnDeleteAsset;
-        SOAssetsProcess.onMoveAssetAction += OnMoveAsset;
+        onReimportAssetAction += OnReimportAsset;
+        onDeleteAssetAction += OnDeleteAsset;
+        onMoveAssetAction += OnMoveAsset;
     }
 
     void OnReimportAsset(string assetPath)
@@ -61,7 +61,7 @@ public class SOAssetsProcess : ScriptableObject
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class AssetsPostProcess : AssetPostprocessor
 {
     static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
