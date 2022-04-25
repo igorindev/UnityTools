@@ -43,6 +43,10 @@ public class AnimationTween : MonoBehaviour
     [ContextMenu("Play")]
     void Start()
     {
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
+        originalScale = transform.localScale;
+
         timer = 0;
 
         enabled = false;
@@ -55,10 +59,6 @@ public class AnimationTween : MonoBehaviour
     {
         inverted = setActive == false;
         enabled = true;
-
-        originalPosition = transform.position;
-        originalRotation = transform.rotation;
-        originalScale = transform.localScale;
     }
 
     void Update()
@@ -77,7 +77,7 @@ public class AnimationTween : MonoBehaviour
             timer = 0;
             enabled = false;
         }
-        else if (timer >= 1)
+        else if (timer > 1)
         {
             timer = 1;
             enabled = false;
@@ -108,13 +108,12 @@ public class AnimationTween : MonoBehaviour
     }
     void UpdateScale()
     {
-        finalScale = transform.localScale;
         if (scale.xAxisActive)
-            finalScale.x = Mathf.Lerp(originalScale.x, originalScale.x - (scale.xAxis.Evaluate(timer) * (originalScale.x - scale.desiredVector.x)), timer);
+            finalScale.x = Mathf.Lerp(originalScale.x, scale.yAxis.Evaluate(timer) * scale.desiredVector.x, timer);
         if (scale.yAxisActive)
-            finalScale.y = Mathf.Lerp(originalScale.y, originalScale.y - (scale.yAxis.Evaluate(timer) * (originalScale.y - scale.desiredVector.y)), timer);
+            finalScale.y = Mathf.Lerp(originalScale.y, scale.yAxis.Evaluate(timer) * scale.desiredVector.y, timer);
         if (scale.zAxisActive)
-            finalScale.z = Mathf.Lerp(originalScale.z, originalScale.z - (scale.zAxis.Evaluate(timer) * (originalScale.z - scale.desiredVector.z)), timer);
+            finalScale.z = Mathf.Lerp(originalScale.z, scale.yAxis.Evaluate(timer) * scale.desiredVector.z, timer);
 
         transform.localScale = finalScale;
     }
