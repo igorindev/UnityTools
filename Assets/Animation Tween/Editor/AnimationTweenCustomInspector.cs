@@ -12,7 +12,7 @@ public class AnimationTweenCustomInspector : Editor
         GUILayout.Space(5);
         animationTween.executeOnStart = EditorGUILayout.Toggle("Execute On Start", animationTween.executeOnStart);
         animationTween.loop = EditorGUILayout.Toggle("Loop", animationTween.loop);
-        animationTween.testMode = EditorGUILayout.Toggle("Loop", animationTween.testMode);
+        animationTween.testMode = EditorGUILayout.Toggle("TestMode", animationTween.testMode);
         animationTween.duration = EditorGUILayout.FloatField("Duration", animationTween.duration);
         GUILayout.Space(10);
 
