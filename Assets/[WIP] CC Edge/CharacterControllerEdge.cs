@@ -18,34 +18,29 @@ public class CharacterControllerEdge : MonoBehaviour
     Vector3 edgeCheckPosition;
     Vector3 edgeCollision;
 
-    Vector3 controllerGroundPos;
+    Vector3 ControllerGroundPos => (characterController.center - ((0.5f * characterController.height) + characterController.skinWidth) * Vector3.up);
     Vector3 edgeDirection;
 
     Vector3 normalized;
 
-    Collider[] colliders = new Collider[1];
-
+    void Reset()
+    {
+        characterController = GetComponent<CharacterController>();
+    }
     void OnValidate()
     {
         characterController = GetComponent<CharacterController>();
         groundRadius = groundRadius > characterController.radius ? characterController.radius : groundRadius;
-
-        controllerGroundPos = (characterController.center - ((0.5f * characterController.height) + characterController.skinWidth) * Vector3.up);
     }
 
     public Vector3 CheckEdge()
     {
-        edgeCheckPosition = transform.TransformPoint(controllerGroundPos);
+        edgeCheckPosition = transform.TransformPoint(ControllerGroundPos);
 
         normalized = (edgeCollision.ZeroY() - edgeCheckPosition.ZeroY()).normalized;
         edgeDirection = -normalized;
 
-        if (CheckGroundCollision())
-        {
-
-        }
-
-        if (Vector3.Distance(edgeCheckPosition, edgeCollision) <= groundRadius || characterController.isGrounded == false)
+        if ((edgeCollision - edgeCheckPosition).sqrMagnitude <= groundRadius * groundRadius || characterController.isGrounded == false)
         {
             return Vector3.zero;
         }
@@ -55,20 +50,13 @@ public class CharacterControllerEdge : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Debug.Log(hit.collider.name);
         edgeCollision = hit.point;
-    }
-
-    bool CheckGroundCollision()
-    {
-        return Physics.OverlapSphereNonAlloc(transform.TransformPoint(groundCheckPos), groundRadius, colliders, groundMask, QueryTriggerInteraction.Ignore) > 0 ;
     }
 
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        controllerGroundPos = (characterController.center - ((0.5f * characterController.height) + characterController.skinWidth) * Vector3.up);
-        edgeCheckPosition = transform.TransformPoint(controllerGroundPos);
+        edgeCheckPosition = transform.TransformPoint(ControllerGroundPos);
 
         Handles.color = Color.red;
         Handles.DrawSolidDisc(edgeCheckPosition, transform.up, characterController.radius);
