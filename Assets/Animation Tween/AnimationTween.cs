@@ -42,6 +42,68 @@ public class AnimationTween : MonoBehaviour
     float timer;
     bool inverted;
 
+    void Reset()
+    {
+        position = new AnimationAxis()
+        {
+            desiredVector = Vector3.zero,
+            xAxisActive = false,
+            yAxisActive = false,
+            zAxisActive = false,
+            xAxis = new AnimationCurve(new Keyframe[2]
+            {
+                new Keyframe(0, 0), new Keyframe(1, 1),
+            }),
+            yAxis = new AnimationCurve(new Keyframe[2]
+            {
+                new Keyframe(0, 0), new Keyframe(1, 1),
+            }),
+            zAxis = new AnimationCurve(new Keyframe[2]
+            {
+                new Keyframe(0, 0), new Keyframe(1, 1),
+            })
+        };
+        rotation = new AnimationAxis()
+        {
+            desiredVector = Vector3.zero,
+            xAxisActive = false,
+            yAxisActive = false,
+            zAxisActive = false,
+            xAxis = new AnimationCurve(new Keyframe[2]
+            {
+                new Keyframe(0, 0), new Keyframe(1, 1),
+            }),
+            yAxis = new AnimationCurve(new Keyframe[2]
+            {
+                new Keyframe(0, 0), new Keyframe(1, 1),
+            }),
+            zAxis = new AnimationCurve(new Keyframe[2]
+            {
+                new Keyframe(0, 0), new Keyframe(1, 1),
+            })
+        };
+
+        scale = new AnimationAxis()
+        {
+            desiredVector = Vector3.zero,
+            xAxisActive = false,
+            yAxisActive = false,
+            zAxisActive = false,
+            xAxis = new AnimationCurve(new Keyframe[2]
+            {
+                new Keyframe(0, 0), new Keyframe(1, 1)
+            }),
+            yAxis = new AnimationCurve(new Keyframe[2]
+            {
+                new Keyframe(0, 0), new Keyframe(1, 1),
+            }),
+            zAxis = new AnimationCurve(new Keyframe[2]
+            {
+                new Keyframe(0, 0), new Keyframe(1, 1),
+            })
+        };
+    }
+
     void Start()
     {
         originalPosition = transform.localPosition;
@@ -68,16 +130,19 @@ public class AnimationTween : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (testMode)
         {
-            Play(true);
-        }
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            Play(false);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Play(true);
+            }
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                Play(false);
+            }
         }
 
-        if (active == false) return;
+        if (testMode && active == false) return;
 
         timer += Time.deltaTime * (inverted ? -1 : 1) / duration;
 
@@ -94,7 +159,12 @@ public class AnimationTween : MonoBehaviour
             if (loop)
                 inverted = !inverted;
             else
-                if (testMode) active = true; else enabled = true;
+            {
+                if (testMode)
+                    active = false;
+                else
+                    enabled = false;
+            }
         }
         else if (!inverted && timer > 1)
         {
@@ -102,7 +172,12 @@ public class AnimationTween : MonoBehaviour
             if (loop)
                 inverted = !inverted;
             else
-                if (testMode) active = true; else enabled = true;
+            {
+                if (testMode) 
+                    active = false; 
+                else 
+                    enabled = false;
+            }
         }
     }
 

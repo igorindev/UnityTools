@@ -6,6 +6,11 @@ public class AnimationTweenCustomInspector : Editor
 {
     AnimationTween animationTween;
 
+    readonly Color xColor = Color.red;
+    readonly Color yColor = Color.green;
+    readonly Color zColor = new Color(0, 0.15f, 1f);
+    readonly Rect curveRect = new Rect(0, 0, 0, 0);
+
     public override void OnInspectorGUI()
     {
         animationTween = (AnimationTween)target;
@@ -33,17 +38,17 @@ public class AnimationTweenCustomInspector : Editor
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     if (animationTween.position.xAxisActive = GUILayout.Toggle(animationTween.position.xAxisActive, "X (" + (animationTween.position.xAxisActive ? "ON)" : "OFF)"), EditorStyles.miniButtonRight))
-                        animationTween.position.xAxis = EditorGUILayout.CurveField(animationTween.position.xAxis, Color.red, new Rect(0, 0, 1, 1));
+                        animationTween.position.xAxis = EditorGUILayout.CurveField(animationTween.position.xAxis, xColor, curveRect);
                 }
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     if (animationTween.position.yAxisActive = GUILayout.Toggle(animationTween.position.yAxisActive, "Y (" + (animationTween.position.yAxisActive ? "ON)" : "OFF)"), EditorStyles.miniButtonRight))
-                        animationTween.position.yAxis = EditorGUILayout.CurveField(animationTween.position.yAxis, Color.green, new Rect(0, 0, 1, 1));
+                        animationTween.position.yAxis = EditorGUILayout.CurveField(animationTween.position.yAxis, yColor, curveRect);
                 }
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     if (animationTween.position.zAxisActive = GUILayout.Toggle(animationTween.position.zAxisActive, "Z (" + (animationTween.position.zAxisActive ? "ON)" : "OFF)"), EditorStyles.miniButtonRight))
-                        animationTween.position.zAxis = EditorGUILayout.CurveField(animationTween.position.zAxis, new Color(0, 0.15f, 1f), new Rect(0, 0, 1, 1));
+                        animationTween.position.zAxis = EditorGUILayout.CurveField(animationTween.position.zAxis, zColor, curveRect);
                 }
             }
             GUILayout.Space(8);
@@ -59,17 +64,17 @@ public class AnimationTweenCustomInspector : Editor
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     if (animationTween.rotation.xAxisActive = GUILayout.Toggle(animationTween.rotation.xAxisActive, "X (" + (animationTween.rotation.xAxisActive ? "ON)" : "OFF)"), EditorStyles.miniButtonRight))
-                        animationTween.rotation.xAxis = EditorGUILayout.CurveField(animationTween.rotation.xAxis, Color.red, new Rect(0, 0, 1, 1));
+                        animationTween.rotation.xAxis = EditorGUILayout.CurveField(animationTween.rotation.xAxis, xColor, curveRect);
                 }
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     if (animationTween.rotation.yAxisActive = GUILayout.Toggle(animationTween.rotation.yAxisActive, "Y (" + (animationTween.rotation.yAxisActive ? "ON)" : "OFF)"), EditorStyles.miniButtonRight))
-                        animationTween.rotation.yAxis = EditorGUILayout.CurveField(animationTween.rotation.yAxis, Color.green, new Rect(0, 0, 1, 1));
+                        animationTween.rotation.yAxis = EditorGUILayout.CurveField(animationTween.rotation.yAxis, yColor, curveRect);
                 }
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     if (animationTween.rotation.zAxisActive = GUILayout.Toggle(animationTween.rotation.zAxisActive, "Z (" + (animationTween.rotation.zAxisActive ? "ON)" : "OFF)"), EditorStyles.miniButtonRight))
-                        animationTween.rotation.zAxis = EditorGUILayout.CurveField(animationTween.rotation.zAxis, new Color(0, 0.15f, 1f), new Rect(0, 0, 1, 1));
+                        animationTween.rotation.zAxis = EditorGUILayout.CurveField(animationTween.rotation.zAxis, zColor, curveRect);
                 }
             }
             GUILayout.Space(8);
@@ -85,17 +90,17 @@ public class AnimationTweenCustomInspector : Editor
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     if (animationTween.scale.xAxisActive = GUILayout.Toggle(animationTween.scale.xAxisActive, "X (" + (animationTween.scale.xAxisActive ? "ON)" : "OFF)"), EditorStyles.miniButtonRight))
-                        animationTween.scale.xAxis = EditorGUILayout.CurveField(animationTween.scale.xAxis, Color.red, new Rect(0, 0, 1, 1));
+                        animationTween.scale.xAxis = EditorGUILayout.CurveField(animationTween.scale.xAxis, xColor, curveRect);
                 }
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     if (animationTween.scale.yAxisActive = GUILayout.Toggle(animationTween.scale.yAxisActive, "Y (" + (animationTween.scale.yAxisActive ? "ON)" : "OFF)"), EditorStyles.miniButtonRight))
-                        animationTween.scale.yAxis = EditorGUILayout.CurveField(animationTween.scale.yAxis, Color.green, new Rect(0, 0, 1, 1));
+                        animationTween.scale.yAxis = EditorGUILayout.CurveField(animationTween.scale.yAxis, yColor, curveRect);
                 }
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     if (animationTween.scale.zAxisActive = GUILayout.Toggle(animationTween.scale.zAxisActive, "Z (" + (animationTween.scale.zAxisActive ? "ON)" : "OFF)"), EditorStyles.miniButtonRight))
-                        animationTween.scale.zAxis = EditorGUILayout.CurveField(animationTween.scale.zAxis, new Color(0, 0.15f, 1f), new Rect(0, 0, 1, 1));
+                        animationTween.scale.zAxis = EditorGUILayout.CurveField(animationTween.scale.zAxis, zColor, curveRect);
                 }
             }
             GUILayout.Space(8);

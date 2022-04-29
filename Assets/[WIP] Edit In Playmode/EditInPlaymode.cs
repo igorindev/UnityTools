@@ -9,13 +9,13 @@ using System.Linq;
 
 public class EditInPlaymode
 {
-    static Scene[] openScenes;
+    static Scene[] openScenes = new Scene[0];
     static GameObject[][] gameObjects;
 
     [InitializeOnLoadMethod]
     static void Init()
     {
-        EditorApplication.playModeStateChanged += ChangePlayState;
+       // EditorApplication.playModeStateChanged += ChangePlayState;
     }
 
     static void ChangePlayState(PlayModeStateChange playModeStateChange)
