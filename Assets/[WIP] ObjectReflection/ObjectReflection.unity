@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -328,7 +328,6 @@ GameObject:
   - component: {fileID: 237746737}
   - component: {fileID: 237746736}
   - component: {fileID: 237746735}
-  - component: {fileID: 237746733}
   m_Layer: 0
   m_Name: Mirror
   m_TagString: Untagged
@@ -336,27 +335,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &237746733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 237746732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d187a100c830bbf49acbf567e9935163, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reflectionPoint: {fileID: 237746737}
-  toReflect:
-  - {fileID: 693513491}
-  - {fileID: 956721617}
-  - {fileID: 153496335}
-  - {fileID: 1758884388}
-  - {fileID: 1209736053}
-  - {fileID: 1515015077}
-  - {fileID: 909829496}
 --- !u!23 &237746735
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -424,7 +402,7 @@ Transform:
   - {fileID: 1422896649}
   - {fileID: 1093954488}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &387337820
 GameObject:
@@ -652,7 +630,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 34.502, z: 0}
 --- !u!65 &598649245
 BoxCollider:

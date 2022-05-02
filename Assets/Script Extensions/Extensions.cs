@@ -137,4 +137,31 @@ public static class Extensions
         TimeSpan ts = TimeSpan.FromSeconds(time);
         return string.Format("{0:00}:{1:00}", (int)ts.TotalMinutes, (int)ts.Seconds);
     }
+
+    public static Vector3 GetCenterPoint(this Vector3[] targets)
+    {
+        if (targets.Length == 1) 
+            return targets[0];
+
+        Bounds bounds = new Bounds(targets[0], Vector3.zero); 
+        for (int i = 0; i < targets.Length; i++) 
+        { 
+            bounds.Encapsulate(targets[i]); 
+        }
+
+        return bounds.center;
+    }
+    public static Vector3 GetCenterPoint(this List<Vector3> targets)
+    {
+        if (targets.Count == 1)
+            return targets[0];
+
+        Bounds bounds = new Bounds(targets[0], Vector3.zero);
+        for (int i = 0; i < targets.Count; i++)
+        {
+            bounds.Encapsulate(targets[i]);
+        }
+
+        return bounds.center;
+    }
 }
