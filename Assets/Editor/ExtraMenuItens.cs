@@ -5,13 +5,6 @@ using UnityEngine.UI;
 
 static public class ExtraMenuItens
 {
-    //[MenuItem("GameObject/Folder", false, 12)]
-    static void CreateFolder()
-    {
-        GameObject _object = new GameObject("Folder");
-        _object.AddComponent<Folders>();
-        _object.tag = "EditorOnly";
-    }
     [MenuItem("GameObject/UI/Page", false, 0)]
     static void CreatePage()
     {

@@ -6,7 +6,7 @@ public class AudioSourceEntity : MonoBehaviour
 {
     public AudioSource AudioSource { get; set; }
     public bool InUse { get; set; }
-    public Transform Parent { get; set; }
+    public Transform AudioParent { get; set; }
 
     public void ResetPoolObject(float time) 
     {
@@ -18,12 +18,13 @@ public class AudioSourceEntity : MonoBehaviour
 
         InUse = false;
         AudioSource.Stop();
-        transform.parent = Parent;
+        transform.parent = AudioParent;
     }
 
     public void Initialize()
     {
         AudioSource = GetComponent<AudioSource>();
-        Parent = transform.parent;
+        AudioSource.playOnAwake = false;
+        AudioParent = transform.parent;
     }
 }

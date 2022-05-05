@@ -9,6 +9,15 @@ public class Folders : MonoBehaviour
     CommentHierarchyIcon icon;
     public bool hide;
     public GameObject endFolder;
+
+    [MenuItem("GameObject/Folder", false, 12)]
+    static void CreateFolder()
+    {
+        GameObject _object = new GameObject("Folder");
+        _object.AddComponent<Folders>();
+        _object.tag = "EditorOnly";
+    }
+
     public void Validate()
     {
         if (hide)
