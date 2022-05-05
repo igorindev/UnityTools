@@ -26,7 +26,7 @@ public class Folders : MonoBehaviour
         }
     }
 
-    private void Reset()
+    void Reset()
     {
         icon = new CommentHierarchyIcon();
         GameObject[] toHide = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
@@ -53,7 +53,7 @@ public class Folders : MonoBehaviour
         EditorApplication.DirtyHierarchyWindowSorting();
         Selection.activeGameObject = gameObject;
     }
-    private void OnValidate()
+    void OnValidate()
     {
         Validation();
     }
@@ -82,7 +82,7 @@ public class Folders : MonoBehaviour
     }
 
     [ExecuteInEditMode]
-    private void OnDestroy()
+    void OnDestroy()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().isLoaded)
         {
@@ -104,7 +104,7 @@ public class Folders : MonoBehaviour
         }
     }
 
-    private void Hide()
+    void Hide()
     {
         GameObject[] toHide = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
@@ -144,7 +144,7 @@ public class Folders : MonoBehaviour
         }
         EditorApplication.DirtyHierarchyWindowSorting();
     }
-    private void Show()
+    void Show()
     {
         GameObject[] toHide = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
         List<Folders> list = new List<Folders>();
