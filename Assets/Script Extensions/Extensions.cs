@@ -112,6 +112,13 @@ public static class Extensions
             UnityEngine.Object.Destroy(transform.GetChild(i).gameObject);
         }
     }
+    public static void DestroyImmediateAllChildren(this Transform transform)
+    {
+        for (var i = 0; i < transform.childCount; i++)
+        {
+            UnityEngine.Object.DestroyImmediate(transform.GetChild(i).gameObject);
+        }
+    }
 
     public static bool CompareLists<T>(this List<T> list, List<T> list2)
     {

@@ -964,6 +964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fef54f996b231a41a0fe5f71359688a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
   <CurrentCanvas>k__BackingField: {fileID: 0}
   onEnterCanvas:
     m_PersistentCalls:
