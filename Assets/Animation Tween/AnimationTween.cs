@@ -186,20 +186,20 @@ public class AnimationTween : MonoBehaviour
         if (position.xAxisActive)
             finalPosition.x = originalPosition.x + ((position.desiredVector.x - originalPosition.x) * position.xAxis.Evaluate(timer));
         if (position.yAxisActive)
-            finalPosition.y = originalPosition.y + ((position.desiredVector.y - originalPosition.y) * position.xAxis.Evaluate(timer));
+            finalPosition.y = originalPosition.y + ((position.desiredVector.y - originalPosition.y) * position.yAxis.Evaluate(timer));
         if (position.zAxisActive)
-            finalPosition.z = originalPosition.z + ((position.desiredVector.z - originalPosition.z) * position.xAxis.Evaluate(timer));
+            finalPosition.z = originalPosition.z + ((position.desiredVector.z - originalPosition.z) * position.zAxis.Evaluate(timer));
 
         transform.localPosition = finalPosition;
     }
     void UpdateRotation()
     {
         if (rotation.xAxisActive)
-            finalRotation.x = originalRotation.eulerAngles.x + ((rotation.desiredVector.x - originalRotation.eulerAngles.x) * rotation.yAxis.Evaluate(timer));
+            finalRotation.x = originalRotation.eulerAngles.x + ((rotation.desiredVector.x - originalRotation.eulerAngles.x) * rotation.xAxis.Evaluate(timer));
         if (rotation.yAxisActive)
             finalRotation.y = originalRotation.eulerAngles.y + ((rotation.desiredVector.y - originalRotation.eulerAngles.y) * rotation.yAxis.Evaluate(timer));
         if (rotation.zAxisActive)
-            finalRotation.z = originalRotation.eulerAngles.z + ((rotation.desiredVector.z - originalRotation.eulerAngles.z) * rotation.yAxis.Evaluate(timer));
+            finalRotation.z = originalRotation.eulerAngles.z + ((rotation.desiredVector.z - originalRotation.eulerAngles.z) * rotation.zAxis.Evaluate(timer));
 
         transform.localRotation = Quaternion.Euler(finalRotation);
     }
@@ -208,9 +208,9 @@ public class AnimationTween : MonoBehaviour
         if (scale.xAxisActive)
             finalScale.x = originalScale.x + ((scale.desiredVector.x - originalScale.x) * scale.xAxis.Evaluate(timer));
         if (scale.yAxisActive)
-            finalScale.y = originalScale.y + ((scale.desiredVector.y - originalScale.y) * scale.xAxis.Evaluate(timer));
+            finalScale.y = originalScale.y + ((scale.desiredVector.y - originalScale.y) * scale.yAxis.Evaluate(timer));
         if (scale.zAxisActive)
-            finalScale.z = originalScale.z + ((scale.desiredVector.z - originalScale.z) * scale.xAxis.Evaluate(timer));
+            finalScale.z = originalScale.z + ((scale.desiredVector.z - originalScale.z) * scale.zAxis.Evaluate(timer));
 
         transform.localScale = finalScale;
     }
