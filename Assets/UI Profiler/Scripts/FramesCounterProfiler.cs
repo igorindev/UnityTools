@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class FramesCounterDisplay : MonoBehaviour
+public class FramesCounterProfiler : MonoBehaviour
 {
     [Header("Texts")]
     [SerializeField] TextMeshProUGUI realtimeFpsText;
@@ -10,8 +10,8 @@ public class FramesCounterDisplay : MonoBehaviour
     [SerializeField] TextMeshProUGUI lowFpsText;
 
     [Header("Update")]
-    [SerializeField] float updateInterval = 0.5f;
-    [SerializeField] int frameRange = 60;
+    [SerializeField, Min(0)] float updateInterval = 0.5f;
+    [SerializeField, Min(1)] int frameRange = 60;
 
     float timeleft; // Left time for current intervalte FPSColor[] coloring; over the interval
     int frames = 0; // Frames drawn over the interval

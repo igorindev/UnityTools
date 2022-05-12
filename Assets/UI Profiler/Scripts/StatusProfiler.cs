@@ -7,14 +7,15 @@ public class StatusProfiler : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI profiler;
 
-    float updateInterval = 1.0f;
+    [Header("Update")]
+    [SerializeField, Min(0)] float updateInterval = 1.0f;
+
     float lastInterval; // Last interval end time
     float frames = 0; // Frames over current interval
 
     float framesavtick = 0;
     float framesav = 0.0f;
 
-    // Use this for initialization
     void Start()
     {
         lastInterval = Time.realtimeSinceStartup;
