@@ -1,17 +1,25 @@
 using System.Threading.Tasks;
 using UnityEditor;
+using Unity.EditorCoroutines.Editor;
 using UnityEngine;
+using System.Collections;
 
 public class AnimationPreviewer : EditorWindow
 {
-    [SerializeField] Animator animatedGameObject;
-    [SerializeField] AnimationClip[] clips = new AnimationClip[0];
-    [SerializeField] int currentClip;
-    [SerializeField] float time;
-
     static AnimationPreviewer window;
 
+    Animator animatedGameObject;
+    [SerializeField]  AnimationClip[] clips = new AnimationClip[0];
+    int currentClip;
+    float percentage;
+    float playbackSpeed = 1;
+    bool autoPlay;
+    bool playing;
+
     SerializedObject so;
+    EditorCoroutine co;
+
+    GUIStyle playStyle;
 
     [MenuItem("Tools/Animation Previewer...")]
     static void Create()
@@ -30,6 +38,7 @@ public class AnimationPreviewer : EditorWindow
 
     void OnGUI()
     {
+        playStyle = new GUIStyle("Button");
         GUILayout.Label("");
 
         so.Update();
@@ -40,7 +49,7 @@ public class AnimationPreviewer : EditorWindow
             return;
         }
 
-        GUILayout.Label("Preview Animations from animator");
+        GUILayout.Label("Preview Animations from an animator");
 
         EditorGUILayout.Space(10);
         using (new EditorGUILayout.HorizontalScope())
@@ -49,12 +58,24 @@ public class AnimationPreviewer : EditorWindow
             using (new EditorGUILayout.VerticalScope())
             {
                 animatedGameObject = EditorGUILayout.ObjectField(animatedGameObject, typeof(Animator), true) as Animator;
-                if (!animatedGameObject)
-                {
-                    return;
-                }
+                if (!animatedGameObject) return;
+                
+                percentage = EditorGUILayout.Slider("Sequence", percentage, 0, 100);
+                playbackSpeed = EditorGUILayout.Slider("Playback Speed", playbackSpeed, -2, 2);
+                autoPlay = GUILayout.Toggle(autoPlay, "Play", playStyle, GUILayout.Width(60));
 
-                time = EditorGUILayout.Slider("Sequence", time, 0, 100);
+                if (autoPlay)
+                {
+                    PlayAuto();
+                }
+                else
+                {
+                    if (playing)
+                    {
+                        playing = false;
+                        EditorCoroutineUtility.StopCoroutine(co);
+                    }
+                }
             }
         }
         EditorGUILayout.Space(10);
@@ -85,18 +106,11 @@ public class AnimationPreviewer : EditorWindow
         {
             if (clips.Length > 0)
             {
-                if (currentClip < 0)
-                {
-                    currentClip = 0;
-                }
-                else if (currentClip >= clips.Length)
-                {
-                    currentClip = clips.Length - 1;
-                }
+                currentClip = Mathf.Clamp(currentClip, 0, clips.Length - 1);
 
                 if (clips[currentClip])
                 {
-                    float value = clips[currentClip].length * time / 100;
+                    float value = clips[currentClip].length * (percentage / 100f);
                     clips[currentClip].SampleAnimation(animatedGameObject.gameObject, value);
                 }
             }
@@ -107,6 +121,37 @@ public class AnimationPreviewer : EditorWindow
         }
 
         so.ApplyModifiedProperties();
+    }
+
+    void PlayAuto()
+    {
+        if (clips.Length == 0)
+        {
+            Debug.LogWarning("There is no clip.");
+            return;
+        }
+
+        if (playing == false)
+            co = this.StartCoroutine(PrintEachSecond());
+    }
+
+    IEnumerator PrintEachSecond()
+    {
+        playing = true;
+        while (autoPlay)
+        {
+            percentage += (Time.fixedDeltaTime * 100f * playbackSpeed) / clips[currentClip].length;
+            Repaint();
+            if (percentage >= 100) 
+            { 
+                percentage = 0;
+            }
+            else if (percentage <= 0)
+            {
+                percentage = 100;
+            }
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     public void CreatePrefabWithPose()

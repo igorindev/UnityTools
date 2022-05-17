@@ -3,7 +3,7 @@
   "version": "1.2.3",
   "displayName": "Template",
   "description": "This is an example package",
-  "unity": "2019.1",
+  "unity": "2021.3",
   "unityRelease": "0b5",
   "documentationUrl": "https://example.com/",
   "changelogUrl": "https://example.com/changelog.html",
