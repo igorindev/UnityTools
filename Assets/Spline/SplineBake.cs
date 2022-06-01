@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SplineBake : MonoBehaviour
 {
-    [HideInInspector] public Vector3[] movePositions;
-    [HideInInspector] public Vector3[] controlPositions;
+    [HideInInspector] public Vector3[] movePositions = new Vector3[0];
+    [HideInInspector] public Vector3[] controlPositions = new Vector3[0];
     [HideInInspector] public int precision = 0;
 
     public void EditSpline()

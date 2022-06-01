@@ -25,7 +25,15 @@ public class SplineCreator : MonoBehaviour
             EditorApplication.ExitPlaymode();
         }
 
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        if (TryGetComponent(out LineRenderer l))
+        {
+            lineRenderer = l;
+        }
+        else
+        {
+            lineRenderer = gameObject.AddComponent<LineRenderer>();
+        }
+        
         lineRenderer.useWorldSpace = true;
         lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Additive"));
     }

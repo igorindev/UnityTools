@@ -27,9 +27,9 @@ namespace Localization
 
             using (new EditorGUILayout.HorizontalScope())
             {
-                GUILayout.Label("Text Context", GUILayout.Width(200));
+                GUILayout.Label("Identity", GUILayout.Width(200));
                 
-                if (GUILayout.Button(text, EditorStyles.popup))
+                if (EditorGUILayout.DropdownButton(new GUIContent(text), FocusType.Passive, EditorStyles.popup))
                 {
                     SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)),
                                       new StringListSearchProvider(LocalizationManager.GetContexts(), (x) => { text = x; }));
