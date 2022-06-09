@@ -128,6 +128,15 @@ public class AnimationPreviewer : EditorWindow
         if (clips.Length == 0)
         {
             Debug.LogWarning("There is no clip.");
+            if (autoPlay)
+            {
+                autoPlay = false;
+                if (playing)
+                {
+                    playing = false;
+                    EditorCoroutineUtility.StopCoroutine(co);
+                }
+            }
             return;
         }
 

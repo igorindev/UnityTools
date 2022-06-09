@@ -4778,7 +4778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4165fb608db96744aa18d6582fcd1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  simultaneous: 0
+  simultaneous: 3
   textSize: 15
   textWidth: 550
   fadeInSpeed: 2

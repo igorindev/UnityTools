@@ -1,5 +1,5 @@
 {
-    "name": "AndroidBuildInstaller",
+    "name": "Builder.Editor",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [

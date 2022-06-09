@@ -28,7 +28,6 @@ MonoBehaviour:
   - Assets/[WIP] Camera Composition/Demo/Scenes/Demo Scene - Golden Spiral.unity
   - Assets/[WIP] Camera Composition/Demo/Scenes/Demo Scene - Rule of Thirds.unity
   - Assets/[WIP] CharacterController Edge/Test/CCEdge.unity
-  - Assets/[WIP] Colliders Explorer/CollisionExplorer.unity
   - Assets/[WIP] Custom CharacterController/CustomCharacterController.unity
   - Assets/[WIP] Custom Collision/CustomCollision.unity
   - Assets/[WIP] FolderHierarchy/Folder.unity
@@ -45,6 +44,7 @@ MonoBehaviour:
   - Assets/Audio System/Scene Test Audio.unity
   - Assets/Audio Visualizer/AudioVisualizer.unity
   - Assets/BehaviourTree/Example/ExampleScene.unity
+  - Assets/Colliders Explorer/CollisionExplorer.unity
   - Assets/IK/HomebrewIK/Demo/Demo_Built-in.unity
   - Assets/IK/HomebrewIK/Demo/Demo_URP.unity
   - Assets/Localization/Language Test.unity

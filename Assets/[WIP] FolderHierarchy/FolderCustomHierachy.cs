@@ -21,6 +21,7 @@ public static class FolderCustomHierachy
 
     static FolderCustomHierachy()
     {
+        return;
         openFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{openedFolderPrefix} Icon").image;
         closedFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{closedFolderPrefix} Icon").image;
 
