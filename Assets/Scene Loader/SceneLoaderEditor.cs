@@ -5,8 +5,10 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_2021_2_OR_NEWER
 using UnityEditor.Toolbars;
 using UnityEditor.Overlays;
+#endif
 
 namespace SceneLoader
 {
@@ -26,16 +28,15 @@ namespace SceneLoader
         static Texture plus, remove;
         static Rect SceneViewPosition;
 
-        const string sceneGroupPath = "Assets/Scene Loader/Editor/SceneGroup.asset";
-        const string plusIconPath = "Assets/Scene Loader/Editor/UI/PlusIcon.png";
-        const string removeIconPath = "Assets/Scene Loader/Editor/UI/RemoveIcon.png";
+        const string PATH = "Assets/Scene Loader/SceneGroup.asset";
+        const string PLUSICON = "Assets/Scene Loader/UI/PlusIcon.png";
+        const string REMOVEICON = "Assets/Scene Loader/UI/RemoveIcon.png";
 
 #if !UNITY_2021_2_OR_NEWER
         static SceneLoaderEditor()
         {
             SceneView.duringSceneGui += OnScene;
         }
-
         private static void OnScene(SceneView sceneview)
         {
             GUIStyle mystyle = new GUIStyle("Button")
@@ -53,14 +54,14 @@ namespace SceneLoader
 #endif
         public static void ShowWindow()
         {
-            SceneGroup scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>(sceneGroupPath) as SceneGroup;
+            SceneGroup scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>(PATH) as SceneGroup;
             allScenes = scriptableObject.scenes;
 
             window = CreateInstance<SceneLoaderEditor>();
 
             SceneViewPosition = GetWindow<SceneView>().position;
 
-            window.position = new Rect(SceneViewPosition.x, SceneViewPosition.y + 45f, 240, Mathf.Clamp((32 * allScenes.Length), 0, SceneViewPosition.height - 26));
+            window.position = new Rect(SceneViewPosition.x, SceneViewPosition.y + 40f, 240, Mathf.Clamp((32 * allScenes.Length), SceneViewPosition.height - 22, SceneViewPosition.height - 22));
             window.ShowPopup();
 
             Scenes = new List<Scene>();
@@ -72,8 +73,8 @@ namespace SceneLoader
 
         void OnEnable()
         {
-            plus = (Texture)AssetDatabase.LoadAssetAtPath(plusIconPath, typeof(Texture));
-            remove = (Texture)AssetDatabase.LoadAssetAtPath(removeIconPath, typeof(Texture));
+            plus = (Texture)AssetDatabase.LoadAssetAtPath(PLUSICON, typeof(Texture));
+            remove = (Texture)AssetDatabase.LoadAssetAtPath(REMOVEICON, typeof(Texture));
 
             back = new Texture2D(1, 1, TextureFormat.RGBA32, false);
             back.SetPixel(0, 0, new Color(0.1f, 0.1f, 0.1f));
@@ -108,7 +109,7 @@ namespace SceneLoader
 
                     if (GUILayout.Button(EditorGUIUtility.IconContent("d__Popup", "Edit Scenes"), mystyle, GUILayout.Width(20), GUILayout.Height(20)))
                     {
-                        Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>(sceneGroupPath), null);
+                        Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>(PATH), null);
                         GetWindow(System.Type.GetType("UnityEditor.InspectorWindow, UnityEditor"));
                     }
                     if (GUILayout.Button(EditorGUIUtility.IconContent("d_winbtn_win_close", "Edit Scenes"), mystyle, GUILayout.Width(20), GUILayout.Height(20)))
@@ -128,26 +129,24 @@ namespace SceneLoader
                 {
                     if (allScenes.Length > 0)
                     {
-                        using (new GUILayout.AreaScope(new Rect(10, 60, 1000, Mathf.Infinity)))
                         {
-                            using (var ScrollView = new EditorGUILayout.ScrollViewScope(scroll, false, true, GUILayout.Width(Screen.width - 20), GUILayout.Height(Screen.height - 70)))
+                            using (var ScrollView = new GUI.ScrollViewScope(new Rect(10, 65, 220, Screen.height - 70), scroll, new Rect(0, 32.5f, 0, allScenes.Length * 32.5f)))
                             {
                                 scroll = ScrollView.scrollPosition;
 
                                 for (int i = 0; i < allScenes.Length; i++)
                                 {
-                                    sceneName = Path.GetFileNameWithoutExtension(allScenes[i]);
-
-                                    if (GUILayout.Button(sceneName, GUILayout.Width(130), GUILayout.Height(30)))
+                                    using (new GUILayout.HorizontalScope())
                                     {
-                                        OpenScene(allScenes[i]);
-                                    }
-                                }
+                                        sceneName = Path.GetFileNameWithoutExtension(allScenes[i]);
 
-                                using (new GUILayout.AreaScope(new Rect(160, 2, 50, Mathf.Infinity)))
-                                {
-                                    for (int i = 0; i < allScenes.Length; i++)
-                                    {
+                                        if (GUILayout.Button(sceneName, GUILayout.Width(130), GUILayout.Height(30)))
+                                        {
+                                            OpenScene(allScenes[i]);
+                                        }
+
+                                        GUILayout.Space(20);
+
                                         bool isLoaded = false;
                                         int id = 0;
                                         sceneName = Path.GetFileNameWithoutExtension(allScenes[i]);
@@ -174,7 +173,6 @@ namespace SceneLoader
                                                 RemoveScene(id);
                                             }
                                         }
-
                                     }
                                 }
                             }
@@ -184,8 +182,8 @@ namespace SceneLoader
 
                 Texture2D ss = new Texture2D(1, 1);
 
-                GUI.DrawTexture(new Rect(-1, 0, 242, Mathf.Clamp((32 * allScenes.Length), 0, window.position.height + 2)), ss, ScaleMode.StretchToFill, false, 0, new Color(0.33f, 0.33f, 0.33f, 1f), new Vector4(4, 0, 4, 4), 0); ;
-                GUI.DrawTexture(new Rect(1, 1, 238, Mathf.Clamp((32 * allScenes.Length), 0, window.position.height - 2)), ss, ScaleMode.StretchToFill, true, 0, new Color(1, 1, 1, 0.7f), 1f, 4);
+                GUI.DrawTexture(new Rect(-1, 0, 242, window.position.height + 2), ss, ScaleMode.StretchToFill, false, 0, new Color(0.33f, 0.33f, 0.33f, 1f), new Vector4(4, 0, 4, 4), 0); ;
+                GUI.DrawTexture(new Rect(1, 1, 238, window.position.height - 2), ss, ScaleMode.StretchToFill, true, 0, new Color(1, 1, 1, 0.7f), 1f, 4);
             }
         }
 
@@ -293,5 +291,5 @@ namespace SceneLoader
     {
         SceneLoaderToolBar() : base(SceneLoaderOverlay.id) { }
     }
-}
 #endif
+}

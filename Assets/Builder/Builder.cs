@@ -8,11 +8,6 @@ using UnityEditor.Build.Reporting;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-
-//TODO
-// - Individual versions
-// - Play individual build
-
 public class Builder : EditorWindow, IPostprocessBuildWithReport
 {
     [SerializeField] string commonPath = "C:/Projects/ElvantisDev/Builds/";

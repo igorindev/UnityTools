@@ -10,46 +10,48 @@ public class AndroidBuildInstaller
     [MenuItem("Android/Install AAB")]
     public static void PushAABToAndroid()
     {
-        string aabLocation = PlayerPrefs.GetString("AAB location"); 
-        string adbLocation = PlayerPrefs.GetString("ADB location");
         string bundletoolLocation = PlayerPrefs.GetString("Bundletool");
+        if (string.IsNullOrEmpty(bundletoolLocation) || !File.Exists(bundletoolLocation))
+            bundletoolLocation = EditorUtility.OpenFilePanel("Find Bundletool", Environment.CurrentDirectory, "jar");
+        if (string.IsNullOrEmpty(bundletoolLocation) || !File.Exists(bundletoolLocation))
+        {
+            Debug.LogError("Cannot find bundletool.jar. ");
+            return;
+        }
+        PlayerPrefs.SetString("Bundletool", bundletoolLocation);
 
-        if (string.IsNullOrEmpty(aabLocation) || !File.Exists(aabLocation))
-            aabLocation = EditorUtility.OpenFilePanel("Find AAB", Environment.CurrentDirectory, "aab");
+        string aabLocation = EditorUtility.OpenFilePanel("Find AAB", Environment.CurrentDirectory, "aab");
         if (string.IsNullOrEmpty(aabLocation) || !File.Exists(aabLocation))
         {
             Debug.LogError("Cannot find .aab file.");
             return;
         }
-        PlayerPrefs.SetString("AAB location", aabLocation);
 
-        adbLocation = Path.GetFullPath(Path.Combine(EditorApplication.applicationPath, "../../")) + "Editor/Data/PlaybackEngines/AndroidPlayer/SDK";
+        string adbLocation = Path.GetFullPath(Path.Combine(EditorApplication.applicationPath, "../../")) + "Editor/Data/PlaybackEngines/AndroidPlayer/SDK";
         adbLocation = adbLocation.Replace('\\', '/');
 
-        if (string.IsNullOrEmpty(aabLocation) || !File.Exists(bundletoolLocation))
-            bundletoolLocation = EditorUtility.OpenFilePanel("Find Bundletool", Environment.CurrentDirectory, "jar");
-        if (string.IsNullOrEmpty(aabLocation) || !File.Exists(bundletoolLocation))
-        {
-            Debug.LogError("Cannot find bundletool.jar.");
-            return;
-        }
-        PlayerPrefs.SetString("Bundletool", bundletoolLocation);
+        string apkLocation = Path.GetFileNameWithoutExtension(aabLocation);
+        string aabDirectory = Path.GetDirectoryName(aabLocation);
+
+        string output = aabDirectory + "/" + apkLocation + ".apks";
+
+        Debug.Log("AAB: " + aabLocation);
+        Debug.Log("APKs: " + output);
+        Debug.Log("ADB: " + adbLocation);
+        Debug.Log("Bundletool: " + bundletoolLocation);
         
         string strCmdText = "/C "
                             + "echo Creating apks from aab...&"
-                            + $"java -jar {bundletoolLocation} build-apks --bundle=C:/Users/igor/Desktop/dan_hextech419_test.aab --output=C:/Users/igor/Desktop/dan_hextech419_Test.apks&"
+                            + @$"java -jar ""{bundletoolLocation}"" build-apks --bundle=""{aabLocation}"" --output=""{output}""&"
                             + "echo Getting the apks size...&"
-                            + $"java -jar {bundletoolLocation} get-size total --apks=C:/Users/igor/Desktop/dan_hextech419_Test.apks&"
+                            + @$"java -jar ""{bundletoolLocation}"" get-size total --apks=""{output}""&"
                             + "echo Setting ANDROID_HOME...&"
-                            + $"set ANDROID_HOME={adbLocation}&"
+                            + @$"set ANDROID_HOME={adbLocation}&"
                             + "echo Installing apks on phone...&"
-                            + $"java -jar {bundletoolLocation} install-apks --apks=C:/Users/igor/Desktop/dan_hextech419_Test.apks&"
+                            + @$"java -jar ""{bundletoolLocation}"" install-apks --apks=""{output}""&"
                             + "echo Completed.&"
                             + "set /p num1=";
 
-        Debug.Log(aabLocation);
-        Debug.Log(adbLocation);
-        Debug.Log(bundletoolLocation);
 
         ProcessStartInfo info = new ProcessStartInfo
         {
@@ -59,18 +61,14 @@ public class AndroidBuildInstaller
         };
 
         Process process = Process.Start(info);
-        process.StartInfo.RedirectStandardOutput = true;
-        process.StartInfo.RedirectStandardError = true;
-        process.OutputDataReceived += (sender, e) => { Debug.Log(e.Data); };
-        process.ErrorDataReceived += (sender, e) => { Debug.LogError(e.Data); };
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-        process.WaitForExit();
     }
 
     [MenuItem("Android/Install APK")]
     public static void PushAPKToAndroid()
     {
+        string adbLocation = Path.GetFullPath(Path.Combine(EditorApplication.applicationPath, "../../")) + "Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platform-tools/";
+        adbLocation = adbLocation.Replace('/', '\\');
+
         string apkLocation = PlayerPrefs.GetString("APK location");
         if (string.IsNullOrEmpty(apkLocation) || !File.Exists(apkLocation))
             apkLocation = EditorUtility.OpenFilePanel("Find APK", Environment.CurrentDirectory, "apk");
@@ -79,22 +77,26 @@ public class AndroidBuildInstaller
             Debug.LogError("Cannot find .apk file.");
             return;
         }
-
         PlayerPrefs.SetString("APK location", apkLocation);
 
-        string adbLocation = Path.GetFullPath(Path.Combine(EditorApplication.applicationPath, "../../")) + "Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platform-tools/adb.exe";
-        adbLocation = adbLocation.Replace('\\', '/');
 
-        Debug.Log(apkLocation);
-        Debug.Log(adbLocation);
+        Debug.Log("APK: " + apkLocation);
+        Debug.Log("ADB: " + adbLocation);
 
-        ProcessStartInfo info = new ProcessStartInfo
-        {
-            FileName = adbLocation,
-            Arguments = "install -r " + apkLocation,
-            WorkingDirectory = Path.GetDirectoryName(adbLocation),
-        };
+        string strCmdText = "/C "
+                    + "echo Starting APK installation...&"
+                    + "echo Check if the APK has a keystore! Or the installation might fail.&"
+                    + @$"cd ""{adbLocation}""&"
+                    + $"adb devices&"
+                    + @$"adb -d install -r ""{apkLocation}""&"
+                    + "echo Completed.&"
+                    + "set /p num1=";
 
-        Process.Start(info);
+        Process p = new Process();
+
+        p.StartInfo.FileName = "cmd.exe";
+        p.StartInfo.Arguments = strCmdText;
+        p.Start();
+
     }
 }
