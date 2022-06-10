@@ -1,23 +1,21 @@
-using System.Threading.Tasks;
 using UnityEditor;
-using Unity.EditorCoroutines.Editor;
 using UnityEngine;
-using System.Collections;
 
 public class AnimationPreviewer : EditorWindow
 {
     static AnimationPreviewer window;
 
     Animator animatedGameObject;
-    [SerializeField]  AnimationClip[] clips = new AnimationClip[0];
+    [SerializeField] AnimationClip[] clips = new AnimationClip[0];
     int currentClip;
     float percentage;
     float playbackSpeed = 1;
+    float editorLastUpdate;
+    float editorDelta;
     bool autoPlay;
     bool playing;
 
     SerializedObject so;
-    EditorCoroutine co;
 
     GUIStyle playStyle;
 
@@ -34,6 +32,32 @@ public class AnimationPreviewer : EditorWindow
     {
         ScriptableObject target = this;
         so = new SerializedObject(target);
+
+        EditorApplication.update += OnEditorUpdate;
+        editorLastUpdate = Time.realtimeSinceStartup;
+    }
+    void OnDestroy()
+    {
+        EditorApplication.update -= OnEditorUpdate;
+    }
+    void OnEditorUpdate()
+    {
+        if (playing && autoPlay)
+        {
+            percentage += (editorDelta * 100 * playbackSpeed) / clips[currentClip].length;
+            Repaint();
+            if (percentage >= 100)
+            {
+                percentage = 0;
+            }
+            else if (percentage <= 0)
+            {
+                percentage = 100;
+            }
+
+            editorDelta = Time.realtimeSinceStartup - editorLastUpdate;
+            editorLastUpdate = Time.realtimeSinceStartup;
+        }
     }
 
     void OnGUI()
@@ -59,7 +83,7 @@ public class AnimationPreviewer : EditorWindow
             {
                 animatedGameObject = EditorGUILayout.ObjectField(animatedGameObject, typeof(Animator), true) as Animator;
                 if (!animatedGameObject) return;
-                
+
                 percentage = EditorGUILayout.Slider("Sequence", percentage, 0, 100);
                 playbackSpeed = EditorGUILayout.Slider("Playback Speed", playbackSpeed, -2, 2);
                 autoPlay = GUILayout.Toggle(autoPlay, "Play", playStyle, GUILayout.Width(60));
@@ -73,7 +97,6 @@ public class AnimationPreviewer : EditorWindow
                     if (playing)
                     {
                         playing = false;
-                        EditorCoroutineUtility.StopCoroutine(co);
                     }
                 }
             }
@@ -134,38 +157,20 @@ public class AnimationPreviewer : EditorWindow
                 if (playing)
                 {
                     playing = false;
-                    EditorCoroutineUtility.StopCoroutine(co);
                 }
             }
             return;
         }
 
         if (playing == false)
-            co = this.StartCoroutine(PrintEachSecond());
-    }
-
-    IEnumerator PrintEachSecond()
-    {
-        playing = true;
-        while (autoPlay)
         {
-            percentage += (Time.fixedDeltaTime * 100f * playbackSpeed) / clips[currentClip].length;
-            Repaint();
-            if (percentage >= 100) 
-            { 
-                percentage = 0;
-            }
-            else if (percentage <= 0)
-            {
-                percentage = 100;
-            }
-            yield return new WaitForFixedUpdate();
+            playing = true;
         }
     }
 
     public void CreatePrefabWithPose()
     {
-        PrefabUtility.SaveAsPrefabAsset(animatedGameObject.gameObject, "Assets/" + animatedGameObject.gameObject.name + ".prefab", out bool success);
+        PrefabUtility.SaveAsPrefabAsset(animatedGameObject.transform.root.gameObject, "Assets/" + animatedGameObject.gameObject.name + ".prefab", out bool success);
         if (success)
         {
             Debug.Log("Prefab created at: " + "Assets/" + animatedGameObject.gameObject.name + ".prefab");
