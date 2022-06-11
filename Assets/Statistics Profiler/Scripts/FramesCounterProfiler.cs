@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Text;
+using TMPro;
 using UnityEngine;
 
 public class FramesCounterProfiler : MonoBehaviour
@@ -19,11 +20,14 @@ public class FramesCounterProfiler : MonoBehaviour
 
     int[] fpsBuffer;
     int fpsBufferIndex;
-    
-    public int FPS { get; private set; }
-    public int AverageFPS { get; private set; }
-    public int HighestFPS { get; private set; }
-    public int LowestFPS { get; private set; }
+
+    int FPS;
+    int AverageFPS;
+    int HighestFPS;
+    int LowestFPS;
+    float ms;
+
+    StringBuilder sb = new StringBuilder(60, 60);
 
     void Update()
     {
@@ -36,28 +40,6 @@ public class FramesCounterProfiler : MonoBehaviour
 
         DisplayFps();
     }
-
-    void DisplayFps()
-    {
-        timeleft -= Time.deltaTime;
-        accum += Time.timeScale / Time.deltaTime;
-        ++frames;
-
-        FPS = (int)(accum / frames);
-
-        if (timeleft <= 0.0)
-        {
-            Display(highFpsText, HighestFPS, "HGH:\n");
-            Display(avgFpsText, AverageFPS, "AVG: ");
-            Display(lowFpsText, LowestFPS, "LOW:\n");
-            Display(realtimeFpsText, FPS, "");
-
-            timeleft = updateInterval;
-            accum = 0.0F;
-            frames = 0;
-        }
-    }
-
     void InitializeBuffer()
     {
         if (frameRange <= 0)
@@ -96,24 +78,52 @@ public class FramesCounterProfiler : MonoBehaviour
         AverageFPS = sum / frameRange;
         HighestFPS = highest;
         LowestFPS = lowest;
+        ms = 1000.0f / Mathf.Max(FPS, 0.00001f);
+    }
+    void DisplayFps()
+    {
+        timeleft -= Time.deltaTime;
+        accum += Time.timeScale / Time.deltaTime;
+        ++frames;
+
+        FPS = (int)(accum / frames);
+
+        if (timeleft <= 0.0)
+        {
+            Display(highFpsText, HighestFPS, "HGH:\n");
+            Display(avgFpsText, AverageFPS, "AVG: ");
+            Display(lowFpsText, LowestFPS, "LOW:\n");
+            Display(realtimeFpsText, FPS, "");
+
+            timeleft = updateInterval;
+            accum = 0.0F;
+            frames = 0;
+        }
     }
 
     void Display(TextMeshProUGUI label, int fps, string prefix)
     {
+        sb.Clear();
         if (fps < 30)
         {
-            label.text = prefix + "<color=yellow>" + fps + " FPS </color>";
+            sb.Append($"{prefix} <color=yellow>{fps} FPS</color>");
         }
         else
         {
             if (fps < 10)
             {
-                label.text = prefix + "<color=red>" + fps + " FPS </color>";
+                sb.Append($"{prefix} <color=red>{fps} FPS</color>");
             }
             else
             {
-                label.text = prefix + "<color=white>" + fps + " FPS </color>";
+                sb.Append($"{prefix} <color=white>{fps} FPS</color>");
             }
         }
+        if (prefix == "")
+        {
+            sb.Append($" ({ms:f1} ms)");
+        }
+
+        label.text = sb.ToString();
     }
 }
