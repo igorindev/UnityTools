@@ -42,6 +42,8 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
     static bool updatePatchVersionStatic;
     static bool updateTestVersionStatic;
 
+    static bool restoreBuildTargetAfterBuild;
+
     static string commonPathStatic;
 
     static BuildPlayerOptionsInspector[] buildsStatic;
@@ -230,6 +232,7 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
             GUI.enabled = false;
             EditorGUILayout.TextField("Build Version", PlayerSettings.bundleVersion);
             GUI.enabled = true;
+
             GUIContent content = new GUIContent(EditorGUIUtility.Load("icons/d__Popup.png") as Texture2D);
             if (iconButtonStyle == null)
             {
@@ -244,6 +247,8 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
                 SettingsService.OpenProjectSettings("Project/Player");
             }
         }
+
+        
         GUILayout.Space(5);
         using (new EditorGUILayout.HorizontalScope())
         {
@@ -265,6 +270,16 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
         }
 
         GUILayout.Space(15);
+
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            GUI.color = Color.cyan;
+            EditorGUILayout.LabelField($"Current Group: {EditorUserBuildSettings.selectedBuildTargetGroup} | Target: {EditorUserBuildSettings.activeBuildTarget}");
+            GUI.color = Color.white;
+
+            restoreBuildTargetAfterBuild = EditorGUILayout.Toggle($"Restore Target After Build", restoreBuildTargetAfterBuild);
+        }
+
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
         {
             EditorGUILayout.LabelField("Builds Configuration", EditorStyles.boldLabel);
@@ -497,7 +512,7 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
         {
             Debug.Log($"<b><color=cyan>ALL BUILDS COMPLETED</color></b>: <b>{buildsMade}</b> of <b>{buildsCount}</b> ({Application.version})");
 
-            SwitchPlataform(currentBuildTargetGroup, currentBuildTarget);
+            WaitForBuildCompletionToSwitch(currentBuildTargetGroup, currentBuildTarget);
             return;
         }
 
@@ -522,10 +537,23 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
             PlayerSettings.bundleVersion = backupVersion;
         }
 
+        WaitForBuildCompletionToSwitch(currentBuildTargetGroup, currentBuildTarget);
+    }
+
+    async void WaitForBuildCompletionToSwitch(BuildTargetGroup currentBuildTargetGroup, BuildTarget currentBuildTarget)
+    {
+        if (restoreBuildTargetAfterBuild == false) return;
+
+        while (BuildPipeline.isBuildingPlayer)
+        {
+            await Task.Delay(300);
+        }
+
         SwitchPlataform(currentBuildTargetGroup, currentBuildTarget);
     }
     static void SwitchPlataform(BuildTargetGroup group, BuildTarget target)
     {
+        Debug.Log($"New Target Group: {group} | New Target {target} ///// Current Target Group: {EditorUserBuildSettings.selectedBuildTargetGroup} | Current Target {EditorUserBuildSettings.activeBuildTarget}");
         if (!BuildPipeline.IsBuildTargetSupported(group, target))
         {
             Debug.LogError(MissingWindowsModuleError);
@@ -534,6 +562,7 @@ public class Builder : EditorWindow, IPostprocessBuildWithReport
 
         if (target != EditorUserBuildSettings.activeBuildTarget || group != EditorUserBuildSettings.selectedBuildTargetGroup)
         {
+            EditorUserBuildSettings.selectedBuildTargetGroup = group;
             EditorUserBuildSettings.SwitchActiveBuildTarget(group, target);
             Debug.Log($"Build has been successfully configured for {target}.");
         }
