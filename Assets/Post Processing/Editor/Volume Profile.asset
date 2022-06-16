@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f34842bbef61a74f9a0d443631aab2d, type: 3}
+  m_Name: Volume Profile
+  m_EditorClassIdentifier: 
+  defaultVolumes:
+  - {fileID: 11400000, guid: a95a8e696dae79643b65ab12033de397, type: 2}
+  - {fileID: 11400000, guid: 23afe9bc44d5ece47b5ba272e89a45e1, type: 2}
+  - {fileID: 11400000, guid: e267ecde094ff1949a8ea978a47ad2a2, type: 2}
+  - {fileID: 11400000, guid: 8e795076a28dd61449285f2f9a841611, type: 2}
+  - {fileID: 11400000, guid: d17de6fd75ef1f04aa1398d9f52765f7, type: 2}
+  volumesOnPlatforms:
+  - platforms: 0d00000009000000
+    platformVolumes:
+    - {fileID: 11400000, guid: b4f9e07c349f74f42b5e69c2a94443e3, type: 2}
+    - {fileID: 11400000, guid: 8469b9bffcab17247994f624596717a0, type: 2}
+    - {fileID: 11400000, guid: e267ecde094ff1949a8ea978a47ad2a2, type: 2}
+    - {fileID: 11400000, guid: 8e795076a28dd61449285f2f9a841611, type: 2}
+    - {fileID: 11400000, guid: d17de6fd75ef1f04aa1398d9f52765f7, type: 2}

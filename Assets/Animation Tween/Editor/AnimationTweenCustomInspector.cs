@@ -105,5 +105,14 @@ public class AnimationTweenCustomInspector : Editor
             }
             GUILayout.Space(8);
         }
+
+        serializedObject.ApplyModifiedProperties();
+
+        if (GUI.changed)
+        {
+            PrefabUtility.RecordPrefabInstancePropertyModifications(target);
+            Undo.RecordObject(target, "");
+            EditorUtility.SetDirty(target);
+        }
     }
 }

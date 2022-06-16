@@ -6,7 +6,7 @@ public class AnimationTween : MonoBehaviour
     public float duration = 1;
     public bool loop;
     public bool testMode;
-    bool active;
+    [SerializeField] bool active;
 
     [System.Serializable]
     public struct AnimationAxis
@@ -27,20 +27,20 @@ public class AnimationTween : MonoBehaviour
     public AnimationAxis rotation;
     public AnimationAxis scale;
 
-    Vector3 originalPosition;
-    Quaternion originalRotation;
-    Vector3 originalScale;
+    [SerializeField] Vector3 originalPosition;
+    [SerializeField] Quaternion originalRotation;
+    [SerializeField] Vector3 originalScale;
 
-    Vector3 finalPosition;
-    Vector3 finalRotation;
-    Vector3 finalScale;
+    [SerializeField] Vector3 finalPosition;
+    [SerializeField] Vector3 finalRotation;
+    [SerializeField] Vector3 finalScale;
 
     public bool updatePosition;
     public bool updateRotation;
     public bool updateScale;
 
-    float timer;
-    bool inverted;
+    [SerializeField] float timer;
+    [SerializeField] bool inverted;
 
     void Reset()
     {
@@ -173,9 +173,9 @@ public class AnimationTween : MonoBehaviour
                 inverted = !inverted;
             else
             {
-                if (testMode) 
-                    active = false; 
-                else 
+                if (testMode)
+                    active = false;
+                else
                     enabled = false;
             }
         }

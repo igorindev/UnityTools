@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300004, guid: 74d9483d1c1f4f6429eb98583a034d6c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -245,7 +245,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ControlPath: <Joystick>/stick
   inputMultiplier: 1
-  keepSendingEventOnStop: 0
   handleRange: 1
   deadZone: 0
   axisOptions: 0
@@ -257,5 +256,6 @@ MonoBehaviour:
   rectTransformLimit: {fileID: 1258212597070477980}
   limitAdjust: 0
   moveThreshold: 1
+  verifyIfStopDrag: 0
   hideWhenNotTouching: 1
   hideCompletely: 0

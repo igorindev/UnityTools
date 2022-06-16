@@ -2,21 +2,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.OnScreen;
+using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UI;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public enum AxisOptions { Both, Horizontal, Vertical }
-public class Joystick : OnScreenControl, IPointerDownHandler, IDragHandler, IPointerUpHandler
+public class Joystick : OnScreenControl, IPointerDownHandler, IDragHandler, IPointerUpHandler, IEndDragHandler
 {
     [InputControl(layout = "Vector2")]
     [SerializeField] string m_ControlPath;
     protected override string controlPathInternal { get => m_ControlPath; set => m_ControlPath = value; }
     public int inputMultiplier = 1;
-    [SerializeField] private bool keepSendingEventOnStop;
 
     [Header("Handler")]
     [SerializeField] protected float handleRange = 1;
     [SerializeField] private float deadZone = 0;
-    bool interacting;
 
     [Header("Axis")]
     public AxisOptions axisOptions = AxisOptions.Both;
@@ -70,14 +70,12 @@ public class Joystick : OnScreenControl, IPointerDownHandler, IDragHandler, IPoi
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        interacting = true;
         OnDrag(eventData);
     }
-
     public void OnDrag(PointerEventData eventData)
     {
         cam = null;
-        if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
+        if (cam == null && canvas.renderMode == RenderMode.ScreenSpaceCamera)
             cam = canvas.worldCamera;
 
         Vector2 position = RectTransformUtility.WorldToScreenPoint(cam, background.position);
@@ -100,7 +98,22 @@ public class Joystick : OnScreenControl, IPointerDownHandler, IDragHandler, IPoi
         {
             input = Vector2.zero;
         }
-        SendValueToControl(input * inputMultiplier);
+        SetInput(input * inputMultiplier);
+
+    }
+
+    public virtual void OnPointerUp(PointerEventData eventData)
+    {
+        input = Vector2.zero;
+        handle.anchoredPosition = Vector2.zero;
+        SetInput(Vector2.zero);
+    }
+    public virtual void OnEndDrag(PointerEventData eventData)
+    {
+        input = Vector2.zero;
+        SetInput(Vector2.zero);
+
+        Debug.Log("End Drag");
     }
 
     protected void FormatInput()
@@ -111,7 +124,7 @@ public class Joystick : OnScreenControl, IPointerDownHandler, IDragHandler, IPoi
             input = new Vector2(0f, input.y);
     }
 
-    private float SnapFloat(float value, AxisOptions snapAxis)
+    float SnapFloat(float value, AxisOptions snapAxis)
     {
         if (value == 0)
             return value;
@@ -145,22 +158,6 @@ public class Joystick : OnScreenControl, IPointerDownHandler, IDragHandler, IPoi
         return 0;
     }
 
-    public virtual void OnPointerUp(PointerEventData eventData)
-    {
-        interacting = false;
-        input = Vector2.zero;
-        handle.anchoredPosition = Vector2.zero;
-        SendValueToControl(input * inputMultiplier);
-    }
-
-    void Update()
-    {
-        if (keepSendingEventOnStop && interacting)
-        {
-            SendValueToControl(input * inputMultiplier);
-        }
-    }
-
     protected Vector2 ScreenPointToAnchoredPosition(Vector2 screenPosition)
     {
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(baseRect, screenPosition, cam, out Vector2 localPoint))
@@ -170,7 +167,14 @@ public class Joystick : OnScreenControl, IPointerDownHandler, IDragHandler, IPoi
         }
         return Vector2.zero;
     }
+
+    public void SetInput(Vector2 input)
+    {
+        SendValueToControl(input * inputMultiplier);
+    }
+
 }
+
 public class DynamicJoystick : Joystick
 {
     [Header("Dynamic")]
@@ -178,6 +182,7 @@ public class DynamicJoystick : Joystick
     [SerializeField] RectTransform rectTransformLimit;
     [SerializeField] float limitAdjust = 0;
     [SerializeField] float moveThreshold = 1;
+    [SerializeField] private bool verifyIfStopDrag;
 
     [Header("Display")]
     [SerializeField] bool hideWhenNotTouching = true;
@@ -185,10 +190,16 @@ public class DynamicJoystick : Joystick
 
     readonly Vector3[] canvasCorner = new Vector3[4];
     Vector2 StartingPosition;
+
+    PointerEventData cached = new PointerEventData(EventSystem.current);
+    PointerEventData pointer = new PointerEventData(EventSystem.current);
+
     public float MoveThreshold { get { return moveThreshold; } set { moveThreshold = Mathf.Abs(value); } }
 
     Image backgroundImage;
     Image handleImage;
+
+    Vector2 lastPointerPos;
 
     protected override void Start()
     {
@@ -204,13 +215,16 @@ public class DynamicJoystick : Joystick
             handleImage.enabled = false;
         }
 
+        pointer = new PointerEventData(EventSystem.current);
+
         base.Start();
     }
 
+    [ContextMenu("Force")]
     public void ForcePointerUp()
     {
         PointerEventData pointer = new PointerEventData(EventSystem.current);
-        ExecuteEvents.Execute(gameObject, pointer, ExecuteEvents.pointerUpHandler);
+        ExecuteEvents.Execute(gameObject, pointer, ExecuteEvents.endDragHandler);
     }
     public override void OnPointerDown(PointerEventData eventData)
     {
@@ -222,7 +236,7 @@ public class DynamicJoystick : Joystick
         RectTransformUtility.ScreenPointToLocalPointInRectangle(background, eventData.position, cam, out Vector2 localPoint);
         
         if (dynamicMove)
-            background.localPosition = localPoint + StartingPosition; // @Dan: This is Hardcoded according to the base localPosition. Changing the canvas will cause things to go awry.
+            background.localPosition = localPoint + StartingPosition;
 
         if (hideWhenNotTouching && hideCompletely == false)
         {
@@ -231,6 +245,7 @@ public class DynamicJoystick : Joystick
         }
 
         base.OnPointerDown(eventData);
+        pointer = eventData;
     }
     public override void OnPointerUp(PointerEventData eventData)
     {
@@ -247,7 +262,14 @@ public class DynamicJoystick : Joystick
         }
 
         base.OnPointerUp(eventData);
+        pointer = eventData;
     }
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        base.OnEndDrag(eventData);
+        pointer = eventData;
+    }
+
     protected override void HandleInput(float magnitude, Vector2 normalised, Vector2 radius, Camera cam)
     {
         if (magnitude > moveThreshold && dynamicMove)
@@ -255,12 +277,24 @@ public class DynamicJoystick : Joystick
             Vector2 difference = normalised * (magnitude - moveThreshold) * radius;
             Vector2 newPos = background.anchoredPosition + difference;
             rectTransformLimit.GetLocalCorners(canvasCorner);
-            if (newPos.x - background.rect.width * limitAdjust > canvasCorner[2].x) { newPos.x = canvasCorner[2].x + background.rect.width * limitAdjust; }
+            if (newPos.x - background.rect.width  * limitAdjust > canvasCorner[2].x) { newPos.x = canvasCorner[2].x + background.rect.width  * limitAdjust; }
             if (newPos.y - background.rect.height * limitAdjust > canvasCorner[2].y) { newPos.y = canvasCorner[2].y + background.rect.height * limitAdjust; }
-            if (newPos.x + background.rect.width * limitAdjust < canvasCorner[0].x) { newPos.x = canvasCorner[0].x - background.rect.width * limitAdjust; }
+            if (newPos.x + background.rect.width  * limitAdjust < canvasCorner[0].x) { newPos.x = canvasCorner[0].x - background.rect.width  * limitAdjust; }
             if (newPos.y + background.rect.height * limitAdjust < canvasCorner[0].y) { newPos.y = canvasCorner[0].y - background.rect.height * limitAdjust; }
             background.anchoredPosition = newPos;
         }
+
         base.HandleInput(magnitude, normalised, radius, cam);
+    }
+
+    void Update()
+    {
+        if (verifyIfStopDrag && pointer.position == lastPointerPos)
+        {
+            input = Vector2.zero;
+            SetInput(Vector2.zero);
+        }
+
+        lastPointerPos = pointer.position;
     }
 }
