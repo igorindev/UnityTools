@@ -112,12 +112,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   executeOnStart: 1
   duration: 1
-  loop: 0
+  loop: 1
   testMode: 0
+  playAgain: 1
   active: 0
   position:
     desiredVector: {x: 1, y: 1, z: 1}
-    xAxisActive: 0
+    xAxisActive: 1
     xAxis:
       serializedVersion: 2
       m_Curve:
@@ -142,7 +143,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    yAxisActive: 0
+    yAxisActive: 1
     yAxis:
       serializedVersion: 2
       m_Curve:
@@ -185,7 +186,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    zAxisActive: 0
+    zAxisActive: 1
     zAxis:
       serializedVersion: 2
       m_Curve:
@@ -221,7 +222,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   rotation:
     desiredVector: {x: 23, y: 4, z: 5}
-    xAxisActive: 0
+    xAxisActive: 1
     xAxis:
       serializedVersion: 2
       m_Curve:
@@ -246,7 +247,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    yAxisActive: 0
+    yAxisActive: 1
     yAxis:
       serializedVersion: 2
       m_Curve:
@@ -271,7 +272,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    zAxisActive: 0
+    zAxisActive: 1
     zAxis:
       serializedVersion: 2
       m_Curve:

@@ -279,6 +279,7 @@ MonoBehaviour:
   duration: 1
   loop: 0
   testMode: 0
+  playAgain: 1
   active: 0
   position:
     desiredVector: {x: 6, y: 7, z: 5}

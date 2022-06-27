@@ -6,7 +6,10 @@ public class AnimationTween : MonoBehaviour
     public float duration = 1;
     public bool loop;
     public bool testMode;
+    public bool playAgain = true;
     [SerializeField] bool active;
+
+    bool currentActive = false;
 
     [System.Serializable]
     public struct AnimationAxis
@@ -115,17 +118,50 @@ public class AnimationTween : MonoBehaviour
         if (testMode) active = false; else enabled = false;
 
         if (executeOnStart)
-            Play(true);
+            Play();
     }
-
-    public void Play(bool setActive)
+    public void Play()
     {
+        if (playAgain == false && currentActive) return;
+
+        finalPosition = transform.localPosition;
+        finalRotation = transform.localEulerAngles;
+        finalScale = transform.localScale;
+        timer = 0;
+        if (testMode) active = true; else enabled = true;
+
+        currentActive = true;
+    }
+    public void ToggleOnlyOn(bool value)
+    {
+        if (value == false)
+        {
+            currentActive = false;
+            return;
+        }
+        if (playAgain == false && currentActive) return;
+
+        finalPosition = transform.localPosition;
+        finalRotation = transform.localEulerAngles;
+        finalScale = transform.localScale;
+        timer = 0;
+        if (testMode) active = true; else enabled = true;
+
+        currentActive = true;
+    }
+    public void Toggle(bool setActive)
+    {
+        if (playAgain == false && currentActive) return;
+
         finalPosition = transform.localPosition;
         finalRotation = transform.localEulerAngles;
         finalScale = transform.localScale;
 
-        inverted = setActive == false;
+        inverted = !setActive;
+
         if (testMode) active = true; else enabled = true;
+
+        currentActive = true;
     }
 
     void Update()
@@ -134,17 +170,18 @@ public class AnimationTween : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Play(true);
+                Toggle(true);
             }
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
-                Play(false);
+                Toggle(false);
             }
         }
 
         if (testMode && active == false) return;
 
         timer += Time.deltaTime * (inverted ? -1 : 1) / duration;
+        timer = Mathf.Clamp01(timer);
 
         if (updatePosition)
             UpdatePosition();
@@ -155,7 +192,6 @@ public class AnimationTween : MonoBehaviour
 
         if (inverted && timer <= 0)
         {
-            timer = 0;
             if (loop)
                 inverted = !inverted;
             else
@@ -166,9 +202,8 @@ public class AnimationTween : MonoBehaviour
                     enabled = false;
             }
         }
-        else if (!inverted && timer > 1)
+        else if (!inverted && timer >= 1)
         {
-            timer = 1;
             if (loop)
                 inverted = !inverted;
             else
