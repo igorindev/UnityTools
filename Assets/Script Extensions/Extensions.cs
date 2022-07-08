@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -170,5 +171,15 @@ public static class Extensions
         }
 
         return bounds.center;
+    }
+
+    public static void Stop(this Coroutine coroutine, MonoBehaviour owner)
+    {
+        if (coroutine != null) { owner.StopCoroutine(coroutine); }
+    }
+    public static void Restart(this Coroutine coroutine, MonoBehaviour owner, IEnumerator routine)
+    {
+        if (coroutine != null) owner.StopCoroutine(coroutine);
+        coroutine = owner.StartCoroutine(routine);
     }
 }

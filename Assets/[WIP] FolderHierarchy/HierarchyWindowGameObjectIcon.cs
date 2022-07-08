@@ -31,15 +31,14 @@ public static class HierarchyWindowGameObjectIcon
         }
     }
 
-    static HierarchyWindowGameObjectIcon()
-    {
-        return;
-        openFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{openedFolderPrefix} Icon").image;
-        closedFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{closedFolderPrefix} Icon").image;
-
-        //EditorApplication.hierarchyWindowItemOnGUI += HandleHierarchyWindowItemOnGUI;
-        EditorApplication.hierarchyWindowItemOnGUI += HierarchyItemCB;
-    }
+   // static HierarchyWindowGameObjectIcon()
+   // {
+   //     openFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{openedFolderPrefix} Icon").image;
+   //     closedFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{closedFolderPrefix} Icon").image;
+   //
+   //     //EditorApplication.hierarchyWindowItemOnGUI += HandleHierarchyWindowItemOnGUI;
+   //     EditorApplication.hierarchyWindowItemOnGUI += HierarchyItemCB;
+   // }
 
     static void HandleHierarchyWindowItemOnGUI(int instanceID, Rect selectionRect)
     {

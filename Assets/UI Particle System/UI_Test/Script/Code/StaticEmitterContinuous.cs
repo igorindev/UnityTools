@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace SpriteParticleEmitter
 {
-/// <summary>
-/// Refer to manual for description.
-/// </summary>
-public class StaticEmitterContinuous : StaticSpriteEmitter
+    /// <summary>
+    /// Refer to manual for description.
+    /// </summary>
+    public class StaticEmitterContinuous : StaticSpriteEmitter
 {
     [Header("Emission")]
     [Tooltip("Particles to emit per second")]

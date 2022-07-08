@@ -5,6 +5,12 @@
             "show": false,
             "typeName": "UnityEditor.MonoScript",
             "GlobalObjectSerialization": "GlobalObjectId_V1-1-edf6967c3f99c3846a2be521823b924f-11500000-0"
+        },
+        {
+            "noteText": "",
+            "show": false,
+            "typeName": "SOAssetsProcess",
+            "GlobalObjectSerialization": "GlobalObjectId_V1-3-8b16a22de22076744bded966c91004e6-11400000-0"
         }
     ]
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField, Min(0)] float groundRadius = 0.2f;
+    //[SerializeField, Min(0)] float groundRadius = 0.2f;
 
     CharacterController characterController;
     CharacterControllerEdge characterControllerEdge;

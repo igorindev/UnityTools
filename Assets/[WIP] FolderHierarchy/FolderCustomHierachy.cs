@@ -19,14 +19,13 @@ public static class FolderCustomHierachy
     private const string closedFolderPrefix = "d_Folder On";
     private const string emptyFolderPrefix = "d_FolderEmpty On";
 
-    static FolderCustomHierachy()
-    {
-        return;
-        openFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{openedFolderPrefix} Icon").image;
-        closedFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{closedFolderPrefix} Icon").image;
-
-        EditorApplication.hierarchyWindowItemOnGUI += HierarchyUpdate;
-    }
+    //static FolderCustomHierachy()
+    //{
+    //    openFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{openedFolderPrefix} Icon").image;
+    //    closedFolderTexture = (Texture2D)EditorGUIUtility.IconContent($"{closedFolderPrefix} Icon").image;
+    //
+    //    EditorApplication.hierarchyWindowItemOnGUI += HierarchyUpdate;
+    //}
 
     static void HierarchyUpdate(int instanceID, Rect selectionRect)
     {

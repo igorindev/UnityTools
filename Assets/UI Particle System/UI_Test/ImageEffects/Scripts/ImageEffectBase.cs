@@ -17,11 +17,13 @@ namespace UnityStandardAssets.ImageEffects
         protected virtual void Start()
         {
             // Disable if we don't support image effects
+#if !UNITY_2019_1_OR_NEWER
             if (!SystemInfo.supportsImageEffects)
             {
                 enabled = false;
                 return;
             }
+#endif
 
             // Disable the image effect if the shader can't
             // run on the users graphics card

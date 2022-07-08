@@ -25,7 +25,7 @@ namespace Subtitles
         [Header("Effects")]
         [SerializeField] float fadeInSpeed = 1;
         [SerializeField] float fadeOutSpeed = 1;
-        [SerializeField] float moveUpSpeed = 1;
+        //[SerializeField] float moveUpSpeed = 1;
 
         [Header("Background")]
         [SerializeField] float textOffsetWidth = 20;
