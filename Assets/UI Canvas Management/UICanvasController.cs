@@ -15,7 +15,7 @@ namespace CanvasManagement
         [Header("Condition")]
         [SerializeField] bool isHUD = false;
 
-        [Header("Confirm Screen")]
+        [Header("Before Close Show")]
         public UICanvasController extraCanvas = null;
 
         [Header("Cursor")]
