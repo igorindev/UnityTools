@@ -84,7 +84,8 @@ namespace CanvasManagement
             currentOpenCanvas = cc;
             currentOpenCanvas.EnableCanvas(true);
         }
-        public static void OpenCanvas(UICanvasController canvasController)
+
+        static void OpenCanvas(UICanvasController canvasController)
         {
             if (canvasStack.Contains(canvasController)) { return; }
 
@@ -98,7 +99,7 @@ namespace CanvasManagement
             currentOpenCanvas = canvasController;
             currentOpenCanvas.EnableCanvas(true);
         }
-        public static void OpenFreshCanvas(UICanvasController canvasController)
+        static void OpenFreshCanvas(UICanvasController canvasController)
         {
             CloseAllCanvas();
 
@@ -109,13 +110,13 @@ namespace CanvasManagement
             currentOpenCanvas.EnableCanvas(true);
         }
 
+        ///<summary>Closes the active Canvas.</summary>
         public static void CloseCurrentCanvas()
         {
             if (currentOpenCanvas)
             {
-                if (currentOpenCanvas.extraCanvas)
+                if (currentOpenCanvas.extraCanvas)  //Usefull for confirmation dialogs
                 {
-                    //Usefull for confirmation dialogs
                     OpenCanvas(currentOpenCanvas.extraCanvas);
                     return;
                 }
@@ -136,6 +137,27 @@ namespace CanvasManagement
                 }
             }
         }
+        ///<summary>Use to close Extra Canvas and its Parent Canvas, like a confirm to close screen.</summary>
+        public static void CloseCurrentCanvasAndExtra()
+        {
+            UICanvasController temp = canvasStack.Pop();
+            if (temp) temp.EnableCanvas(false);
+            temp = canvasStack.Pop();
+            if (temp) temp.EnableCanvas(false);
+
+            if (HasCanvasInStack())
+            {
+                //After close, open the last screen
+                currentOpenCanvas = canvasStack.Peek();
+                if (currentOpenCanvas) currentOpenCanvas.EnableCanvas(true);
+            }
+            else
+            {
+                currentOpenCanvas = null;
+                OpenHUDs();
+            }
+        }
+        ///<summary>Completeluy closes all Canvas oppened until now. Ignores Extra Canvas</summary>
         public static void CloseAllCanvas()
         {
             int cache = canvasStack.Count;
