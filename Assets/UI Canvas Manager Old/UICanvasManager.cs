@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace CanvasManagement
+namespace CanvasManagementOld
 {
     public class UICanvasManager : Singleton<UICanvasManager>
     {

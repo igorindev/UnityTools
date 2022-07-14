@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace CanvasManagement
+namespace CanvasManagementOld
 {
     [RequireComponent(typeof(Canvas))]
     [RequireComponent(typeof(UnityEngine.UI.CanvasScaler))]
