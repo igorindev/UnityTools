@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace ObjectReflection
 {
@@ -80,7 +81,7 @@ namespace ObjectReflection
                 Vector3 pos = ReflectPosition(toReflect[i].transform.position, reflectionPoint.position, reflectionPoint.forward);
                 Quaternion rot = ReflectRotation(toReflect[i].transform.rotation, reflectionPoint.forward);
 
-                Instantiate(toReflect[i], pos, rot, reflection.transform).transform.DestroyImmediateAllChildren();
+                DestroyImmediateAllChildren(Instantiate(toReflect[i], pos, rot, reflection.transform).transform);
             }
         }
 
@@ -109,7 +110,7 @@ namespace ObjectReflection
                 Vector3 pos = ReflectPosition(toLink[i].transform.position, reflectionPoint.position, reflectionPoint.forward);
                 Quaternion rot = ReflectRotation(toLink[i].transform.rotation, reflectionPoint.forward);
 
-                Instantiate(toLink[i], pos, rot, reflectionLinked.transform).transform.DestroyImmediateAllChildren();
+                DestroyImmediateAllChildren(Instantiate(toLink[i], pos, rot, reflectionLinked.transform).transform);
             }
         }
 
@@ -118,12 +119,10 @@ namespace ObjectReflection
             Vector3 reflectionDir = sourcePosition - reflectionPosition;
             return reflectionPosition + Vector3.Reflect(reflectionDir, reflectionDirection);
         }
-
         public static Quaternion ReflectRotation(Quaternion sourceRotation, Vector3 mirrorNormal)
         {
             return Quaternion.LookRotation(Vector3.Reflect(sourceRotation * Vector3.forward, mirrorNormal), Vector3.Reflect(sourceRotation * Vector3.up, mirrorNormal));
         }
-
         public static void GetAllChildren(List<GameObject> list)
         {
             foreach (GameObject obj in list.OrderBy(m => m.transform.GetSiblingIndex()).ToArray())
@@ -132,11 +131,19 @@ namespace ObjectReflection
             }
         }
         static void Traverse(GameObject obj, ref List<GameObject> t)
-        {
-            t.AddUnique(obj);
+        { 
+            if (!t.Contains(obj))
+                t.Add(obj);
             foreach (Transform child in obj.transform)
             {
                 Traverse(child.gameObject, ref t);
+            }
+        }
+        public static void DestroyImmediateAllChildren(Transform transform)
+        {
+            while (transform.childCount > 0)
+            {
+                UnityEngine.Object.DestroyImmediate(transform.GetChild(0).gameObject);
             }
         }
     }

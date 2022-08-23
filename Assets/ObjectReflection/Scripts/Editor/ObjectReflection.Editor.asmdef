@@ -1,0 +1,18 @@
+{
+    "name": "ObjectReflection.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b963d6417b416cf4cb7b7ca270ad19b4"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
