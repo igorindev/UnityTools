@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.UI;
@@ -22,6 +23,7 @@ namespace MobileController
         public AxisOptions axisOptions = AxisOptions.Both;
         [SerializeField] private bool snapX = false;
         [SerializeField] private bool snapY = false;
+        [SerializeField] private bool clamp = false;
 
         [Header("Rects")]
         [SerializeField] protected RectTransform background = null;
@@ -36,7 +38,7 @@ namespace MobileController
         protected Vector2 input = Vector2.zero;
         public float Horizontal { get { return (snapX) ? SnapFloat(input.x, AxisOptions.Horizontal) : input.x; } }
         public float Vertical { get { return (snapY) ? SnapFloat(input.y, AxisOptions.Vertical) : input.y; } }
-        public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
+        public Vector2 Direction { get { return (clamp) ? Vector2.ClampMagnitude(new Vector2(Horizontal, Vertical), 1) : new Vector2(Horizontal, Vertical); } }
         public float HandleRange
         {
             get { return handleRange; }
@@ -47,6 +49,7 @@ namespace MobileController
             get { return deadZone; }
             set { deadZone = Mathf.Abs(value); }
         }
+        public Vector2 d;
         public bool SnapX { get { return snapX; } set { snapX = value; } }
         public bool SnapY { get { return snapY; } set { snapY = value; } }
 
@@ -98,8 +101,8 @@ namespace MobileController
             {
                 input = Vector2.zero;
             }
-            SetInput(input * inputMultiplier);
-
+            d = Direction;
+            SetInput(Direction);
         }
 
         public virtual void OnPointerUp(PointerEventData eventData)
@@ -170,8 +173,8 @@ namespace MobileController
         {
             SendValueToControl(input * inputMultiplier);
         }
-
     }
+
     public class DynamicJoystick : Joystick
     {
         [Header("Dynamic")]
