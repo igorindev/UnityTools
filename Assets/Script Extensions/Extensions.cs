@@ -115,9 +115,9 @@ public static class Extensions
     }
     public static void DestroyImmediateAllChildren(this Transform transform)
     {
-        for (var i = 0; i < transform.childCount; i++)
+        while (transform.childCount > 0)
         {
-            UnityEngine.Object.DestroyImmediate(transform.GetChild(i).gameObject);
+            UnityEngine.Object.DestroyImmediate(transform.GetChild(0).gameObject);
         }
     }
 

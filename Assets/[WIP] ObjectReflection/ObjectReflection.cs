@@ -1,85 +1,138 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-public class ObjectReflection : EditorWindow
+namespace ObjectReflection
 {
-    [SerializeField] Transform reflectionPoint;
-
-    SerializedObject so;
-    SerializedProperty reflectionPointProperty;
-
-    [MenuItem("Tools/Object Reflection")]
-    static void Init()
+    public class ObjectReflection : EditorWindow
     {
-        GetWindow<ObjectReflection>("Object Reflection");
-    }
+        [SerializeField] Transform reflectionPoint;
 
-    void OnEnable()
-    {
-        so = new SerializedObject(this);
+        SerializedObject so;
+        SerializedProperty reflectionPointProperty;
 
-        reflectionPointProperty = so.FindProperty(nameof(reflectionPoint));
-    }
-
-    void OnGUI()
-    {
-        so.Update();
-        EditorGUILayout.PropertyField(reflectionPointProperty);
-
-        if (GUILayout.Button("Reflect"))
+        [MenuItem("Tools/Object Reflection")]
+        static void Init()
         {
-            List<GameObject> toReflect = new List<GameObject>();
+            GetWindow<ObjectReflection>("Object Reflection");
+        }
+        void OnEnable()
+        {
+            so = new SerializedObject(this);
 
-            for (int i = 0; i < Selection.gameObjects.Length; i++)
+            reflectionPointProperty = so.FindProperty(nameof(reflectionPoint));
+        }
+        void OnGUI()
+        {
+            so.Update();
+            EditorGUILayout.PropertyField(reflectionPointProperty);
+
+            if (GUILayout.Button("Reflect"))
             {
-                if (Selection.gameObjects[i].scene.IsValid())
+                List<GameObject> toReflect = new List<GameObject>();
+
+                for (int i = 0; i < Selection.gameObjects.Length; i++)
                 {
-                    toReflect.Add(Selection.gameObjects[i]);
+                    if (Selection.gameObjects[i].scene.IsValid())
+                    {
+                        toReflect.Add(Selection.gameObjects[i]);
+                    }
                 }
+                GetAllChildren(toReflect);
+
+                if (toReflect.Count > 0)
+                    Reflect(toReflect.ToArray());
             }
 
-            if (toReflect.Count > 0)
-                Reflect(toReflect.ToArray());
-        }
-
-        if (GUILayout.Button("Create Reflection Link"))
-        {
-            for (int i = 0; i < Selection.gameObjects.Length; i++)
+            if (GUILayout.Button("Create Reflection Link"))
             {
-                if (Selection.gameObjects[i].scene.IsValid())
+                List<GameObject> toLink = new List<GameObject>();
+
+                for (int i = 0; i < Selection.gameObjects.Length; i++)
                 {
-                    Debug.Log(Selection.gameObjects[i].name);
+                    if (Selection.gameObjects[i].scene.IsValid())
+                    {
+                        toLink.Add(Selection.gameObjects[i]);
+                    }
                 }
+
+                GetAllChildren(toLink);
+
+                if (toLink.Count > 0)
+                    Link(toLink.ToArray());
+
             }
 
+            so.ApplyModifiedProperties();
         }
 
-        so.ApplyModifiedProperties();
-    }
-
-    [ContextMenu("Reflect")]
-    void Reflect(GameObject[] toReflect)
-    {
-        for (int i = 0; i < toReflect.Length; i++)
+        [ContextMenu("Reflect")]
+        void Reflect(GameObject[] toReflect)
         {
-            Vector3 pos = ReflectPosition(toReflect[i].transform.position, reflectionPoint.position);
+            GameObject reflection = new GameObject("Reflection");
 
-            Quaternion rot = ReflectRotation(toReflect[i].transform.rotation, reflectionPoint.forward);
+            for (int i = 0; i < toReflect.Length; i++)
+            {
+                Vector3 pos = ReflectPosition(toReflect[i].transform.position, reflectionPoint.position, reflectionPoint.forward);
+                Quaternion rot = ReflectRotation(toReflect[i].transform.rotation, reflectionPoint.forward);
 
-            Instantiate(toReflect[i], pos, rot);
+                Instantiate(toReflect[i], pos, rot, reflection.transform).transform.DestroyImmediateAllChildren();
+            }
         }
 
-    }
+        void Link(GameObject[] toLink)
+        {
+            if (reflectionPoint == null)
+            {
+                Debug.Log("Reflection Point was not assigned");
+                return;
+            }
 
-    Vector3 ReflectPosition(Vector3 sourcePosition, Vector3 mirror)
-    {
-        Vector3 reflectionDir = sourcePosition - mirror;
-        return reflectionPoint.position + Vector3.Reflect(reflectionDir, reflectionPoint.forward);
-    }
+            GameObject link = new GameObject("ReflectionLink");
+            GameObject reflectionLinked = new GameObject("ReflectionLinked");
 
-    Quaternion ReflectRotation(Quaternion sourceRotation, Vector3 mirrorNormal)
-    {
-        return Quaternion.LookRotation(Vector3.Reflect(sourceRotation * Vector3.forward, mirrorNormal), Vector3.Reflect(sourceRotation * Vector3.up, mirrorNormal));
+            ObjectReflectionLink objectReflectionLink = link.AddComponent<ObjectReflectionLink>();
+            objectReflectionLink.reflectionLinked = reflectionLinked;
+            objectReflectionLink.reflectionPoint = reflectionPoint;
+
+            for (int i = 0; i < toLink.Length; i++)
+            {
+                toLink[i].transform.SetParent(link.transform);
+                Vector3 pos = ReflectPosition(toLink[i].transform.position, reflectionPoint.position, reflectionPoint.forward);
+                Quaternion rot = ReflectRotation(toLink[i].transform.rotation, reflectionPoint.forward);
+
+                Instantiate(toLink[i], pos, rot, reflectionLinked.transform).transform.DestroyImmediateAllChildren();
+            }
+        }
+
+        public static Vector3 ReflectPosition(Vector3 sourcePosition, Vector3 reflectionPosition, Vector3 reflectionDirection)
+        {
+            Vector3 reflectionDir = sourcePosition - reflectionPosition;
+            return reflectionPosition + Vector3.Reflect(reflectionDir, reflectionDirection);
+        }
+
+        public static Quaternion ReflectRotation(Quaternion sourceRotation, Vector3 mirrorNormal)
+        {
+            return Quaternion.LookRotation(Vector3.Reflect(sourceRotation * Vector3.forward, mirrorNormal), Vector3.Reflect(sourceRotation * Vector3.up, mirrorNormal));
+        }
+
+
+        public static void GetAllChildren(List<GameObject> list)
+        {
+            foreach (GameObject obj in list.OrderBy(m => m.transform.GetSiblingIndex()).ToArray())
+            {
+                Traverse(obj, ref list);
+            }
+        }
+        static void Traverse(GameObject obj, ref List<GameObject> t)
+        {
+            t.AddUnique(obj);
+            foreach (Transform child in obj.transform)
+            {
+                Traverse(child.gameObject, ref t);
+            }
+        }
     }
 }

@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="True">
+    <ui:GroupBox style="flex-direction: row;">
+        <ui:Label text="1" display-tooltip-when-elided="true" style="-unity-text-align: middle-left; margin-right: 10px;" />
+        <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" style="width: auto; align-items: auto; flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 0; margin-bottom: 0;" />
+        <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" style="width: auto; align-items: auto; flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 0; margin-bottom: 0;" />
+        <uie:ObjectField style="align-items: stretch; margin-left: 5px; margin-right: 5px; margin-top: 0; margin-bottom: 0; flex-grow: 2;" />
+        <ui:Slider picking-mode="Ignore" value="42" high-value="100" style="align-items: stretch; margin-left: 5px; margin-right: 5px; margin-top: 0; margin-bottom: 5px; flex-grow: 3;" />
+    </ui:GroupBox>
+</ui:UXML>

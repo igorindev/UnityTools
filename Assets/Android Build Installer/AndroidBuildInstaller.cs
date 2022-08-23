@@ -86,6 +86,7 @@ public class AndroidBuildInstaller
         string strCmdText = "/C "
                     + "echo Starting APK installation...&"
                     + "echo Check if the APK has a keystore! Or the installation might fail.&"
+                    + "echo If the installation fail, also check if you have Java installed.&"
                     + @$"cd ""{adbLocation}""&"
                     + $"adb devices&"
                     + @$"adb -d install -r ""{apkLocation}""&"
