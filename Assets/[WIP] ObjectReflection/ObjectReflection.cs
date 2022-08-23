@@ -49,19 +49,21 @@ namespace ObjectReflection
             if (GUILayout.Button("Create Reflection Link"))
             {
                 List<GameObject> toLink = new List<GameObject>();
+                List<GameObject> parentLink = new List<GameObject>();
 
                 for (int i = 0; i < Selection.gameObjects.Length; i++)
                 {
                     if (Selection.gameObjects[i].scene.IsValid())
                     {
                         toLink.Add(Selection.gameObjects[i]);
+                        parentLink.Add(Selection.gameObjects[i]);
                     }
                 }
 
                 GetAllChildren(toLink);
 
                 if (toLink.Count > 0)
-                    Link(toLink.ToArray());
+                    Link(toLink.ToArray(), parentLink.ToArray());
 
             }
 
@@ -82,7 +84,7 @@ namespace ObjectReflection
             }
         }
 
-        void Link(GameObject[] toLink)
+        void Link(GameObject[] toLink, GameObject[] parentLink)
         {
             if (reflectionPoint == null)
             {
@@ -97,9 +99,13 @@ namespace ObjectReflection
             objectReflectionLink.reflectionLinked = reflectionLinked;
             objectReflectionLink.reflectionPoint = reflectionPoint;
 
+            foreach (var item in parentLink)
+            {
+                item.transform.SetParent(link.transform);
+            }
+
             for (int i = 0; i < toLink.Length; i++)
             {
-                toLink[i].transform.SetParent(link.transform);
                 Vector3 pos = ReflectPosition(toLink[i].transform.position, reflectionPoint.position, reflectionPoint.forward);
                 Quaternion rot = ReflectRotation(toLink[i].transform.rotation, reflectionPoint.forward);
 
@@ -117,7 +123,6 @@ namespace ObjectReflection
         {
             return Quaternion.LookRotation(Vector3.Reflect(sourceRotation * Vector3.forward, mirrorNormal), Vector3.Reflect(sourceRotation * Vector3.up, mirrorNormal));
         }
-
 
         public static void GetAllChildren(List<GameObject> list)
         {
