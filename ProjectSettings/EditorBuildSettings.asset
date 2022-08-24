@@ -21,4 +21,4 @@ EditorBuildSettings:
     path: Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher 1.unity
     guid: 1fa70c1324379d0498031237a9978594
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 56ea975c4057d824296b59ead9957ee2, type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: f6c9eb2d752e39a48bca78ab98c40b09, type: 2}
