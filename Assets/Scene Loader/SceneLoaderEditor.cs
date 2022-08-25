@@ -15,6 +15,11 @@ namespace SceneLoader
     [InitializeOnLoad, ExecuteInEditMode]
     public class SceneLoaderEditor : EditorWindow
     {
+        static SceneLoaderEditor()
+        {
+            
+        }
+
         public static bool open = false;
 
         Vector2 scroll = Vector2.zero;
@@ -28,9 +33,9 @@ namespace SceneLoader
         static Texture plus, remove;
         static Rect SceneViewPosition;
 
-        const string PATH = "Assets/Scene Loader/SceneGroup.asset";
-        const string PLUSICON = "Assets/Scene Loader/UI/PlusIcon.png";
-        const string REMOVEICON = "Assets/Scene Loader/UI/RemoveIcon.png";
+        static string path;
+
+        static SceneLoaderGroup scriptableObject;
 
 #if !UNITY_2021_2_OR_NEWER
         static SceneLoaderEditor()
@@ -52,10 +57,22 @@ namespace SceneLoader
             Handles.EndGUI();
         }
 #endif
+
         public static void ShowWindow()
         {
-            SceneGroup scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>(PATH) as SceneGroup;
-            allScenes = scriptableObject.scenes;
+            if (string.IsNullOrEmpty(path))
+            {
+                string[] guid = AssetDatabase.FindAssets("t:SceneLoaderGroup");
+                path = AssetDatabase.GUIDToAssetPath(guid[0]);
+            }
+            if (scriptableObject == null)
+            {
+                scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path) as SceneLoaderGroup;
+            }
+            allScenes = scriptableObject.scenes; 
+
+            plus = scriptableObject.addTex;
+            remove = scriptableObject.removeTex;
 
             window = CreateInstance<SceneLoaderEditor>();
 
@@ -73,9 +90,6 @@ namespace SceneLoader
 
         void OnEnable()
         {
-            plus = (Texture)AssetDatabase.LoadAssetAtPath(PLUSICON, typeof(Texture));
-            remove = (Texture)AssetDatabase.LoadAssetAtPath(REMOVEICON, typeof(Texture));
-
             back = new Texture2D(1, 1, TextureFormat.RGBA32, false);
             back.SetPixel(0, 0, new Color(0.1f, 0.1f, 0.1f));
             back.Apply();
@@ -109,7 +123,7 @@ namespace SceneLoader
 
                     if (GUILayout.Button(EditorGUIUtility.IconContent("d__Popup", "Edit Scenes"), mystyle, GUILayout.Width(20), GUILayout.Height(20)))
                     {
-                        Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>(PATH), null);
+                        Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>(path), null);
                         GetWindow(System.Type.GetType("UnityEditor.InspectorWindow, UnityEditor"));
                     }
                     if (GUILayout.Button(EditorGUIUtility.IconContent("d_winbtn_win_close", "Edit Scenes"), mystyle, GUILayout.Width(20), GUILayout.Height(20)))
@@ -221,6 +235,19 @@ namespace SceneLoader
                     Scenes.RemoveAt(id);
                 }
             }
+        }
+
+        static string ReadSetupData(ScriptableObject obj)
+        {
+            MonoScript ms = MonoScript.FromScriptableObject(obj);
+            string path = AssetDatabase.GetAssetPath(ms);
+
+            FileInfo fi = new FileInfo(path);
+            path = fi.Directory.ToString();
+            path.Replace('\\', '/');
+
+            Debug.Log(path);
+            return path;
         }
     }
     public static class SceneLoaderFunctions

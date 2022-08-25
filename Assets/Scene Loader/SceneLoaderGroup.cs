@@ -3,9 +3,12 @@ using UnityEngine;
 
 namespace SceneLoader
 {
-    [CreateAssetMenu(fileName = "SceneGroupEditor", menuName = "ScriptableObjects/Scene Group Editor")]
-    public class SceneGroup : ScriptableObject
+    [CreateAssetMenu(fileName = "SceneGroupEditor", menuName = "Scene Loader/Scene Group")]
+    public class SceneLoaderGroup : ScriptableObject
     {
+        public Texture addTex;
+        public Texture removeTex;
+
         [Scene] public string[] scenes;
 
 #if UNITY_EDITOR

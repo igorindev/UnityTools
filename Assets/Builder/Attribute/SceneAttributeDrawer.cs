@@ -18,7 +18,7 @@ public class SceneAttributeDrawer : PropertyDrawer
             }
             if (sceneObject == null && !string.IsNullOrEmpty(property.stringValue))
             {
-                Debug.LogError($"Could not find scene {property.stringValue} in {property.propertyPath}, assign the proper scenes in your NetworkManager");
+                Debug.LogError($"Could not find scene {property.stringValue} in {property.propertyPath}.");
             }
             SceneAsset scene = (SceneAsset)EditorGUI.ObjectField(position, label, sceneObject, typeof(SceneAsset), true);
 
