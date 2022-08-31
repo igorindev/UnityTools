@@ -2,17 +2,12 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
-[RequireComponent(typeof(Animator))]
 public class AnimatorPlayable : MonoBehaviour
 {
     //https://docs.unity3d.com/Manual/Playables-Examples.html
     //https://forum.unity.com/threads/why-does-the-playables-api-exist-when-should-i-use-it-rather-than-mecanim-animator-controllers.912857/
 
-    [Header("MENU")]
     public AnimationClip idle;
-
-    [Header("GAMEPLAY")]
-    public AnimationClip idleGame;
     public AnimationClip running;
 
     public Animator[] targetAnimators;
@@ -22,21 +17,7 @@ public class AnimatorPlayable : MonoBehaviour
 
     PlayableGraph playableGraph;
 
-    bool gameplay;
-    public void GenerateGameplayAnimator(Animator[] animators)
-    {
-        targetAnimators = animators;
-        gameplay = true;
-        playableGraph.Destroy();
-        Start();
-    }
-
-    private void OnValidate()
-    {
-        targetAnimators[0] = GetComponent<Animator>();
-    }
-
-    void Start()
+    void OnEnable()
     {
         playableGraph = PlayableGraph.Create("Animator Playable");
 
@@ -51,7 +32,7 @@ public class AnimatorPlayable : MonoBehaviour
             AnimationPlayableOutput animationOutput = AnimationPlayableOutput.Create(playableGraph, "Animation", targetAnimators[i]);
 
             // Create the playables.
-            AnimationClipPlayable idlePlayable = AnimationClipPlayable.Create(playableGraph, gameplay ? idleGame : idle);
+            AnimationClipPlayable idlePlayable = AnimationClipPlayable.Create(playableGraph, idle);
             AnimationClipPlayable runningPlayable = AnimationClipPlayable.Create(playableGraph, running);
 
             // Connect the playables to an output

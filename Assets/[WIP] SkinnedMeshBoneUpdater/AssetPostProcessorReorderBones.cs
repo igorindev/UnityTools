@@ -8,7 +8,7 @@ public class AssetPostProcessorReorderBones : AssetPostprocessor
 {
     void OnPostprocessModel(GameObject g)
     {
-        Process(g);
+        //Process(g);
     }
 
     void Process(GameObject g)
