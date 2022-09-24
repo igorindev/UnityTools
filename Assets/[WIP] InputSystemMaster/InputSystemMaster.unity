@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -682,6 +682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bcf12e37f22fac47bd22754310a3b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 878134836}
 --- !u!114 &878134833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -725,6 +726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e92f9badb3287244881f646aacb0e585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 878134836}
   xboxSprite:
   - {fileID: 21300000, guid: 94ea54d14802d494aae3b12842fc3d1b, type: 3}
   pcSprite:
@@ -744,7 +746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 9499e840804f72d44aa7012ab982979a, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -825,6 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb1db6f23e42fda4a864e5db923da94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
 --- !u!1 &1169438646
 GameObject:
   m_ObjectHideFlags: 0

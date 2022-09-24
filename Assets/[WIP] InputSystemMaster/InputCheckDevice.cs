@@ -8,6 +8,7 @@ public enum SCHEMES { Control, Key }
 
 public class InputCheckDevice : MonoBehaviour
 {
+    [SerializeField] PlayerInput playerInput;
     [SerializeField] Sprite[] xboxSprite = new Sprite[0];
     [SerializeField] Sprite[] pcSprite = new Sprite[0];
     
@@ -16,6 +17,7 @@ public class InputCheckDevice : MonoBehaviour
 
     void Start()
     {
+        playerInput.onControlsChanged += OnControlsChanged;
         currentScheme = (SCHEMES)Enum.Parse(typeof(SCHEMES), PlayerInputController.Instance.PlayerInput.currentControlScheme);
         SetDeviceChangesCallback();
     }
