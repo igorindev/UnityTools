@@ -10,13 +10,14 @@ public class StringListSearchProvider : ScriptableObject, ISearchWindowProvider
     bool sortList;
     Action<string> onSetIndexCallback;
 
-    public StringListSearchProvider(string[] items, Action<string> callback, bool sort = false)
+    internal StringListSearchProvider Initialize(string[] items, Action<string> callback, bool sort = false)
     {
         listItems = items;
         onSetIndexCallback = callback;
         sortList = sort;
-    }
 
+        return this;
+    }
     public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
     {
         List<SearchTreeEntry> searchTreeEntries = new List<SearchTreeEntry>();

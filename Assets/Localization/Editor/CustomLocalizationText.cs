@@ -5,11 +5,14 @@ using UnityEngine;
 namespace Localization
 {
     [CustomEditor(typeof(LocalizationText))]
+    [CanEditMultipleObjects]
     public class CustomLocalizationText : Editor
     {
         SerializedProperty index;
         SerializedProperty context;
         public string text;
+
+        public static StringListSearchProvider inst;
 
         void OnEnable()
         {
@@ -25,14 +28,18 @@ namespace Localization
             using (new EditorGUI.DisabledScope(true))
                 EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour((MonoBehaviour)target), GetType(), false);
 
+            GUILayout.Space(8);
+            GUILayout.Label("Identity", GUILayout.Width(200));
+
             using (new EditorGUILayout.HorizontalScope())
             {
-                GUILayout.Label("Identity", GUILayout.Width(200));
-                
                 if (EditorGUILayout.DropdownButton(new GUIContent(text), FocusType.Passive, EditorStyles.popup))
                 {
+                    if (inst == null)
+                        inst = CreateInstance(nameof(StringListSearchProvider)) as StringListSearchProvider;
+
                     SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)),
-                                      new StringListSearchProvider(LocalizationManager.GetContexts(), (x) => { text = x; }));
+                                     inst.Initialize(LocalizationManager.GetContexts(), (x) => { text = x; }));
                 }
             }
 

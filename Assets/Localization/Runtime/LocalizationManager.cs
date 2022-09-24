@@ -80,6 +80,7 @@ namespace Localization
             ReadContent();
         }
 
+        [ContextMenu("Update All")]
         public void UpdateAllLocalizations()
         {
             for (int i = 0; i < Localization.Count; i++)
