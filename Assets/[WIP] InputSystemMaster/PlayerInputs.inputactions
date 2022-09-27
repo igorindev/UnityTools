@@ -11,7 +11,8 @@
                     "id": "d50f601c-8017-41ae-9f13-5f53ad974f63",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Move",
@@ -19,7 +20,8 @@
                     "id": "066eb410-8d9c-4ca2-8a29-2cdf27069b4d",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "New action",
@@ -27,7 +29,8 @@
                     "id": "d417626d-eadd-4a43-9719-f7b689b4310d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -142,7 +145,8 @@
                     "id": "37335acc-7023-462e-ad80-2ead9701118c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

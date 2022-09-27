@@ -2,21 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
+
 public enum SCHEMES { Control, Key }
 
 public class InputCheckDevice : MonoBehaviour
 {
     [SerializeField] PlayerInput playerInput;
+    [SerializeField] TMP_SpriteAsset spriteAsset;
     [SerializeField] Sprite[] xboxSprite = new Sprite[0];
     [SerializeField] Sprite[] pcSprite = new Sprite[0];
     
     public List<InputIcon> inputIcons = new List<InputIcon>();
+    public List<string> names = new List<string>();
     SCHEMES currentScheme;
 
     void Start()
     {
+        foreach (var item in spriteAsset.spriteCharacterTable)
+        {
+            names.Add(item.name);
+        }
+
+        playerInput.onDeviceRegained += OnControlsChanged;
         playerInput.onControlsChanged += OnControlsChanged;
         currentScheme = (SCHEMES)Enum.Parse(typeof(SCHEMES), PlayerInputController.Instance.PlayerInput.currentControlScheme);
         SetDeviceChangesCallback();
@@ -48,7 +59,7 @@ public class InputCheckDevice : MonoBehaviour
     public void UpdatePath(InputIcon inputIcon)
     {
         inputIcon.inputBinding = PlayerInputController.Instance.PlayerInput.actions.FindAction(inputIcon.inputActionName).bindings.ToList();
-        Debug.Log(InputControlPath.ToHumanReadableString(PlayerInputController.Instance.PlayerInput.actions.actionMaps[0].actions[0].bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice));
+        //Debug.Log(InputControlPath.ToHumanReadableString(PlayerInputController.Instance.PlayerInput.actions.actionMaps[0].actions[0].bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice));
 
         if (!inputIcons.Contains(inputIcon))
         {
@@ -75,20 +86,28 @@ public class InputCheckDevice : MonoBehaviour
             switch (change)
             {
                 case InputDeviceChange.Added:
+                    Debug.Log("ADDED");
                     break;
                 case InputDeviceChange.Removed:
+                    Debug.Log("REMOVED");
                     break;
                 case InputDeviceChange.Disconnected:
+                    Debug.Log("DISCONNECTED");
                     break;
                 case InputDeviceChange.Reconnected:
+                    Debug.Log("RECONNECTED");
                     break;
                 case InputDeviceChange.Enabled:
+                    Debug.Log("ENABLED");
                     break;
                 case InputDeviceChange.Disabled:
+                    Debug.Log("DISABLED");
                     break;
                 case InputDeviceChange.UsageChanged:
+                    Debug.Log("USAGE CHANGED");
                     break;
                 case InputDeviceChange.ConfigurationChanged:
+                    Debug.Log("CONFIGURATION CHANGED");
                     break;
             }
         };

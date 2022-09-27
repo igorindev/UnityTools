@@ -29,7 +29,7 @@ public class InputPlayerActions : MonoBehaviour
     {
         if (context.performed)
         {
-            DebugLogTest("Input by " + inputAction.KeyScheme);
+            DebugLogTest("Input by " + context.action.activeControl.name);
         }
     }
 
@@ -43,6 +43,6 @@ public class InputPlayerActions : MonoBehaviour
 
     public void OnNewaction(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("NEW");
     }
 }
