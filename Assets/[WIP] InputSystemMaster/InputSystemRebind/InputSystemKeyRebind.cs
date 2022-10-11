@@ -5,94 +5,132 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.InputSystem.Layouts;
+using Random = UnityEngine.Random;
 
+[Serializable]
+public struct RebinderSchema
+{
+    public string schema;
+    public List<Rebinder> rebinders;
+}
+[Serializable]
+public struct Rebinder
+{
+    public string action;
+    public RebindHolder bind;
+}
 [Serializable]
 public struct RebindHolder
 {
-    public InputAction inputAction;
     public TextMeshProUGUI bindText;
     public TextMeshProUGUI inputNameText;
     public Button button;
     public int bindIndex;
     public int compositionIndex;
     public string path;
+    internal InputAction inputAction;
 }
 
 public class InputSystemKeyRebind : MonoBehaviour
 {
     [InputControl(layout = "Button")]
-    [SerializeField] string keyboardCancelInput;
+    public string keyboardCancelInput;
+    [InputControl(layout = "Button")]
+    public string controllerCancelInput;
 
-    [SerializeField] PlayerInput playerInput;
+    public PlayerInput playerInput;
+    public RebinderSchema[] rebindReceiver;
 
-    [SerializeField] Button[] inputs;
+    public Button[] inputs;
 
     public RebindHolder currentRebinding;
     public RebindHolder[] bindingHolders;
     public List<InputBinding> allInputs = new List<InputBinding>();
     public List<InputBinding> allInputsNotCleaned = new List<InputBinding>();
-
     public string SAVE_BINDINGS_PATH;
 
     InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
-    void Start()
+    void OnValidate()
     {
-        foreach (InputBinding item in playerInput.actions.bindings)
+        if (playerInput && playerInput.actions)
         {
-            allInputsNotCleaned.Add(item);
-            if (string.IsNullOrEmpty(item.effectivePath) == false && item.isComposite == false)
+            var controlSchemes = playerInput.actions.controlSchemes.ToArray();
+            rebindReceiver = new RebinderSchema[controlSchemes.Length];
+
+            for (int i = 0; i < controlSchemes.Length; i++)
             {
-                allInputs.Add(item);
+                rebindReceiver[i].schema = controlSchemes[i].name;
+                rebindReceiver[i].rebinders = new List<Rebinder>();
             }
-        };
-
-        int compositeCount = 0;
-        int bindCount = 0;
-        string lastAction = "";
-
-        bindingHolders = new RebindHolder[allInputs.Count];
-
-        for (int i = 0; i < allInputs.Count; i++)
-        {
-            if (allInputs[i].isPartOfComposite)
+            allInputs.Clear();
+            allInputsNotCleaned.Clear();
+            foreach (InputBinding item in playerInput.actions.bindings)
             {
-                compositeCount++;
-            }
-            else
-            {
-                compositeCount = 0;
-            }
-
-            if (allInputs[i].action == lastAction && allInputs[i].isPartOfComposite == false)
-            {
-                bindCount++;
-            }
-            else
-            {
-                bindCount = 0;
-            }
-
-            lastAction = allInputs[i].action;
-
-            RebindHolder rebindHolder = new RebindHolder
-            {
-                inputAction = playerInput.actions[allInputs[i].action],
-                path = allInputs[i].effectivePath, //probably need to be the overrided value when loading
-                compositionIndex = compositeCount,
-                bindIndex = bindCount,
-                button = inputs[i],
-                bindText = inputs[i].GetComponentsInChildren<TextMeshProUGUI>()[0],
-                inputNameText = inputs[i].GetComponentsInChildren<TextMeshProUGUI>()[1]
+                allInputsNotCleaned.Add(item);
+                if (string.IsNullOrEmpty(item.effectivePath) == false && item.isComposite == false)
+                {
+                    allInputs.Add(item);
+                }
             };
 
-            inputs[i].onClick.AddListener(() => StartRebindingAction(rebindHolder));
+            int compositeCount = 0;
+            int bindCount = 0;
+            string lastAction = "";
 
-            rebindHolder.bindText.text = ConvertToTextSprite(rebindHolder.path);
-            rebindHolder.inputNameText.text = allInputs[i].isPartOfComposite ? allInputs[i].name : allInputs[i].action;
+            for (int i = 0; i < allInputs.Count; i++)
+            {
+                if (allInputs[i].isPartOfComposite)
+                {
+                    compositeCount++;
+                }
+                else
+                {
+                    compositeCount = 0;
+                }
 
-            bindingHolders[i] = rebindHolder;
+                if (allInputs[i].action == lastAction && allInputs[i].isPartOfComposite == false)
+                {
+                    bindCount++;
+                }
+                else
+                {
+                    bindCount = 0;
+                }
+
+                lastAction = allInputs[i].action;
+
+                RebindHolder rebindHolder = new RebindHolder
+                {
+                    inputAction = playerInput.actions[allInputs[i].action],
+                    path = allInputs[i].effectivePath,
+                    compositionIndex = compositeCount,
+                    bindIndex = bindCount,
+                    button = inputs[i],
+                    bindText = inputs[i].GetComponentsInChildren<TextMeshProUGUI>()[0],
+                    inputNameText = inputs[i].GetComponentsInChildren<TextMeshProUGUI>()[1]
+                };
+
+                inputs[i].onClick.AddListener(() => StartRebindingAction(rebindHolder));
+
+                for (int j = 0; j < rebindReceiver.Length; j++)
+                {
+                    if (rebindReceiver[j].schema == allInputs[i].groups)
+                    {
+                        if (allInputs[i].isPartOfComposite)
+                            lastAction += "/" + allInputs[i].name;
+
+                        rebindReceiver[j].rebinders.Add(new Rebinder() { action = lastAction, bind = rebindHolder });
+                        break;
+                    }
+                }
+            }
         }
+    }
+
+    void Start()
+    {
+        ShowBindingsInText();
     }
 
     [ContextMenu("Save Bindings")]
@@ -116,9 +154,15 @@ public class InputSystemKeyRebind : MonoBehaviour
     }
     void ShowBindingsInText()
     {
-        for (int i = 0; i < bindingHolders.Length; i++)
+        for (int i = 0; i < rebindReceiver.Length; i++)
         {
-            bindingHolders[i].bindText.text = ConvertToTextSprite(bindingHolders[i].path);
+            Color c = Random.ColorHSV();
+            for (int j = 0; j < rebindReceiver[i].rebinders.Count; j++)
+            {
+                rebindReceiver[i].rebinders[j].bind.bindText.text = ConvertToTextSprite(rebindReceiver[i].rebinders[j].bind.path);
+                rebindReceiver[i].rebinders[j].bind.inputNameText.text = rebindReceiver[i].rebinders[j].action;
+                rebindReceiver[i].rebinders[j].bind.inputNameText.color = c;
+            }
         }
     }
 
@@ -132,21 +176,22 @@ public class InputSystemKeyRebind : MonoBehaviour
 
         currentRebinding = action;
 
-        //NOT ALLOWING SMAE KEY AT 2 PLACES
+        //AALOW SAME KEY IN TWO PLACES? THROW ALERT
+        //COMPOSITION NOT ALLOW REPETITION
 
         if (action.compositionIndex > 0)
             rebindingOperation = action.inputAction.PerformInteractiveRebinding(action.compositionIndex);
         else
             rebindingOperation = action.inputAction.PerformInteractiveRebinding(action.bindIndex);
 
-        rebindingOperation.WithControlsExcluding("Mouse")
-            .WithControlsExcluding("Gamepad")
-            .WithControlsExcluding(keyboardCancelInput)
-            .WithCancelingThrough(keyboardCancelInput)
-            .OnMatchWaitForAnother(0.1f)
-            .OnCancel(RebindEndedAsCompletedOrCanceled)
-            .OnComplete(RebindEndedAsCompletedOrCanceled)
-            .Start();
+        rebindingOperation.WithControlsExcluding("Mouse");
+        rebindingOperation.WithControlsExcluding("Gamepad");
+        rebindingOperation.WithControlsExcluding(keyboardCancelInput);
+        rebindingOperation.WithCancelingThrough(keyboardCancelInput);
+        rebindingOperation.OnMatchWaitForAnother(0.1f);
+        rebindingOperation.OnCancel(RebindEndedAsCompletedOrCanceled);
+        rebindingOperation.OnComplete(RebindEndedAsCompletedOrCanceled);
+        rebindingOperation.Start();
 
         action.inputAction.Enable();
     }

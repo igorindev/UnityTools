@@ -154,17 +154,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""New action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2633c45e-9dc6-4978-aae8-1a41d9ba9c48"",
-                    ""path"": ""<XInputController>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Control"",
-                    ""action"": ""New action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -173,7 +162,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
             ""id"": ""18fc06c5-20c2-4a14-a262-f3e4b25739f7"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Menu"",
                     ""type"": ""Button"",
                     ""id"": ""37335acc-7023-462e-ad80-2ead9701118c"",
                     ""expectedControlType"": ""Button"",
@@ -186,11 +175,11 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bbe8b341-f40d-46df-9c48-46332f900ee6"",
-                    ""path"": """",
+                    ""path"": ""<XInputController>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
+                    ""groups"": ""Control"",
+                    ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -224,6 +213,17 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Nintendo Switch"",
+            ""bindingGroup"": ""Nintendo Switch"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<SwitchProControllerHID>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -234,7 +234,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Player_Newaction = m_Player.FindAction("New action", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
-        m_Menu_Newaction = m_Menu.FindAction("New action", throwIfNotFound: true);
+        m_Menu_Menu = m_Menu.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -343,12 +343,12 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     // Menu
     private readonly InputActionMap m_Menu;
     private IMenuActions m_MenuActionsCallbackInterface;
-    private readonly InputAction m_Menu_Newaction;
+    private readonly InputAction m_Menu_Menu;
     public struct MenuActions
     {
         private @PlayerInputs m_Wrapper;
         public MenuActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Menu_Newaction;
+        public InputAction @Menu => m_Wrapper.m_Menu_Menu;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -358,16 +358,16 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_MenuActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnNewaction;
+                @Menu.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenu;
             }
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
             }
         }
     }
@@ -390,6 +390,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_ControlSchemeIndex];
         }
     }
+    private int m_NintendoSwitchSchemeIndex = -1;
+    public InputControlScheme NintendoSwitchScheme
+    {
+        get
+        {
+            if (m_NintendoSwitchSchemeIndex == -1) m_NintendoSwitchSchemeIndex = asset.FindControlSchemeIndex("Nintendo Switch");
+            return asset.controlSchemes[m_NintendoSwitchSchemeIndex];
+        }
+    }
     public interface IPlayerActions
     {
         void OnClick(InputAction.CallbackContext context);
@@ -398,6 +407,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     }
     public interface IMenuActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

@@ -1112,7 +1112,77 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyboardCancelInput: <Keyboard>/escape
+  controllerCancelInput: <Gamepad>/start
   playerInput: {fileID: 878134836}
+  rebindReceiver:
+  - schema: Key
+    rebinders:
+    - action: Click
+      bind:
+        bindText: {fileID: 0}
+        inputNameText: {fileID: 0}
+        button: {fileID: 0}
+        bindIndex: 0
+        compositionIndex: 0
+        path: 
+    - action: Move/up
+      bind:
+        bindText: {fileID: 0}
+        inputNameText: {fileID: 0}
+        button: {fileID: 0}
+        bindIndex: 0
+        compositionIndex: 0
+        path: 
+    - action: Move/down
+      bind:
+        bindText: {fileID: 0}
+        inputNameText: {fileID: 0}
+        button: {fileID: 0}
+        bindIndex: 0
+        compositionIndex: 0
+        path: 
+    - action: Move/left
+      bind:
+        bindText: {fileID: 0}
+        inputNameText: {fileID: 0}
+        button: {fileID: 0}
+        bindIndex: 0
+        compositionIndex: 0
+        path: 
+    - action: Move/right
+      bind:
+        bindText: {fileID: 0}
+        inputNameText: {fileID: 0}
+        button: {fileID: 0}
+        bindIndex: 0
+        compositionIndex: 0
+        path: 
+    - action: New action
+      bind:
+        bindText: {fileID: 0}
+        inputNameText: {fileID: 0}
+        button: {fileID: 0}
+        bindIndex: 0
+        compositionIndex: 0
+        path: 
+  - schema: Control
+    rebinders:
+    - action: Click
+      bind:
+        bindText: {fileID: 0}
+        inputNameText: {fileID: 0}
+        button: {fileID: 0}
+        bindIndex: 0
+        compositionIndex: 0
+        path: 
+    - action: Move
+      bind:
+        bindText: {fileID: 0}
+        inputNameText: {fileID: 0}
+        button: {fileID: 0}
+        bindIndex: 0
+        compositionIndex: 0
+        path: 
   inputs:
   - {fileID: 642056337}
   - {fileID: 723979797}
@@ -1124,15 +1194,6 @@ MonoBehaviour:
   - {fileID: 2137623748}
   - {fileID: 40191083}
   currentRebinding:
-    inputAction:
-      m_Name: Input
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 5f2fc51e-c09d-415e-8778-a14b8b85327f
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
     bindText: {fileID: 0}
     inputNameText: {fileID: 0}
     button: {fileID: 0}
@@ -1140,23 +1201,214 @@ MonoBehaviour:
     compositionIndex: 0
     path: 
   bindingHolders:
-  - inputAction:
-      m_Name: Input
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: c736bb99-bace-4494-9c90-4549ee3d5c61
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    bindText: {fileID: 0}
+  - bindText: {fileID: 0}
     inputNameText: {fileID: 0}
     button: {fileID: 0}
     bindIndex: 0
     compositionIndex: 0
     path: 
-  allInputs: []
-  allInputsNotCleaned: []
+  - bindText: {fileID: 0}
+    inputNameText: {fileID: 0}
+    button: {fileID: 0}
+    bindIndex: 0
+    compositionIndex: 0
+    path: 
+  - bindText: {fileID: 0}
+    inputNameText: {fileID: 0}
+    button: {fileID: 0}
+    bindIndex: 0
+    compositionIndex: 0
+    path: 
+  - bindText: {fileID: 0}
+    inputNameText: {fileID: 0}
+    button: {fileID: 0}
+    bindIndex: 0
+    compositionIndex: 0
+    path: 
+  - bindText: {fileID: 0}
+    inputNameText: {fileID: 0}
+    button: {fileID: 0}
+    bindIndex: 0
+    compositionIndex: 0
+    path: 
+  - bindText: {fileID: 0}
+    inputNameText: {fileID: 0}
+    button: {fileID: 0}
+    bindIndex: 0
+    compositionIndex: 0
+    path: 
+  - bindText: {fileID: 0}
+    inputNameText: {fileID: 0}
+    button: {fileID: 0}
+    bindIndex: 0
+    compositionIndex: 0
+    path: 
+  - bindText: {fileID: 0}
+    inputNameText: {fileID: 0}
+    button: {fileID: 0}
+    bindIndex: 0
+    compositionIndex: 0
+    path: 
+  - bindText: {fileID: 0}
+    inputNameText: {fileID: 0}
+    button: {fileID: 0}
+    bindIndex: 0
+    compositionIndex: 0
+    path: 
+  allInputs:
+  - m_Name: 
+    m_Id: 65d4bea1-0053-4852-96d1-7ceb817d5324
+    m_Path: <Keyboard>/b
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Click
+    m_Flags: 0
+  - m_Name: 
+    m_Id: 6ca1c012-f894-48f6-ae1e-66563023cfc7
+    m_Path: <Gamepad>/buttonSouth
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Control
+    m_Action: Click
+    m_Flags: 0
+  - m_Name: up
+    m_Id: e220b406-0d36-4f9b-98e7-9eceac8beadc
+    m_Path: <Keyboard>/w
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Move
+    m_Flags: 8
+  - m_Name: down
+    m_Id: 007d7515-3acd-4b81-a5ea-50f78ea20cf2
+    m_Path: <Keyboard>/s
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Move
+    m_Flags: 8
+  - m_Name: left
+    m_Id: 5aacb11c-12a9-433c-9d42-06d0d1dd3bce
+    m_Path: <Keyboard>/a
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Move
+    m_Flags: 8
+  - m_Name: right
+    m_Id: eb2a4112-a811-47a7-b518-407569be0234
+    m_Path: <Keyboard>/d
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Move
+    m_Flags: 8
+  - m_Name: 
+    m_Id: 89d846e2-b4a7-428c-8b71-918b56e6de40
+    m_Path: <XInputController>/leftStick
+    m_Interactions: 
+    m_Processors: StickDeadzone
+    m_Groups: Control
+    m_Action: Move
+    m_Flags: 0
+  - m_Name: 
+    m_Id: 51c0f21c-3d65-4abc-ab7a-c3f145713c77
+    m_Path: <Keyboard>/a
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: New action
+    m_Flags: 0
+  - m_Name: 
+    m_Id: bbe8b341-f40d-46df-9c48-46332f900ee6
+    m_Path: <XInputController>/start
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: 
+    m_Action: Menu
+    m_Flags: 0
+  allInputsNotCleaned:
+  - m_Name: 
+    m_Id: 65d4bea1-0053-4852-96d1-7ceb817d5324
+    m_Path: <Keyboard>/b
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Click
+    m_Flags: 0
+  - m_Name: 
+    m_Id: 6ca1c012-f894-48f6-ae1e-66563023cfc7
+    m_Path: <Gamepad>/buttonSouth
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Control
+    m_Action: Click
+    m_Flags: 0
+  - m_Name: 2D Vector
+    m_Id: efce7bb1-fa43-4f6d-b5e4-d81660d0cd2c
+    m_Path: 2DVector
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: 
+    m_Action: Move
+    m_Flags: 4
+  - m_Name: up
+    m_Id: e220b406-0d36-4f9b-98e7-9eceac8beadc
+    m_Path: <Keyboard>/w
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Move
+    m_Flags: 8
+  - m_Name: down
+    m_Id: 007d7515-3acd-4b81-a5ea-50f78ea20cf2
+    m_Path: <Keyboard>/s
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Move
+    m_Flags: 8
+  - m_Name: left
+    m_Id: 5aacb11c-12a9-433c-9d42-06d0d1dd3bce
+    m_Path: <Keyboard>/a
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Move
+    m_Flags: 8
+  - m_Name: right
+    m_Id: eb2a4112-a811-47a7-b518-407569be0234
+    m_Path: <Keyboard>/d
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: Move
+    m_Flags: 8
+  - m_Name: 
+    m_Id: 89d846e2-b4a7-428c-8b71-918b56e6de40
+    m_Path: <XInputController>/leftStick
+    m_Interactions: 
+    m_Processors: StickDeadzone
+    m_Groups: Control
+    m_Action: Move
+    m_Flags: 0
+  - m_Name: 
+    m_Id: 51c0f21c-3d65-4abc-ab7a-c3f145713c77
+    m_Path: <Keyboard>/a
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: Key
+    m_Action: New action
+    m_Flags: 0
+  - m_Name: 
+    m_Id: bbe8b341-f40d-46df-9c48-46332f900ee6
+    m_Path: <XInputController>/start
+    m_Interactions: 
+    m_Processors: 
+    m_Groups: 
+    m_Action: Menu
+    m_Flags: 0
   SAVE_BINDINGS_PATH: 
 --- !u!4 &878134834
 Transform:
