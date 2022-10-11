@@ -40,21 +40,26 @@ public class InputSystemKeyRebind : MonoBehaviour
 
     public PlayerInput playerInput;
     public RebinderSchema[] rebindReceiver;
+    public string SAVE_BINDINGS_PATH;
 
     public Button[] inputs;
 
-    public RebindHolder currentRebinding;
-    public RebindHolder[] bindingHolders;
-    public List<InputBinding> allInputs = new List<InputBinding>();
-    public List<InputBinding> allInputsNotCleaned = new List<InputBinding>();
-    public string SAVE_BINDINGS_PATH;
-
+    RebindHolder currentRebinding;
     InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
     void OnValidate()
     {
+        ReadBindings();
+    }
+
+    void ReadBindings()
+    {
         if (playerInput && playerInput.actions)
         {
+            int compositeCount = 0;
+            int bindCount = 0;
+            string lastAction = "";
+
             var controlSchemes = playerInput.actions.controlSchemes.ToArray();
             rebindReceiver = new RebinderSchema[controlSchemes.Length];
 
@@ -63,40 +68,21 @@ public class InputSystemKeyRebind : MonoBehaviour
                 rebindReceiver[i].schema = controlSchemes[i].name;
                 rebindReceiver[i].rebinders = new List<Rebinder>();
             }
-            allInputs.Clear();
-            allInputsNotCleaned.Clear();
+
+            List<InputBinding> allInputs = new List<InputBinding>();
             foreach (InputBinding item in playerInput.actions.bindings)
             {
-                allInputsNotCleaned.Add(item);
                 if (string.IsNullOrEmpty(item.effectivePath) == false && item.isComposite == false)
                 {
                     allInputs.Add(item);
                 }
             };
 
-            int compositeCount = 0;
-            int bindCount = 0;
-            string lastAction = "";
-
             for (int i = 0; i < allInputs.Count; i++)
             {
-                if (allInputs[i].isPartOfComposite)
-                {
-                    compositeCount++;
-                }
-                else
-                {
-                    compositeCount = 0;
-                }
+                compositeCount = allInputs[i].isPartOfComposite ? compositeCount + 1 : 0;
 
-                if (allInputs[i].action == lastAction && allInputs[i].isPartOfComposite == false)
-                {
-                    bindCount++;
-                }
-                else
-                {
-                    bindCount = 0;
-                }
+                bindCount = allInputs[i].action == lastAction && allInputs[i].isPartOfComposite == false ? bindCount + 1 : 0;
 
                 lastAction = allInputs[i].action;
 
