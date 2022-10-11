@@ -11,6 +11,7 @@ public struct RebindHolder
 {
     public InputAction inputAction;
     public TextMeshProUGUI bindText;
+    public TextMeshProUGUI inputNameText;
     public Button button;
     public int bindIndex;
     public int compositionIndex;
@@ -31,7 +32,7 @@ public class InputSystemKeyRebind : MonoBehaviour
     public List<InputBinding> allInputs = new List<InputBinding>();
     public List<InputBinding> allInputsNotCleaned = new List<InputBinding>();
 
-    public string SAVE_BINDINGS_PATH = Application.persistentDataPath;
+    public string SAVE_BINDINGS_PATH;
 
     InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
@@ -81,12 +82,14 @@ public class InputSystemKeyRebind : MonoBehaviour
                 compositionIndex = compositeCount,
                 bindIndex = bindCount,
                 button = inputs[i],
-                bindText = inputs[i].GetComponentInChildren<TextMeshProUGUI>()
+                bindText = inputs[i].GetComponentsInChildren<TextMeshProUGUI>()[0],
+                inputNameText = inputs[i].GetComponentsInChildren<TextMeshProUGUI>()[1]
             };
 
             inputs[i].onClick.AddListener(() => StartRebindingAction(rebindHolder));
 
             rebindHolder.bindText.text = ConvertToTextSprite(rebindHolder.path);
+            rebindHolder.inputNameText.text = allInputs[i].isPartOfComposite ? allInputs[i].name : allInputs[i].action;
 
             bindingHolders[i] = rebindHolder;
         }

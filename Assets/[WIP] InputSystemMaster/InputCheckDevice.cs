@@ -5,7 +5,6 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
 
 public enum SCHEMES { Control, Key }
 
