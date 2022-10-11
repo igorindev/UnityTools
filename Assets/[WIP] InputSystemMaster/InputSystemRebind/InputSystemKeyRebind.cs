@@ -192,8 +192,6 @@ public class InputSystemKeyRebind : MonoBehaviour
         rebindingOperation.OnCancel(RebindEndedAsCompletedOrCanceled);
         rebindingOperation.OnComplete(RebindEndedAsCompletedOrCanceled);
         rebindingOperation.Start();
-
-        action.inputAction.Enable();
     }
     void RebindEndedAsCompletedOrCanceled(InputActionRebindingExtensions.RebindingOperation obj)
     {
