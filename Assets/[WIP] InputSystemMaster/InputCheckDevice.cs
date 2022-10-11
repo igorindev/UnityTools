@@ -29,7 +29,7 @@ public class InputCheckDevice : MonoBehaviour
 
         playerInput.onDeviceRegained += OnControlsChanged;
         playerInput.onControlsChanged += OnControlsChanged;
-        currentScheme = (SCHEMES)Enum.Parse(typeof(SCHEMES), PlayerInputController.Instance.PlayerInput.currentControlScheme);
+        currentScheme = (SCHEMES)Enum.Parse(typeof(SCHEMES), PlayerInputController.Instance.playerInput.currentControlScheme);
         SetDeviceChangesCallback();
     }
 
@@ -58,7 +58,7 @@ public class InputCheckDevice : MonoBehaviour
 
     public void UpdatePath(InputIcon inputIcon)
     {
-        inputIcon.inputBinding = PlayerInputController.Instance.PlayerInput.actions.FindAction(inputIcon.inputActionName).bindings.ToList();
+        inputIcon.inputBinding = PlayerInputController.Instance.playerInput.actions.FindAction(inputIcon.inputActionName).bindings.ToList();
         //Debug.Log(InputControlPath.ToHumanReadableString(PlayerInputController.Instance.PlayerInput.actions.actionMaps[0].actions[0].bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice));
 
         if (!inputIcons.Contains(inputIcon))

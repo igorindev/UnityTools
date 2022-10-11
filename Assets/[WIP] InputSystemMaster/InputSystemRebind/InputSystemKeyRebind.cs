@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.InputSystem.Layouts;
 
 [Serializable]
 public struct RebindHolder
@@ -18,34 +19,42 @@ public struct RebindHolder
 
 public class InputSystemKeyRebind : MonoBehaviour
 {
-    [UnityEngine.InputSystem.Layouts.InputControl(layout = "Button")]
+    [InputControl(layout = "Button")]
     [SerializeField] string keyboardCancelInput;
 
     [SerializeField] PlayerInput playerInput;
 
     [SerializeField] Button[] inputs;
 
-    InputActionRebindingExtensions.RebindingOperation rebindingOperation;
     public RebindHolder currentRebinding;
-    public List<InputBinding> b = new List<InputBinding>();
+    public RebindHolder[] bindingHolders;
+    public List<InputBinding> allInputs = new List<InputBinding>();
+    public List<InputBinding> allInputsNotCleaned = new List<InputBinding>();
+
+    public string SAVE_BINDINGS_PATH = Application.persistentDataPath;
+
+    InputActionRebindingExtensions.RebindingOperation rebindingOperation;
+
     void Start()
     {
-        foreach (var item in playerInput.actions.bindings)
+        foreach (InputBinding item in playerInput.actions.bindings)
         {
-            //Debug.Log(item.effectivePath + " | " + item.groups + " | " + item.isComposite + " | " + item.isPartOfComposite);
+            allInputsNotCleaned.Add(item);
             if (string.IsNullOrEmpty(item.effectivePath) == false && item.isComposite == false)
             {
-                b.Add(item);
+                allInputs.Add(item);
             }
         };
 
         int compositeCount = 0;
         int bindCount = 0;
         string lastAction = "";
-        for (int i = 0; i < b.Count; i++)
+
+        bindingHolders = new RebindHolder[allInputs.Count];
+
+        for (int i = 0; i < allInputs.Count; i++)
         {
-            Debug.Log(i);
-            if (b[i].isPartOfComposite)
+            if (allInputs[i].isPartOfComposite)
             {
                 compositeCount++;
             }
@@ -54,7 +63,7 @@ public class InputSystemKeyRebind : MonoBehaviour
                 compositeCount = 0;
             }
 
-            if (b[i].action == lastAction && b[i].isPartOfComposite == false)
+            if (allInputs[i].action == lastAction && allInputs[i].isPartOfComposite == false)
             {
                 bindCount++;
             }
@@ -63,13 +72,13 @@ public class InputSystemKeyRebind : MonoBehaviour
                 bindCount = 0;
             }
 
-            lastAction = b[i].action;
+            lastAction = allInputs[i].action;
 
             RebindHolder rebindHolder = new RebindHolder
             {
-                inputAction = playerInput.actions[b[i].action],
-                path = b[i].effectivePath, //probably need to be the overrided value when loading
-                compositionIndex =  compositeCount,
+                inputAction = playerInput.actions[allInputs[i].action],
+                path = allInputs[i].effectivePath, //probably need to be the overrided value when loading
+                compositionIndex = compositeCount,
                 bindIndex = bindCount,
                 button = inputs[i],
                 bindText = inputs[i].GetComponentInChildren<TextMeshProUGUI>()
@@ -77,20 +86,49 @@ public class InputSystemKeyRebind : MonoBehaviour
 
             inputs[i].onClick.AddListener(() => StartRebindingAction(rebindHolder));
 
-            rebindHolder.bindText.text = ConvertToTextSprite(InputControlPath.ToHumanReadableString(rebindHolder.path, 
-                                                                                                    InputControlPath.HumanReadableStringOptions.OmitDevice | InputControlPath.HumanReadableStringOptions.UseShortNames));
+            rebindHolder.bindText.text = ConvertToTextSprite(rebindHolder.path);
+
+            bindingHolders[i] = rebindHolder;
         }
     }
-    public void StartRebindingAction(RebindHolder action)
+
+    [ContextMenu("Save Bindings")]
+    public void SaveUserRebinds()
+    {
+        var rebinds = playerInput.actions.SaveBindingOverridesAsJson();
+        PlayerPrefs.SetString("rebinds", rebinds);
+    }
+    [ContextMenu("Load Bindings")]
+    public void LoadUserRebinds()
+    {
+        var rebinds = PlayerPrefs.GetString("rebinds");
+        playerInput.actions.LoadBindingOverridesFromJson(rebinds);
+    }
+    [ContextMenu("Reset Bindings")]
+    public void ResetUserRebinds()
+    {
+        playerInput.actions.RemoveAllBindingOverrides();
+
+        ShowBindingsInText();
+    }
+    void ShowBindingsInText()
+    {
+        for (int i = 0; i < bindingHolders.Length; i++)
+        {
+            bindingHolders[i].bindText.text = ConvertToTextSprite(bindingHolders[i].path);
+        }
+    }
+
+    void StartRebindingAction(RebindHolder action)
     {
         if (currentRebinding.button != null) return;
 
         action.bindText.text = "Waiting Input";
-        
+
         action.inputAction.Disable();
 
         currentRebinding = action;
-        
+
         //NOT ALLOWING SMAE KEY AT 2 PLACES
 
         if (action.compositionIndex > 0)
@@ -120,16 +158,16 @@ public class InputSystemKeyRebind : MonoBehaviour
         else
             bindingIndex = currentRebinding.bindIndex;
 
-        currentRebinding.bindText.text = ConvertToTextSprite(InputControlPath.ToHumanReadableString(currentRebinding.inputAction.bindings[bindingIndex].effectivePath,
-                                                                                                   InputControlPath.HumanReadableStringOptions.OmitDevice | InputControlPath.HumanReadableStringOptions.UseShortNames));
+        currentRebinding.bindText.text = ConvertToTextSprite(currentRebinding.inputAction.bindings[bindingIndex].effectivePath);
 
         currentRebinding = new RebindHolder();
 
-        PlayerInputController.Instance.InputSystemCheckDevice.UpdateAllPaths();
+        PlayerInputController.Instance.inputSystemCheckDevice.UpdateAllPaths();
     }
 
     string ConvertToTextSprite(string path)
     {
+        path = InputControlPath.ToHumanReadableString(path, InputControlPath.HumanReadableStringOptions.OmitDevice | InputControlPath.HumanReadableStringOptions.UseShortNames);
         return "<sprite name=" + path + ">";
     }
 }

@@ -1165,18 +1165,21 @@ MonoBehaviour:
   - {fileID: 1836593098}
   - {fileID: 843845493}
   - {fileID: 1089171331}
-  currentRebinded:
+  currentRebinding:
     inputAction:
       m_Name: Input
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 49f0826c-7fc5-482e-8537-2fa229f4bc24
+      m_Id: 5f2fc51e-c09d-415e-8778-a14b8b85327f
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
     bindText: {fileID: 0}
     button: {fileID: 0}
+    bindIndex: 0
+    compositionIndex: 0
+    path: 
   b: []
 --- !u!4 &878134834
 Transform:
