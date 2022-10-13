@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 using UnityEngine.InputSystem.Layouts;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 [Serializable]
