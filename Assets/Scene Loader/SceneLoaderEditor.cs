@@ -72,8 +72,14 @@ namespace SceneLoader
             window = CreateInstance<SceneLoaderEditor>();
 
             SceneViewPosition = GetWindow<SceneView>().position;
-
-            window.position = new Rect(SceneViewPosition.x, SceneViewPosition.y + 40f, 240, Mathf.Clamp((32 * allScenes.Length), SceneViewPosition.height - 22, SceneViewPosition.height - 22));
+#if UNITY_2021_2_OR_NEWER
+            Vector2 v = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+            v.x -= 35;
+            v.y -= 85;
+#else
+            Vector2 v = new Vector2(SceneViewPosition.x, SceneViewPosition.y);
+#endif
+            window.position = new Rect(v.x, v.y, 240, Mathf.Clamp(32 * allScenes.Length, SceneViewPosition.height - 22, SceneViewPosition.height - 22));
             window.ShowPopup();
 
             Scenes = new List<Scene>();
