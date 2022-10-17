@@ -20,13 +20,14 @@ public struct Rebinder
     public RebindHolder bind;
 }
 [Serializable]
-public struct RebindHolder
+public class RebindHolder
 {
     public TextMeshProUGUI bindText;
     public TextMeshProUGUI inputNameText;
     public Button button;
     public int bindIndex;
     public int compositionIndex;
+    public string schema;
     public string path;
     internal InputAction inputAction;
 }
@@ -44,7 +45,7 @@ public class InputSystemKeyRebind : MonoBehaviour
 
     public Button[] inputs;
 
-    RebindHolder currentRebinding;
+    RebindHolder currentRebinding = new RebindHolder();
     InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
     void OnValidate()
@@ -90,6 +91,7 @@ public class InputSystemKeyRebind : MonoBehaviour
                 {
                     inputAction = playerInput.actions[allInputs[i].action],
                     path = allInputs[i].effectivePath,
+                    schema = allInputs[i].groups,
                     compositionIndex = compositeCount,
                     bindIndex = bindCount,
                     button = inputs[i],
@@ -138,6 +140,7 @@ public class InputSystemKeyRebind : MonoBehaviour
 
         ShowBindingsInText();
     }
+
     void ShowBindingsInText()
     {
         for (int i = 0; i < rebindReceiver.Length; i++)
@@ -162,8 +165,8 @@ public class InputSystemKeyRebind : MonoBehaviour
 
         currentRebinding = action;
 
-        //AALOW SAME KEY IN TWO PLACES? THROW ALERT
-        //COMPOSITION NOT ALLOW REPETITION
+        //ALOW SAME KEY IN TWO PLACES? THROW ALERT
+        //COMPOSITION NOT ALLOW REPETITION (none move)
 
         if (action.compositionIndex > 0)
             rebindingOperation = action.inputAction.PerformInteractiveRebinding(action.compositionIndex);
@@ -191,9 +194,54 @@ public class InputSystemKeyRebind : MonoBehaviour
             bindingIndex = currentRebinding.bindIndex;
 
         currentRebinding.bindText.text = ConvertToTextSprite(currentRebinding.inputAction.bindings[bindingIndex].effectivePath);
+        currentRebinding.path = currentRebinding.inputAction.bindings[bindingIndex].effectivePath;
+
+        Dictionary<string, int> paths = new Dictionary<string, int>();
+
+        int schemaIndex = 0;
+        for (int i = 0; i < rebindReceiver.Length; i++)
+        {
+            if (rebindReceiver[i].schema == currentRebinding.schema)
+            {
+                schemaIndex = i;
+                for (int j = 0; j < rebindReceiver[i].rebinders.Count; j++)
+                {
+                    string path = rebindReceiver[i].rebinders[j].bind.path;
+                    if (paths.ContainsKey(path))
+                    {
+                        paths[path] += 1;
+                    }
+                    else
+                    {
+                        paths[path] = 1;
+                    }
+                }
+                break;
+            }
+        }
+
+        for (int j = 0; j < rebindReceiver[schemaIndex].rebinders.Count; j++)
+        {
+            string path = rebindReceiver[schemaIndex].rebinders[j].bind.path;
+            Button b = rebindReceiver[schemaIndex].rebinders[j].bind.button;
+            if (paths.ContainsKey(path))
+            {
+                if (paths[path] == 1)
+                {
+                    b.GetComponent<Image>().color = Color.white;
+                }
+                else
+                {
+                    b.GetComponent<Image>().color = Color.red;
+                }
+            }
+            else
+            {
+                b.GetComponent<Image>().color = Color.white;
+            }
+        }
 
         currentRebinding = new RebindHolder();
-
         PlayerInputController.Instance.inputSystemCheckDevice.UpdateAllPaths();
     }
 
