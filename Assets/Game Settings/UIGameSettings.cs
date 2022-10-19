@@ -44,9 +44,9 @@ public class UIGameSettings : MonoBehaviour
             if (pressed == false && (Keyboard.current.altKey.isPressed && Keyboard.current.enterKey.isPressed))
             {
                 pressed = true;
-                Debug.Log(Screen.currentResolution + " | " + Screen.fullScreenMode);
+                //Debug.Log(Screen.currentResolution + " | " + Screen.fullScreenMode);
                 yield return null;
-                Debug.Log(Screen.currentResolution + " | " + Screen.fullScreenMode);
+                //Debug.Log(Screen.currentResolution + " | " + Screen.fullScreenMode);
                 VideoSettings.SetNewResolutionAndScreenModeIndex(Screen.currentResolution, Screen.fullScreenMode);
 
                 LoadSettings();
