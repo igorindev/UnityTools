@@ -171,6 +171,7 @@ namespace Localization
             return lines.Length >= lineNo ? lines[lineNo - 1] : null;
         }
 
+#if UNITY_EDITOR
         public static string[] GetLocalization()
         {
             string fileContent = Read(SOLocalizationConfig.editorFilePath);
@@ -210,5 +211,6 @@ namespace Localization
             lines.RemoveAt(0);
             return lines.ToArray();
         }
+#endif
     }
 }

@@ -7,13 +7,12 @@
  * All Content (C) 2022 Unlimited Fischl Works, all rights reserved.
  */
 
-
-
 using System;       // Convert
 using UnityEngine;  // Monobehaviour
+
+#if UNITY_EDITOR
 using UnityEditor;  // Handles
-
-
+#endif
 
 public class csHomebrewIK : MonoBehaviour
 {
@@ -637,7 +636,7 @@ public class csHomebrewIK : MonoBehaviour
     }
 
 
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         // Debug draw function relies on objects that are dynamically located during runtime
@@ -786,9 +785,8 @@ public class csHomebrewIK : MonoBehaviour
         // Indicator text
         Handles.Label(rightFootTransform.position, "R", helperTextStyle);
     }
+#endif
 }
-
-
 
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
 public class ShowIfAttribute : PropertyAttribute
@@ -805,8 +803,6 @@ public class ShowIfAttribute : PropertyAttribute
         mBaseCondition = baseCondition;
     }
 }
-
-
 
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
 public class BigHeaderAttribute : PropertyAttribute

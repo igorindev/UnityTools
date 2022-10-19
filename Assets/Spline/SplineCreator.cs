@@ -1,6 +1,8 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+
 
 [ExecuteInEditMode, AddComponentMenu("Spline/Spline Creator")]
 public class SplineCreator : MonoBehaviour
@@ -33,7 +35,7 @@ public class SplineCreator : MonoBehaviour
         {
             lineRenderer = gameObject.AddComponent<LineRenderer>();
         }
-        
+
         lineRenderer.useWorldSpace = true;
         lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Additive"));
     }
@@ -99,7 +101,7 @@ public class SplineCreator : MonoBehaviour
         bake.precision = precision;
 
         bake.movePositions = movePositions;
-       
+
         bake.controlPositions = new Vector3[controlPoints.Count];
         for (int i = 0; i < controlPoints.Count; i++)
         {
@@ -112,7 +114,7 @@ public class SplineCreator : MonoBehaviour
     }
 }
 
-#if UNITY_EDITOR
+
 [CustomEditor(typeof(SplineCreator))]
 public class SplineCreatorEditor : Editor
 {

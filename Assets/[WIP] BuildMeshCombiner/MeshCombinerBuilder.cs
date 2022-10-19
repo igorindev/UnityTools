@@ -99,7 +99,7 @@ public class MeshCombinerBuilder : MonoBehaviour
                             {
                                 newChunck.meshFilters.Add(remainMeshes[i]);
                             }
-                            
+
                             remainMeshes.Remove(remainMeshes[i]);
                         }
                     }
@@ -158,7 +158,7 @@ public class MeshCombinerBuilder : MonoBehaviour
 
                 if (have == false)
                     materialsGroup.Add(materials);
-                    
+
             }
 
             Chuncks c = selectedChunks[i];
@@ -170,14 +170,14 @@ public class MeshCombinerBuilder : MonoBehaviour
                 s.meshFilters = new List<MeshFilter>();
                 subChunk[j] = s;
             }
-            
+
             c.subChunks = subChunk;
             selectedChunks[i] = c;
 
             for (int j = 0; j < selectedChunks[i].meshFilters.Count; j++)
             {
                 Material[] thisGroup = selectedChunks[i].meshFilters[j].GetComponent<Renderer>().sharedMaterials;
-                
+
                 for (int k = 0; k < materialsGroup.Count; k++)
                 {
                     if (thisGroup.Length == materialsGroup[k].Length && thisGroup.SequenceEqual(materialsGroup[k]))
@@ -186,7 +186,8 @@ public class MeshCombinerBuilder : MonoBehaviour
                         s.materialsSubChunck = materialsGroup[k].ToArray();
                         selectedChunks[i].subChunks[k] = s;
 
-                        selectedChunks[i].subChunks[k].meshFilters.AddUnique(selectedChunks[i].meshFilters[j]);
+                        if (selectedChunks[i].subChunks[k].meshFilters.Contains(selectedChunks[i].meshFilters[j]) == false)
+                            selectedChunks[i].subChunks[k].meshFilters.Add(selectedChunks[i].meshFilters[j]);
                     }
                 }
             }

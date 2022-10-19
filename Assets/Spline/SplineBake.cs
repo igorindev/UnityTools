@@ -1,4 +1,6 @@
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class SplineBake : MonoBehaviour
@@ -7,6 +9,7 @@ public class SplineBake : MonoBehaviour
     [HideInInspector] public Vector3[] controlPositions = new Vector3[0];
     [HideInInspector] public int precision = 0;
 
+#if UNITY_EDITOR
     public void EditSpline()
     {
         SplineCreator bake = gameObject.AddComponent<SplineCreator>();
@@ -21,6 +24,7 @@ public class SplineBake : MonoBehaviour
 
         DestroyImmediate(this);
     }
+#endif
 
     void OnDrawGizmos()
     {

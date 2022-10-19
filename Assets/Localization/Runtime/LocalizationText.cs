@@ -1,11 +1,9 @@
 ﻿using TMPro;
-using UnityEditor;
 using UnityEngine;
 
 namespace Localization
 {
     [DisallowMultipleComponent]
-    [CanEditMultipleObjects]
     public class LocalizationText : Localization
     {
         [SerializeField] int index = 1;

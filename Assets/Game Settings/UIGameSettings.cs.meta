@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 970861d2fbbb79349a2a77741041a959
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioSettings: {fileID: 11400000, guid: 2fd89e9541ff4784ab3d750525110acf, type: 2}
+  - videoSettings: {fileID: 11400000, guid: d4e41c80610b9084c9453f25f583d86f, type: 2}
+  - mainVolumeText: {instanceID: 0}
+  - mainVolumeSlider: {instanceID: 0}
+  - musicVolumeText: {instanceID: 0}
+  - musicVolumeSlider: {instanceID: 0}
+  - effectVolumeText: {instanceID: 0}
+  - effectVolumeSlider: {instanceID: 0}
+  - muteToggle: {instanceID: 0}
+  - resolutionDropdown: {instanceID: 0}
+  - framerateDropdown: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
