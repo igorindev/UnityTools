@@ -85,12 +85,12 @@ class ReloadDomain : EditorToolbarButton
 }
 
 [EditorToolbarElement(id, typeof(SceneView))]
-class DropdownExample : EditorToolbarDropdown
+class CompilationMode : EditorToolbarDropdown
 {
-    public const string id = "ExampleToolbar/Dropdown";
+    public const string id = "Compilation/Dropdown";
     static int drop = EditorPrefs.GetInt("ScriptCompilationDuringPlay");
 
-    public DropdownExample()
+    public CompilationMode()
     {
         text = "Recompilation";
         tooltip = "Select when the scripts will be compiled.";
@@ -125,7 +125,7 @@ class DropdownExample : EditorToolbarDropdown
 [Icon("Assets/unity.png")]
 public class CompilationToolbar : ToolbarOverlay
 {
-    CompilationToolbar() : base(AutoRefresh.id, FastPlayMode.id, DropdownExample.id, ReloadDomain.id)
+    CompilationToolbar() : base(AutoRefresh.id, FastPlayMode.id, CompilationMode.id, ReloadDomain.id)
     {
     }
 }
