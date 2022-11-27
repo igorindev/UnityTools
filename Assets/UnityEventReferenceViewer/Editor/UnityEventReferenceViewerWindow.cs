@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine.Events;
 using System.Reflection;
 
-namespace UnityEventReferenceViewer
+namespace UnityEventReference
 {
     public class UnityEventReferenceViewerWindow : EditorWindow
     {
@@ -21,11 +21,11 @@ namespace UnityEventReferenceViewer
 
         Vector2 scroll = Vector2.zero;
 
-        [MenuItem("Tools/UnityEvent Reference Viewer")]
+        [MenuItem("Tools/UnityEvents/View References", priority = 10000)]
         public static void OpenWindow()
         {
             UnityEventReferenceViewerWindow window = CreateWindow<UnityEventReferenceViewerWindow>();
-            window.titleContent = new GUIContent("UnityEvent Reference Viewer");
+            window.titleContent = new GUIContent("UnityEvent Viewer");
             window.minSize = new Vector2(250, 100);
         }
 
