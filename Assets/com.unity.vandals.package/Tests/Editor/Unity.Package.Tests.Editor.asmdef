@@ -1,0 +1,18 @@
+{
+    "name": "Unity.Package.Tests.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5859c811eb6fa8e41b84519eaaa0b94d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
