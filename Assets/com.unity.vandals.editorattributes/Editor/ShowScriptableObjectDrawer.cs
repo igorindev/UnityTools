@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-[CustomPropertyDrawer(typeof(ShowScriptableObject))]
+[CustomPropertyDrawer(typeof(ScriptableObject))]
 public class ShowScriptableObjectDrawer : PropertyDrawer
 {
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -37,13 +38,14 @@ public class ShowScriptableObjectDrawer : PropertyDrawer
         return totalHeight;
     }
 
-    const int buttonWidth = 66;
+    const int buttonWidth = 45;
 
     static readonly List<string> ignoreClassFullNames = new List<string> { "TMPro.TMP_FontAsset" };
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         EditorGUI.BeginProperty(position, label, property);
+
         var type = GetFieldType();
 
         if (type == null || ignoreClassFullNames.Contains(type.FullName))
@@ -95,7 +97,7 @@ public class ShowScriptableObjectDrawer : PropertyDrawer
             if (property.isExpanded)
             {
                 // Draw a background that shows us clearly which fields are part of the ScriptableObject
-                GUI.Box(new Rect(0, position.y + EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing - 1, Screen.width, position.height - EditorGUIUtility.singleLineHeight - EditorGUIUtility.standardVerticalSpacing), "");
+                GUI.Box(new Rect(20, position.y + EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing - 1, Screen.width - 45, 5 + position.height - EditorGUIUtility.singleLineHeight - EditorGUIUtility.standardVerticalSpacing), "");
 
                 EditorGUI.indentLevel++;
                 SerializedObject serializedObject = new SerializedObject(data);
@@ -110,7 +112,7 @@ public class ShowScriptableObjectDrawer : PropertyDrawer
                         // Don't bother drawing the class file
                         if (prop.name == "m_Script") continue;
                         float height = EditorGUI.GetPropertyHeight(prop, new GUIContent(prop.displayName), true);
-                        EditorGUI.PropertyField(new Rect(position.x, y, position.width - buttonWidth, height), prop, true);
+                        EditorGUI.PropertyField(new Rect(position.x + 5, y, position.width - buttonWidth, height), prop, true);
                         y += height + EditorGUIUtility.standardVerticalSpacing;
                     }
                     while (prop.NextVisible(false));
@@ -136,6 +138,7 @@ public class ShowScriptableObjectDrawer : PropertyDrawer
             }
         }
         property.serializedObject.ApplyModifiedProperties();
+
         EditorGUI.EndProperty();
     }
 

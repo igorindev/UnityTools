@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(HelpAttribute))]
-public class HelpDrawer : PropertyDrawer
+public class HelpAttributeDrawer : PropertyDrawer
 {
     GUIStyle style = new GUIStyle(EditorStyles.helpBox);
 

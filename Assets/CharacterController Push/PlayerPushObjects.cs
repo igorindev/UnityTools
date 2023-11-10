@@ -1,9 +1,11 @@
+using Attribute.Measure;
 using UnityEngine;
 
 public class PlayerPushObjects : MonoBehaviour
 {
     // this script pushes all rigidbodies that the character touches
     [SerializeField] float pushPower = 2.0f;
+
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody body = hit.collider.attachedRigidbody;
