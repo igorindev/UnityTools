@@ -63,7 +63,7 @@ public class PlataformSwitcher : IPreprocessBuildWithReport
 
     public static string[] GetAllOpenScenes()
     {
-        string[] loadedScenes = new string[EditorSceneManager.loadedSceneCount];
+        string[] loadedScenes = new string[SceneManager.loadedSceneCount];
 
         for (int i = 0; i < loadedScenes.Length; i++)
         {
