@@ -1,13 +1,15 @@
-#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-[CustomPropertyDrawer(typeof(ScriptableObject))]
+[CustomPropertyDrawer(typeof(ScriptableObject), true)]
 public class ShowScriptableObjectDrawer : PropertyDrawer
 {
+    const int buttonWidth = 55;
+
+    static readonly List<string> ignoreClassFullNames = new List<string> { "TMPro.TMP_FontAsset" };
+
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         float totalHeight = EditorGUIUtility.singleLineHeight;
@@ -37,10 +39,6 @@ public class ShowScriptableObjectDrawer : PropertyDrawer
         }
         return totalHeight;
     }
-
-    const int buttonWidth = 45;
-
-    static readonly List<string> ignoreClassFullNames = new List<string> { "TMPro.TMP_FontAsset" };
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
@@ -318,4 +316,3 @@ public class ShowScriptableObjectDrawer : PropertyDrawer
         return false;
     }
 }
-#endif

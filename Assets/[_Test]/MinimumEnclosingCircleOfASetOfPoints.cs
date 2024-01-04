@@ -1,42 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
- 
-public class Delaunay : MonoBehaviour
+
+public class MinimumEnclosingCircleOfASetOfPoints : MonoBehaviour
 {
-    [SerializeField] Transform pointPrefab;
     public List<Transform> points;
+    [SerializeField] Transform pointPrefab;
     [SerializeField] int _pointAmount;
     [SerializeField] Vector2 _xLimits;
     [SerializeField] Vector2 _yLimits;
- 
-    public void CreateRandomPoints()
-    {
-        ClearPoints();
-        for (int i = 0; i < _pointAmount; i++)
-        {
-            float x = Random.Range(_xLimits.x, _xLimits.y);
-            float y = Random.Range(_yLimits.x, _yLimits.y);
-            Transform newPoint = CreatePointAt(x, y);
-            points.Add(newPoint);
-        }
-        Debug.Log("drew");
-    }
- 
-    Transform CreatePointAt(float x, float y)
-    {
-        Transform pointTransform = Instantiate(pointPrefab, new Vector3(x, y, 0), Quaternion.identity);
-        return pointTransform;
-    }
- 
-    void ClearPoints()
-    {
-        foreach (Transform point in points)
-        {
-            Destroy(point.gameObject);
-        }
-        points.Clear();
-    }
  
     public static Vector2 GetCircumcenter(Vector2 pointA, Vector2 pointB, Vector2 pointC)
     {
@@ -72,25 +43,17 @@ public class Delaunay : MonoBehaviour
         return new Circle(circumcenter, circumRadius);
     }
  
- 
-    static Vector2 GetCrossingPoint(LinearEquation line1, LinearEquation line2)
+    public void CreateRandomPoints()
     {
-        float A1 = line1._A;
-        float A2 = line2._A;
-        float B1 = line1._B;
-        float B2 = line2._B;
-        float C1 = line1._C;
-        float C2 = line2._C;
- 
-        //Cramer's rule
-        float Determinant = A1 * B2 - A2 * B1;
-        float DeterminantX = C1 * B2 - C2 * B1;
-        float DeterminantY = A1 * C2 - A2 * C1;
- 
-        float x = DeterminantX / Determinant;
-        float y = DeterminantY / Determinant;
- 
-        return new Vector2(x, y);
+        ClearPoints();
+        for (int i = 0; i < _pointAmount; i++)
+        {
+            float x = Random.Range(_xLimits.x, _xLimits.y);
+            float y = Random.Range(_yLimits.x, _yLimits.y);
+            Transform newPoint = CreatePointAt(x, y);
+            points.Add(newPoint);
+        }
+        Debug.Log("drew");
     }
  
     public List<Vector2> GetPointsPositions()
@@ -149,14 +112,48 @@ public class Delaunay : MonoBehaviour
             return smallestCircle;
         }
     }
+
+    static Vector2 GetCrossingPoint(LinearEquation line1, LinearEquation line2)
+    {
+        float A1 = line1._A;
+        float A2 = line2._A;
+        float B1 = line1._B;
+        float B2 = line2._B;
+        float C1 = line1._C;
+        float C2 = line2._C;
  
+        //Cramer's rule
+        float Determinant = A1 * B2 - A2 * B1;
+        float DeterminantX = C1 * B2 - C2 * B1;
+        float DeterminantY = A1 * C2 - A2 * C1;
+ 
+        float x = DeterminantX / Determinant;
+        float y = DeterminantY / Determinant;
+ 
+        return new Vector2(x, y);
+    }
+
+    Transform CreatePointAt(float x, float y)
+    {
+        Transform pointTransform = Instantiate(pointPrefab, new Vector3(x, y, 0), Quaternion.identity);
+        return pointTransform;
+    }
+
+    void ClearPoints()
+    {
+        foreach (Transform point in points)
+        {
+            Destroy(point.gameObject);
+        }
+        points.Clear();
+    }
+
     Circle TwoPointMinimumEnclosingCircle(Vector2 pointA, Vector2 pointB)
     {
         Vector2 center = (pointA + pointB) / 2;
         float radius = Vector2.Distance(center, pointA);
         return new Circle(center, radius);
     }
- 
  
     bool IsEnclosingPoints(Circle circle, Vector2[] points)
     {
@@ -169,7 +166,6 @@ public class Delaunay : MonoBehaviour
         }
         return true;
     }
- 
  
     // bool IsEnclosingPoints(Vector2[] points)
     // {
@@ -186,7 +182,6 @@ public class Delaunay : MonoBehaviour
     //     }
     //     return true;
     // }
- 
  
     bool IsPointInCircle(Vector2 point, Circle circle)
     {
@@ -209,6 +204,7 @@ public class Delaunay : MonoBehaviour
     // }
 }
 
+[System.Serializable]
 public class Circle
 {
     public Vector2 _center;
@@ -244,6 +240,7 @@ public class Circle
         _radius = radius;
     }
 }
+
 [System.Serializable]
 public class LinearEquation
 {
