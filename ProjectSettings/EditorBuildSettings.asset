@@ -6,15 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/UV/UVViewer.unity
+    guid: c62f9eba56c2d9647a4b503b89a14372
+  - enabled: 0
     path: Assets/UI Canvas Manager Old/Canvas Manager.unity
     guid: 670aea92eb41cc64ab3abaf5a1cd6c32
-  - enabled: 1
+  - enabled: 0
     path: Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher.unity
     guid: 93e4296dd9b9b324c8d4029c60052916
-  - enabled: 1
+  - enabled: 0
     path: Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher 1.unity
     guid: 1fa70c1324379d0498031237a9978594
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game Settings/Settings.unity
     guid: a98944460358f7b4f8892612d79c1749
   m_configObjects:
