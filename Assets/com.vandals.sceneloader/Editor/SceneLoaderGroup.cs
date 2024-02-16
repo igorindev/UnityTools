@@ -3,13 +3,20 @@ using UnityEngine;
 
 namespace SceneLoader
 {
-    [CreateAssetMenu(fileName = "SceneGroupEditor", menuName = "Scene Loader/Scene Group")]
     public class SceneLoaderGroup : ScriptableObject
     {
-        public Texture addTex;
-        public Texture removeTex;
+        [System.Serializable]
+        public struct ScenesCategories
+        {
+            [Scene] public string category;
+            [Scene] public string[] scenes;
+        }
 
+        [Header("Categories")]
         [Scene] public string[] scenes;
+        ScenesCategories[] scenesCategories;
+
+        public ScenesCategories[] ScenesCategoriesGroups { get => scenesCategories; set => scenesCategories = value; }
 
 #if UNITY_EDITOR
         [ContextMenu("Get All Scenes")]

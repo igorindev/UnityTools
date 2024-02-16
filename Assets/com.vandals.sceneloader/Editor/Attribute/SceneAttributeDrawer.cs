@@ -1,46 +1,47 @@
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(SceneAttribute))]
-public class SceneAttributeDrawer : PropertyDrawer
+namespace SceneLoader
 {
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(SceneAttribute))]
+    public class SceneAttributeDrawer : PropertyDrawer
     {
-        if (property.propertyType == SerializedPropertyType.String)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            SceneAsset sceneObject = AssetDatabase.LoadAssetAtPath<SceneAsset>(property.stringValue);
-
-            if (sceneObject == null && !string.IsNullOrEmpty(property.stringValue))
+            if (property.propertyType == SerializedPropertyType.String)
             {
-                // try to load it from the build settings for legacy compatibility
-                sceneObject = GetBuildSettingsSceneObject(property.stringValue);
+                SceneAsset sceneObject = AssetDatabase.LoadAssetAtPath<SceneAsset>(property.stringValue);
+
+                if (sceneObject == null && !string.IsNullOrEmpty(property.stringValue))
+                {
+                    // try to load it from the build settings for legacy compatibility
+                    sceneObject = GetBuildSettingsSceneObject(property.stringValue);
+                }
+                if (sceneObject == null && !string.IsNullOrEmpty(property.stringValue))
+                {
+                    Debug.LogError($"Could not find scene {property.stringValue} in {property.propertyPath}.");
+                }
+                SceneAsset scene = (SceneAsset)EditorGUI.ObjectField(position, label, sceneObject, typeof(SceneAsset), true);
+
+                property.stringValue = AssetDatabase.GetAssetPath(scene);
             }
-            if (sceneObject == null && !string.IsNullOrEmpty(property.stringValue))
+            else
             {
-                Debug.LogError($"Could not find scene {property.stringValue} in {property.propertyPath}.");
-            }
-            SceneAsset scene = (SceneAsset)EditorGUI.ObjectField(position, label, sceneObject, typeof(SceneAsset), true);
-
-            property.stringValue = AssetDatabase.GetAssetPath(scene);
-        }
-        else
-        {
-            EditorGUI.LabelField(position, label.text, "Use [Scene] with strings.");
-        }
-    }
-
-    protected SceneAsset GetBuildSettingsSceneObject(string sceneName)
-    {
-        foreach (EditorBuildSettingsScene buildScene in EditorBuildSettings.scenes)
-        {
-            SceneAsset sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(buildScene.path);
-            if (sceneAsset != null && sceneAsset.name == sceneName)
-            {
-                return sceneAsset;
+                EditorGUI.LabelField(position, label.text, "Use [Scene] with strings.");
             }
         }
-        return null;
+
+        protected SceneAsset GetBuildSettingsSceneObject(string sceneName)
+        {
+            foreach (EditorBuildSettingsScene buildScene in EditorBuildSettings.scenes)
+            {
+                SceneAsset sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(buildScene.path);
+                if (sceneAsset != null && sceneAsset.name == sceneName)
+                {
+                    return sceneAsset;
+                }
+            }
+            return null;
+        }
     }
 }
-#endif

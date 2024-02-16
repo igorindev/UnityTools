@@ -1,3 +1,6 @@
 using UnityEngine;
 
-public class SceneAttribute : PropertyAttribute { }
+namespace SceneLoader
+{
+    public class SceneAttribute : PropertyAttribute { }
+}
