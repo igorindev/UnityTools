@@ -1,5 +1,3 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <AssetBoardView focusable="true" name="AssetBoardView" style="height: auto; align-items: stretch; flex-grow: 1; overflow: visible; text-overflow: clip;">
-        <ui:Toggle style="position: absolute; align-items: stretch;" />
-    </AssetBoardView>
+    <AssetBoardView focusable="true" name="AssetBoardView" style="height: auto; align-items: stretch; flex-grow: 1; overflow: visible; text-overflow: clip;" />
 </ui:UXML>

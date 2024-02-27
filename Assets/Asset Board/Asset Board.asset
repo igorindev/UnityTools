@@ -14,7 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: {fileID: 11400000, guid: 1e7e80722e5645d4a8560a9550dd64f5, type: 2}
   guid: d62a702fcca19d147bc657ccf402e0d3
-  position: {x: 319.56265, y: -884.5863}
+  position: {x: 397.00003, y: -405.69214}
+--- !u!114 &-5341975904091977322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8919bb75b6c91aa4e8c7163b84669438, type: 3}
+  m_Name: ReplayManager
+  m_EditorClassIdentifier: 
+  reference: {fileID: 1616651204322272579, guid: 45743cfe7f5c4644580dae1f8d6d826e, type: 3}
+  guid: 936a700597d10864abec9999292d55f1
+  position: {x: 622, y: -318.99997}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30,6 +45,8 @@ MonoBehaviour:
   nodes:
   - {fileID: 748318404755034373}
   - {fileID: -6964989564737265889}
+  - {fileID: 6486851486177673707}
+  - {fileID: -5341975904091977322}
 --- !u!114 &748318404755034373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,4 +61,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: {fileID: 11500000, guid: 641d5aa758dea3d4d9341aefbd30a46c, type: 3}
   guid: f9c6049bc57cb634b9285a5577c8f2c3
-  position: {x: 104.099335, y: -899.27435}
+  position: {x: 748.3225, y: -179.00002}
+--- !u!114 &6486851486177673707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8919bb75b6c91aa4e8c7163b84669438, type: 3}
+  m_Name: AudioVisualizer
+  m_EditorClassIdentifier: 
+  reference: {fileID: 102900000, guid: ba50fd507751ed4408fdefb394138dd9, type: 3}
+  guid: a39a89bb64eb68141bec9f5c3ea89174
+  position: {x: 472, y: -179.00002}

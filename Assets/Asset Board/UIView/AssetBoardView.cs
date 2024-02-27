@@ -18,13 +18,10 @@ public class AssetBoardView : GraphView
     SelectionDragger selectionDragger = new SelectionDragger();
     RectangleSelector rectangleSelector = new RectangleSelector();
     DragAndDropManipulator dragAndDrop;
-    public GridBackground grid = new GridBackground();
-
-    AssetNodeView currentNodeView;
 
     public AssetBoardView()
     {
-        Insert(0, grid = new GridBackground());
+        Insert(0, new GridBackground());
 
         VisualElement visualElement = new VisualElement()
         {
@@ -52,8 +49,9 @@ public class AssetBoardView : GraphView
         this.AddManipulator(contentZoomer);
         this.AddManipulator(contentDragger);
 
-        //Toggle toggle = this.Q<Toggle>();
-        //toggle.RegisterValueChangedCallback(OnToggleLock);
+        Toggle toggle = new Toggle();
+        toggle.RegisterValueChangedCallback(OnToggleLock);
+        toggle.style.position = new StyleEnum<Position>(Position.Absolute);
 
         static StyleSheet FindSettings()
         {
@@ -77,9 +75,11 @@ public class AssetBoardView : GraphView
         StyleSheet styleSheet = AssetBoardStyle;
         styleSheets.Add(styleSheet);
 
+        Add(toggle);
+
         Undo.undoRedoPerformed += OnUndoRedo;
 
-        //toggle.value = true;
+        toggle.value = true;
         LockNodes(null);
     }
 
@@ -161,7 +161,7 @@ public class AssetBoardView : GraphView
         CreateNodeView(node);
     }
 
-    internal void PopulateView(AssetBoard assetBoard)
+    public void PopulateView(AssetBoard assetBoard)
     {
         this.assetBoard = assetBoard;
 
