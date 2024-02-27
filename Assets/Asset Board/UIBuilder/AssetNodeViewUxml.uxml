@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/BehaviourTree/UIBuilder/NodeViewStyle.uss?fileID=7433441132597879392&amp;guid=9d9e34dc0396ab94ab90fc5f26f12277&amp;type=3#NodeViewStyle" />
+    <ui:VisualElement name="node-state" />
+    <ui:VisualElement name="node-border">
+        <ui:VisualElement name="contents">
+            <ui:VisualElement name="top" style="flex-grow: 1;">
+                <ui:VisualElement name="input" />
+                <ui:VisualElement name="divider" class="vertical" />
+                <ui:VisualElement name="title" style="min-height: auto; flex-grow: 1; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; justify-content: space-between;">
+                    <ui:VisualElement name="previewImage" style="background-image: url(&apos;project://database/Assets/[WIP]%20InputSystemMaster/Icons/Keyboardb.png?fileID=2800000&amp;guid=d0a887db6f906334da3e6129e3d85876&amp;type=3#Keyboardb&apos;); -unity-background-scale-mode: scale-to-fit; justify-content: flex-start; -unity-slice-left: 1; -unity-slice-top: 1; -unity-slice-right: 1; -unity-slice-bottom: 1; -unity-text-align: middle-center; height: 82px; flex-grow: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+                    <ui:Label name="title-label" text="SequencerNode" class="unity-text-element unity-label" style="-unity-text-align: upper-center; font-size: 10px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 5px; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255);" />
+                </ui:VisualElement>
+                <ui:VisualElement name="divider" class="horizontal" />
+                <ui:VisualElement name="output" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="selection-border" picking-mode="Ignore" />
+</ui:UXML>

@@ -1,7 +1,8 @@
 {
-    "name": "UmbraEvolution.PerLayerCameraCulling.Editor",
+    "name": "PerLayerCameraCulling.Editor",
+    "rootNamespace": "",
     "references": [
-        "UmbraEvolution.PerLayerCameraCulling"
+        "PerLayerCameraCulling"
     ],
     "includePlatforms": [
         "Editor"

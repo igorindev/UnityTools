@@ -1,8 +1,7 @@
 {
-    "name": "UmbraEvolution.PerLayerCameraCulling",
-    "references": [
-        "UmbraEvolution"
-    ],
+    "name": "PerLayerCameraCulling",
+    "rootNamespace": "",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

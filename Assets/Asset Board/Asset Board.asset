@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6964989564737265889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8919bb75b6c91aa4e8c7163b84669438, type: 3}
+  m_Name: BehaviourTreeSettings
+  m_EditorClassIdentifier: 
+  reference: {fileID: 11400000, guid: 1e7e80722e5645d4a8560a9550dd64f5, type: 2}
+  guid: d62a702fcca19d147bc657ccf402e0d3
+  position: {x: 319.56265, y: -884.5863}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e3b0677f603be84ca76cf7a2b087022, type: 3}
+  m_Name: Asset Board
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 748318404755034373}
+  - {fileID: -6964989564737265889}
+--- !u!114 &748318404755034373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8919bb75b6c91aa4e8c7163b84669438, type: 3}
+  m_Name: AssetBoardEditorWindow
+  m_EditorClassIdentifier: 
+  reference: {fileID: 11500000, guid: 641d5aa758dea3d4d9341aefbd30a46c, type: 3}
+  guid: f9c6049bc57cb634b9285a5577c8f2c3
+  position: {x: 104.099335, y: -899.27435}

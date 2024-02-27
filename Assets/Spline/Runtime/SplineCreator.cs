@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -6,37 +5,35 @@ using UnityEditor;
 [ExecuteInEditMode, AddComponentMenu("Spline/Spline Creator")]
 public class SplineCreator : MonoBehaviour
 {
+#if UNITY_EDITOR
     public List<GameObject> controlPoints = new List<GameObject>();
 
     [Header("Config")]
-    public int precision = 10;
+    [Min(2)] public int precision = 10;
 
     [Header("Line Render")]
     public Color color = Color.white;
-    public float width = 0.2f;
+    [Min(0.1f)] public float width = 0.2f;
 
     Vector3[] movePositions;
     LineRenderer lineRenderer;
 
     void Start()
     {
-        if (EditorApplication.isPlaying)
+        if (lineRenderer == null)
         {
-            Debug.LogWarning("Spline should be baked to be used during play mode and build.");
-            EditorApplication.ExitPlaymode();
-        }
+            if (TryGetComponent(out LineRenderer l))
+            {
+                lineRenderer = l;
+            }
+            else
+            {
+                lineRenderer = gameObject.AddComponent<LineRenderer>();
+            }
 
-        if (TryGetComponent(out LineRenderer l))
-        {
-            lineRenderer = l;
+            lineRenderer.useWorldSpace = true;
+            lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Additive"));
         }
-        else
-        {
-            lineRenderer = gameObject.AddComponent<LineRenderer>();
-        }
-
-        lineRenderer.useWorldSpace = true;
-        lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Additive"));
     }
 
     void Update()
@@ -48,11 +45,6 @@ public class SplineCreator : MonoBehaviour
             lineRenderer.endColor = color;
             lineRenderer.startWidth = width;
             lineRenderer.endWidth = width;
-
-            if (precision < 2)
-            {
-                precision = 2;
-            }
 
             lineRenderer.positionCount = precision * (controlPoints.Count - 2);
             movePositions = new Vector3[precision * (controlPoints.Count - 2)];
@@ -108,22 +100,6 @@ public class SplineCreator : MonoBehaviour
         DestroyImmediate(GetComponent<LineRenderer>());
         DestroyImmediate(this);
     }
-}
 
-
-[CustomEditor(typeof(SplineCreator))]
-public class SplineCreatorEditor : Editor
-{
-    override public void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        var myScript = target as SplineCreator;
-        EditorGUILayout.Space(5);
-        if (GUILayout.Button("Bake"))
-        {
-            myScript.Bake();
-        }
-    }
-}
 #endif
+}

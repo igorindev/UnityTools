@@ -20,6 +20,8 @@ public class SplineBaked : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        if (m_splinePoints == null || m_splinePoints.Length == 0) return;
+
         Gizmos.color = Color.blue;
         for (int i = 0; i < m_splinePoints.Length - 1; i++)
         {

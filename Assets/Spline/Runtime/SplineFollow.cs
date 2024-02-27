@@ -35,8 +35,7 @@ public class SplineFollow : MonoBehaviour
         while (id < movePositions.Length)
         {
             float count = 0;
-            Vector3 start = transform.position;
-            Quaternion startRot = transform.rotation;
+            transform.GetPositionAndRotation(out Vector3 start, out Quaternion startRot);
             while (count < transition)
             {
                 count += Time.deltaTime;
