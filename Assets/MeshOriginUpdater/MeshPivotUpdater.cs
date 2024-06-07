@@ -33,7 +33,7 @@ public class MeshPivotUpdater : EditorWindow
         window.titleContent = new GUIContent("Mesh Pivot Updater");
     }
 
-    [OnOpenAsset(1)]
+    [OnOpenAsset(2)]
     public static bool OpenAsset(int instanceId, int line)
     {
         Object obj = EditorUtility.InstanceIDToObject(instanceId);
@@ -80,7 +80,6 @@ public class MeshPivotUpdater : EditorWindow
         if (coordinates == Coordinates.World)
         {
             inspectorPosition = EditorGUILayout.Vector3Field("Position", inspectorPosition);
-
         }
         else
         {
@@ -136,7 +135,6 @@ public class MeshPivotUpdater : EditorWindow
         objectPosition = stageGameObject.transform.position;
         StageUtility.PlaceGameObjectInCurrentStage(stageGameObject);
         Selection.activeGameObject = stageGameObject;
-
         SceneView.FrameLastActiveSceneView();
     }
 

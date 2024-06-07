@@ -1,5 +1,5 @@
 {
-    "name": "EmbeddedScriptEditor.Editor",
+    "name": "SimpleEmbeddedScriptEditor.Editor",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [

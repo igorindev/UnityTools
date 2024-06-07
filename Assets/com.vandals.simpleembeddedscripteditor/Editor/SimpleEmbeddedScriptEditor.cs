@@ -5,14 +5,15 @@ using UnityEngine;
 
 namespace EmbeddedScriptEditor
 {
-    public class EmbeddedScriptEditor : EditorWindow
+    public class SimpleEmbeddedScriptEditor : EditorWindow
     {
-        static bool scriptSelected;
-        static MonoScript[] scripts;
-
+         static bool scriptSelected;
+         static MonoScript[] scripts;
+         
         [SerializeField] MonoScript script;
-
+        [SerializeField] int id;
         [SerializeField] string content = "";
+        
         string backup = "";
         string currentPath = "";
 
@@ -21,7 +22,21 @@ namespace EmbeddedScriptEditor
         GUIStyle styleA;
         GUIStyle styleB;
 
-        [SerializeField] int id;
+        static void Create()
+        {
+            SimpleEmbeddedScriptEditor window;
+            if (HasOpenInstances<SimpleEmbeddedScriptEditor>())
+            {
+                window = CreateWindow<SimpleEmbeddedScriptEditor>(scripts[0].name + ".cs", GetWindow<SimpleEmbeddedScriptEditor>().GetType());
+            }
+            else
+            {
+                window = CreateWindow<SimpleEmbeddedScriptEditor>();
+                window.position = new Rect(20, 80, 600, 600);
+            }
+
+            window.titleContent = new GUIContent(scripts[0].name + ".cs", EditorGUIUtility.IconContent("d_cs Script Icon").image);
+        }
 
         [MenuItem("Assets/Edit Script...")]
         public static void Edit()
@@ -31,21 +46,6 @@ namespace EmbeddedScriptEditor
                 scripts = Selection.GetFiltered<MonoScript>(SelectionMode.Assets);
             }
             Create();
-        }
-        static void Create()
-        {
-            EmbeddedScriptEditor window;
-            if (HasOpenInstances<EmbeddedScriptEditor>())
-            {
-                window = CreateWindow<EmbeddedScriptEditor>(scripts[0].name + ".cs", GetWindow<EmbeddedScriptEditor>().GetType());
-            }
-            else
-            {
-                window = CreateWindow<EmbeddedScriptEditor>();
-                window.position = new Rect(20, 80, 600, 600);
-            }
-
-            window.titleContent = new GUIContent(scripts[0].name + ".cs", EditorGUIUtility.IconContent("d_cs Script Icon").image);
         }
 
         [MenuItem("Assets/Edit Script...", true)]
@@ -194,6 +194,7 @@ namespace EmbeddedScriptEditor
         {
             Undo.PerformUndo();
         }
+
         void RedoCmd()
         {
             Undo.PerformRedo();

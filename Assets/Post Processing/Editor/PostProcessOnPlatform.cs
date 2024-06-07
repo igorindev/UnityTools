@@ -1,4 +1,4 @@
-#if URP
+
 using System;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -129,4 +129,3 @@ public class PostProcessOnPlatform : ScriptableObject, IProcessSceneWithReport, 
         EditorSceneManager.OpenScene(currentPath);
     }
 }
-#endif
