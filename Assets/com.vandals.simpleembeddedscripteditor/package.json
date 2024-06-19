@@ -1,9 +1,0 @@
-{
-  "name": "com.vandals.simpleembeddedscripteditor",
-  "version": "1.0.0",
-  "displayName": "Simple Embedded Script Editor",
-  "description": "Edit any .cs script inside Unity by right-clicking the script > Edit Script... The Embedded Script Editor Window will open inside Unity and show the script content. ",
-  "unity": "2022.3",
-  "unityRelease": "0f1",
-  "type": "tool"
-}

@@ -24,11 +24,10 @@ namespace SceneLoader
 
         static Rect SceneViewPosition;
 
-        static string path;
-
         static SceneLoaderGroup scriptableObject;
 
-        public const string uiPath = "com.vandals.sceneloader/Editor/UI";
+        public const string uiPath = "Packages/com.lamou.sceneloader/Editor/UI";
+        public const string folderFixed = "Assets/Editor/SceneLoaderGroup.asset";
 
 #if !UNITY_2021_2_OR_NEWER
         private static void OnScene(SceneView sceneview)
@@ -51,18 +50,8 @@ namespace SceneLoader
 #if !UNITY_2021_2_OR_NEWER
             SceneView.duringSceneGui += OnScene;
 #endif
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            UnityEditor.PackageManager.PackageInfo packageInfo = UnityEditor.PackageManager.PackageInfo.FindForAssembly(assembly);
-            if (packageInfo != null)
-            {
-                minusTexture = AssetDatabase.LoadAssetAtPath($"Packages/{uiPath}/MinusIcon.png", typeof(Texture)) as Texture;
-                plusTexture = AssetDatabase.LoadAssetAtPath($"Packages/{uiPath}/PlusIcon.png", typeof(Texture)) as Texture;
-            }
-            else
-            {
-                minusTexture = AssetDatabase.LoadAssetAtPath($"Assets/{uiPath}/MinusIcon.png", typeof(Texture)) as Texture;
-                plusTexture = AssetDatabase.LoadAssetAtPath($"Assets/{uiPath}/PlusIcon.png", typeof(Texture)) as Texture;
-            }
+            minusTexture = AssetDatabase.LoadAssetAtPath($"{uiPath}/MinusIcon.png", typeof(Texture)) as Texture;
+            plusTexture = AssetDatabase.LoadAssetAtPath($"{uiPath}/PlusIcon.png", typeof(Texture)) as Texture;
 
             backTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
             backTexture.SetPixel(0, 0, new Color(0.1f, 0.1f, 0.1f));
@@ -104,7 +93,7 @@ namespace SceneLoader
 
                     if (GUILayout.Button(EditorGUIUtility.IconContent("d__Popup", "Edit Scenes"), myStyle, GUILayout.Width(20), GUILayout.Height(20)))
                     {
-                        Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>(path), null);
+                        Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>(folderFixed), null);
                         GetWindow(System.Type.GetType("UnityEditor.InspectorWindow, UnityEditor"));
                     }
                     if (GUILayout.Button(EditorGUIUtility.IconContent("d_winbtn_win_close", "Edit Scenes"), myStyle, GUILayout.Width(20), GUILayout.Height(20)))
@@ -182,18 +171,25 @@ namespace SceneLoader
 
         public static void ShowWindow()
         {
-            if (string.IsNullOrEmpty(path))
+            if (!AssetDatabase.IsValidFolder("Assets/Editor"))
             {
-                string[] guid = AssetDatabase.FindAssets("t:SceneLoaderGroup");
-                path = AssetDatabase.GUIDToAssetPath(guid[0]);
+                AssetDatabase.CreateFolder("Assets", "Editor");
             }
-
+            
             if (scriptableObject == null)
             {
-                scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path) as SceneLoaderGroup;
+                scriptableObject = AssetDatabase.LoadAssetAtPath(folderFixed, typeof(SceneLoaderGroup)) as SceneLoaderGroup;
+                if (scriptableObject == null)
+                {
+                    SceneLoaderGroup sceneLoaderGroup = (SceneLoaderGroup)CreateInstance(typeof(SceneLoaderGroup));
+                    AssetDatabase.CreateAsset(sceneLoaderGroup, folderFixed);
+                    AssetDatabase.SaveAssets();
+
+                    scriptableObject = sceneLoaderGroup;
+                }
             }
 
-            allScenes = scriptableObject.scenes;
+            allScenes = scriptableObject.scenes ?? (new string[0] { });
 
             window = CreateInstance<SceneLoaderEditor>();
 

@@ -16,17 +16,7 @@ namespace SceneLoader
 
         public SceneLoaderOverlay()
         {
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            UnityEditor.PackageManager.PackageInfo packageInfo = UnityEditor.PackageManager.PackageInfo.FindForAssembly(assembly);
-            if (packageInfo != null)
-            {
-                icon = AssetDatabase.LoadAssetAtPath($"Packages/{SceneLoaderEditor.uiPath}/Icon.png", typeof(Texture)) as Texture2D;
-            }
-            else
-            {
-                icon = AssetDatabase.LoadAssetAtPath($"Assets/{SceneLoaderEditor.uiPath}/Icon.png", typeof(Texture)) as Texture2D;
-            }
-
+            icon = AssetDatabase.LoadAssetAtPath($"{SceneLoaderEditor.uiPath}/Icon.png", typeof(Texture)) as Texture2D;
             text = "";
 
             tooltip = "Open a scrollable menu that shows all assigned scenes, allowing to load then.";

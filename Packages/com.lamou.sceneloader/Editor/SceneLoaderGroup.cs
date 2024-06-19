@@ -28,6 +28,9 @@ namespace SceneLoader
             {
                 scenes[i] = AssetDatabase.GUIDToAssetPath(s[i]);
             }
+
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
         }
 #endif
     }

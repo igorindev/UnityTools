@@ -1,0 +1,9 @@
+{
+  "name": "com.lamou.sceneloader",
+  "version": "1.0.1",
+  "displayName": "Scene Loader",
+  "description": "Manage the active scenes fast and easier, without the need to search the project browser for your scenes.",
+  "unity": "2022.3",
+  "unityRelease": "20f1",
+  "type": "tool"
+}
