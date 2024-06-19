@@ -1,80 +1,57 @@
 using System.Runtime.CompilerServices;
 using UnityEditor;
-using UnityEditor.Callbacks;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class MeshPivotUpdater : EditorWindow
+[CustomEditor(typeof(MeshPivotInspector))]
+public class MeshPivotUpdater : Editor
 {
-    GameObject stageGameObject;
+    private static GameObject stageGameObject;
 
-    static Mesh meshInstanceAtStage;
+    private static Mesh meshInstanceAtStage;
 
-    Vector3 handlerLocalPosition;
-    Vector3 objectPosition;
-    Vector3 handlerPosition;
-    Vector3 inspectorPosition;
+    private static Vector3 handlerLocalPosition;
+    private static Vector3 objectPosition;
+    private static Vector3 handlerPosition;
+    private static Vector3 inspectorPosition;
 
-    MeshEditorStage stage;
+    private static MeshViewStage stage;
 
-    static MeshPivotUpdater window;
+    private Coordinates coordinates;
 
-    Coordinates coordinates;
-
-    enum Coordinates
+    private enum Coordinates : byte
     {
         World,
         Local
     }
 
-    static void OpenWindow()
+    public static void OpenMeshAsset(Mesh obj)
     {
-        window = GetWindow<MeshPivotUpdater>();
-        window.titleContent = new GUIContent("Mesh Pivot Updater");
-    }
-
-    [OnOpenAsset(2)]
-    public static bool OpenAsset(int instanceId, int line)
-    {
-        Object obj = EditorUtility.InstanceIDToObject(instanceId);
-
-        if (window)
-            window.Close();
-
-        if (obj is Mesh mesh)
+        if (obj)
         {
-            meshInstanceAtStage = CopyMesh(mesh);
-            OpenWindow();
-            return true;
+            meshInstanceAtStage = CopyMesh(obj);
+
+            if (StageUtility.GetCurrentStage() is MeshViewStage)
+            {
+                StageUtility.GoToMainStage();
+            }
+
+            OpenStage();
         }
-        return false;
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
-        OpenStage();
-        SceneView.duringSceneGui += OnSceneGUI;
-        Tools.hidden = true;
+        SceneView.duringSceneGui += OnScene;
     }
 
-    void OnDestroy()
+    private void OnDisable()
     {
-        SceneView.duringSceneGui -= OnSceneGUI;
-
-        stage.onCloseStage -= OnCloseStage;
-        if (StageUtility.GetCurrentStage() is MeshEditorStage)
-        {
-            StageUtility.GoToMainStage();
-        }
-
-        stageGameObject = null;
-        Tools.hidden = false;
+        SceneView.duringSceneGui -= OnScene;
     }
 
-    void OnGUI()
+    public override void OnInspectorGUI()
     {
-        EditorGUILayout.BeginVertical();
-
         EditorGUI.BeginChangeCheck();
         coordinates = (Coordinates)EditorGUILayout.EnumPopup("Coordinate", coordinates);
         if (coordinates == Coordinates.World)
@@ -100,18 +77,13 @@ public class MeshPivotUpdater : EditorWindow
         {
 
         }
-
-        EditorGUILayout.EndVertical();
     }
 
-    void OnCloseStage()
+    private static void OpenStage()
     {
-        Close();
-    }
+        Tools.hidden = true;
 
-    void OpenStage()
-    {
-        stage = CreateInstance<MeshEditorStage>();
+        stage = CreateInstance<MeshViewStage>();
         stage.onCloseStage += OnCloseStage;
 
         StageUtility.GoToStage(stage, true);
@@ -138,7 +110,20 @@ public class MeshPivotUpdater : EditorWindow
         SceneView.FrameLastActiveSceneView();
     }
 
-    void OnSceneGUI(SceneView sceneView)
+    private static void OnCloseStage()
+    {
+        stage.onCloseStage -= OnCloseStage;
+
+        if (StageUtility.GetCurrentStage() is MeshViewStage)
+        {
+            StageUtility.GoToMainStage();
+        }
+
+        stageGameObject = null;
+        Tools.hidden = false;
+    }
+
+    private void OnScene(SceneView sceneView)
     {
         if (stageGameObject)
         {
@@ -161,7 +146,7 @@ public class MeshPivotUpdater : EditorWindow
 
             EditorGUI.BeginChangeCheck();
 
-            if (StageUtility.GetCurrentStage() is MeshEditorStage)
+            if (StageUtility.GetCurrentStage() is MeshViewStage)
             {
                 handlerPosition = Handles.DoPositionHandle(handlerPosition, Quaternion.identity);
             }
@@ -176,7 +161,7 @@ public class MeshPivotUpdater : EditorWindow
         }
     }
 
-    void UpdateVertices()
+    private static void UpdateVertices()
     {
         Vector3[] objectVerts = meshInstanceAtStage.vertices;
 
@@ -191,7 +176,7 @@ public class MeshPivotUpdater : EditorWindow
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static Mesh CopyMesh(Mesh mesh)
+    private static Mesh CopyMesh(Mesh mesh)
     {
         return new Mesh()
         {
@@ -206,7 +191,7 @@ public class MeshPivotUpdater : EditorWindow
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    bool DetectChange(Vector3 v1, Vector3 v2)
+    private static bool DetectChange(Vector3 v1, Vector3 v2)
     {
         return !Mathf.Approximately(v1.x, v2.x) || !Mathf.Approximately(v1.y, v2.y) || !Mathf.Approximately(v1.z, v2.z);
     }

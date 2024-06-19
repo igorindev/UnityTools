@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "#SCRIPTNAME#.asset", menuName = "ScriptableObject/#SCRIPTNAME#")]
-public class SO_#SCRIPTNAME# : ScriptableObject
+public class #SCRIPTNAME# : ScriptableObject
 {
     #NOTRIM#
 }

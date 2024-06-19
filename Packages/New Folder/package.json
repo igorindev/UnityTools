@@ -1,0 +1,9 @@
+{
+  "name": "com.lamou.meshpivotupdater",
+  "version": "1.0.0",
+  "displayName": "Mesh Pivot Updater",
+  "description": "Update the Mesh pivot inside unity.",
+  "unity": "2022.3",
+  "unityRelease": "20f1",
+  "type": "tool"
+}

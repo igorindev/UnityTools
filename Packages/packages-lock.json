@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.lamou.meshpivotupdater": {
+      "version": "file:New Folder",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.lamou.sceneloader": {
       "version": "file:com.lamou.sceneloader",
       "depth": 0,
