@@ -5,17 +5,18 @@ namespace MeshPivotUpdater
 {
     public static class MeshSaverEditor
     {
-        public static Mesh SaveMeshNewInstance(Mesh mesh)
+        public static bool SaveMeshNewInstance(Mesh mesh, out Mesh result)
         {
-            return SaveMesh(mesh, true);
+            return SaveMesh(mesh, true, out result);
         }
 
-        private static Mesh SaveMesh(Mesh mesh, bool optimizeMesh)
+        private static bool SaveMesh(Mesh mesh, bool optimizeMesh, out Mesh result)
         {
             string path = EditorUtility.SaveFilePanel("Save Mesh", Application.dataPath, mesh.name, "asset");
             if (string.IsNullOrEmpty(path))
             {
-                return mesh;
+                result = mesh;
+                return false;
             }
 
             path = FileUtil.GetProjectRelativePath(path);
@@ -30,7 +31,8 @@ namespace MeshPivotUpdater
             AssetDatabase.CreateAsset(meshToSave, path);
             AssetDatabase.SaveAssets();
 
-            return meshToSave;
+            result = meshToSave;
+            return true;
         }
     }
 }

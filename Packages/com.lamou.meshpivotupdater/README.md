@@ -4,7 +4,7 @@ Edit a mesh pivot point inside Unity.
 
 ## Quick Start
 
-Edit any mesh pivot by right-clicking the Mesh > Edit Mesh Pivot..., then the Mesh editor stage will open allowing changing the pivot. Also, you can select the mesh, and click on Edit Pivot in the inspector.
+Edit any mesh pivot by right-clicking the Mesh > Edit Mesh Pivot..., then the Mesh editor stage will open allowing changing the pivot.
 
 ## Options
 

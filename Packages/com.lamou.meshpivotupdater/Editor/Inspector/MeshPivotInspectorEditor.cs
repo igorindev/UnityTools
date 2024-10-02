@@ -93,8 +93,10 @@ namespace MeshPivotUpdater
 
             if (GUILayout.Button("Save as New Mesh"))
             {
-                meshInstanceInStage = MeshSaverEditor.SaveMeshNewInstance(meshInstanceInStage);
-                OpenMeshAsset(meshInstanceInStage);
+                if (MeshSaverEditor.SaveMeshNewInstance(meshInstanceInStage, out Mesh newInstance))
+                {
+                    OpenMeshAsset(newInstance);
+                }
             }
         }
 
