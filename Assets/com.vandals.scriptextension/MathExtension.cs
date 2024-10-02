@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public struct MathExtension
+public partial struct MathExtension
 {
     /// <summary>
     /// Return true if the target is in distance and the direction passed is in the angle

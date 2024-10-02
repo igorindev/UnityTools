@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using UnityEditor;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 public class AndroidBuildInstaller
@@ -10,7 +9,7 @@ public class AndroidBuildInstaller
     [MenuItem("Android/Install AAB")]
     public static void PushAABToAndroid()
     {
-        string bundletoolLocation = PlayerPrefs.GetString("Bundletool");
+        string bundletoolLocation = EditorPrefs.GetString("Bundletool");
         if (string.IsNullOrEmpty(bundletoolLocation) || !File.Exists(bundletoolLocation))
             bundletoolLocation = EditorUtility.OpenFilePanel("Find Bundletool", Environment.CurrentDirectory, "jar");
         if (string.IsNullOrEmpty(bundletoolLocation) || !File.Exists(bundletoolLocation))
@@ -18,7 +17,7 @@ public class AndroidBuildInstaller
             Debug.LogError("Cannot find bundletool.jar. ");
             return;
         }
-        PlayerPrefs.SetString("Bundletool", bundletoolLocation);
+        EditorPrefs.SetString("Bundletool", bundletoolLocation);
 
         string aabLocation = EditorUtility.OpenFilePanel("Find AAB", Environment.CurrentDirectory, "aab");
         if (string.IsNullOrEmpty(aabLocation) || !File.Exists(aabLocation))
@@ -69,7 +68,7 @@ public class AndroidBuildInstaller
         string adbLocation = Path.GetFullPath(Path.Combine(EditorApplication.applicationPath, "../../")) + "Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platform-tools/";
         adbLocation = adbLocation.Replace('/', '\\');
 
-        string apkLocation = PlayerPrefs.GetString("APK location");
+        string apkLocation = EditorPrefs.GetString("APK location");
         if (string.IsNullOrEmpty(apkLocation) || !File.Exists(apkLocation))
             apkLocation = EditorUtility.OpenFilePanel("Find APK", Environment.CurrentDirectory, "apk");
         if (string.IsNullOrEmpty(apkLocation) || !File.Exists(apkLocation))
@@ -77,7 +76,7 @@ public class AndroidBuildInstaller
             Debug.LogError("Cannot find .apk file.");
             return;
         }
-        PlayerPrefs.SetString("APK location", apkLocation);
+        EditorPrefs.SetString("APK location", apkLocation);
 
 
         Debug.Log("APK: " + apkLocation);

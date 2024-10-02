@@ -1,100 +1,90 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UILineRenderer : Graphic
+namespace Radishmouse
 {
-    [SerializeField] Vector2Int gridSize = new Vector2Int(1, 1);
-    [SerializeField] List<Vector2> points = new List<Vector2>();
-    [SerializeField] UIGridRenderer uiGridRenderer;
-    [SerializeField, Min(0)] float thickness = 10f;
-
-    float width;
-    float height;
-    float unitWidth;
-    float unitHeight;
-
-    private void Update()
+    public class UILineRenderer : Graphic
     {
-        if (uiGridRenderer != null)
+        public Vector2[] points;
+
+        public float thickness = 10f;
+        public bool center = true;
+
+        protected override void OnPopulateMesh(VertexHelper vh)
         {
-            if (gridSize != uiGridRenderer.GridSize)
+            vh.Clear();
+
+            if (points.Length < 2)
+                return;
+
+            for (int i = 0; i < points.Length-1; i++)
             {
-                gridSize = uiGridRenderer.GridSize;
-                SetVerticesDirty();
+                // Create a line segment between the next two points
+                CreateLineSegment(points[i], points[i+1], vh);
+
+                int index = i * 5;
+
+                // Add the line segment to the triangles array
+                vh.AddTriangle(index, index+1, index+3);
+                vh.AddTriangle(index+3, index+2, index);
+
+                // These two triangles create the beveled edges
+                // between line segments using the end point of
+                // the last line segment and the start points of this one
+                if (i != 0)
+                {
+                    vh.AddTriangle(index, index-1, index-3);
+                    vh.AddTriangle(index+1, index-1, index-2);
+                }
             }
         }
-    }
 
-    public float GetAngle(Vector2 me)
-    {
-        return Mathf.Atan2(me.y, me.x) * (180 / Mathf.PI);
-    }
-
-    protected override void OnPopulateMesh(VertexHelper vh)
-    {
-        vh.Clear();
-
-        width = rectTransform.rect.width;
-        height = rectTransform.rect.height;
-
-        unitWidth = width / gridSize.x;
-        unitHeight = height / gridSize.y;
-
-        if (points.Count < 2)
+        /// <summary>
+        /// Creates a rect from two points that acts as a line segment
+        /// </summary>
+        /// <param name="point1">The starting point of the segment</param>
+        /// <param name="point2">The endint point of the segment</param>
+        /// <param name="vh">The vertex helper that the segment is added to</param>
+        private void CreateLineSegment(Vector3 point1, Vector3 point2, VertexHelper vh)
         {
-            return;
+            Vector3 offset = center ? (rectTransform.sizeDelta / 2) : Vector2.zero;
+
+            // Create vertex template
+            UIVertex vertex = UIVertex.simpleVert;
+            vertex.color = color;
+
+            // Create the start of the segment
+            Quaternion point1Rotation = Quaternion.Euler(0, 0, RotatePointTowards(point1, point2) + 90);
+            vertex.position = point1Rotation * new Vector3(-thickness / 2, 0);
+            vertex.position += point1 - offset;
+            vh.AddVert(vertex);
+            vertex.position = point1Rotation * new Vector3(thickness / 2, 0);
+            vertex.position += point1 - offset;
+            vh.AddVert(vertex);
+
+            // Create the end of the segment
+            Quaternion point2Rotation = Quaternion.Euler(0, 0, RotatePointTowards(point2, point1) - 90);
+            vertex.position = point2Rotation * new Vector3(-thickness / 2, 0);
+            vertex.position += point2 - offset;
+            vh.AddVert(vertex);
+            vertex.position = point2Rotation * new Vector3(thickness / 2, 0);
+            vertex.position += point2 - offset;
+            vh.AddVert(vertex);
+
+            // Also add the end point
+            vertex.position = point2 - offset;
+            vh.AddVert(vertex);
         }
 
-        float angle = 0;
-
-        for (int i = 0; i < points.Count; i++)
+        /// <summary>
+        /// Gets the angle that a vertex needs to rotate to face target vertex
+        /// </summary>
+        /// <param name="vertex">The vertex being rotated</param>
+        /// <param name="target">The vertex to rotate towards</param>
+        /// <returns>The angle required to rotate vertex towards target</returns>
+        private float RotatePointTowards(Vector2 vertex, Vector2 target)
         {
-            Vector2 point = points[i];
-
-            if (i > 0 && i < points.Count - 1)
-            {
-                Vector2 r0 = (points[i] - points[i - 1]).normalized;
-                Vector2 r1 = (points[i + 1] - points[i]).normalized;
-                Vector2 dir = (r0 + r1).normalized;
-                
-
-                Debug.DrawRay(Vector3.zero, r0, Color.green, 1000000000);
-
-                Debug.DrawRay(Vector3.zero, r1, Color.red, 1000000000);
-
-                Debug.DrawRay(Vector3.zero, dir, Color.yellow, 1000000000);
-                dir = Vector2.Perpendicular(dir);
-                Debug.DrawRay(Vector3.zero, dir, Color.blue, 1000000000);
-
-                angle = GetAngle(-dir);
-                Debug.Log(angle);
-            }
-
-            DrawVerticesForPoint(point, vh, angle);
+            return (float)(Mathf.Atan2(target.y - vertex.y, target.x - vertex.x) * (180 / Mathf.PI));
         }
-
-        for (int i = 0; i < points.Count - 1; i++)
-        {
-            int index = i * 2;
-            vh.AddTriangle(index + 0, index + 1, index + 3);
-            vh.AddTriangle(index + 3, index + 2, index + 0);
-        }
-    }
-
-    void DrawVerticesForPoint(Vector2 point, VertexHelper vh, float angle)
-    {
-        UIVertex vertex = UIVertex.simpleVert;
-        vertex.color = color;
-
-        vertex.position = Quaternion.Euler(0, 0, angle) * new Vector3(-thickness / 2, 0);
-        //vertex.position = new Vector3(-thickness / 2, 0);
-        vertex.position += new Vector3(unitWidth * point.x, unitHeight * point.y);
-        vh.AddVert(vertex);
-
-        vertex.position = Quaternion.Euler(0, 0, angle) * new Vector3(thickness / 2, 0);
-        //vertex.position = new Vector3(thickness / 2, 0);
-        vertex.position += new Vector3(unitWidth * point.x, unitHeight * point.y);
-        vh.AddVert(vertex);
-    }
+}
 }
