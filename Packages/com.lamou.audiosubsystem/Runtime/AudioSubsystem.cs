@@ -4,11 +4,11 @@ using UnityEngine.Audio;
 
 public class AudioSubsystem : MonoBehaviour
 {
-    [SerializeField, Min(1)] int numOfAudioSources = 32;
-    [SerializeField] AudioMixer audioMixer;
-    [SerializeField] AudioGroup[] groups;
+    int numOfAudioSources = 32;
+    AudioMixer audioMixer;
+    AudioGroup[] groups;
 
-    [SerializeField] SerializableDictionary<string, AudioData> audioList;
+    SerializableDictionary<string, AudioData> audios;
 
     private List<AudioPlayer> activeAudioPool;
     private Queue<AudioPlayer> availableAudioPool;
@@ -27,16 +27,16 @@ public class AudioSubsystem : MonoBehaviour
             return;
         }
 
-        audioSubsystem.Setup();
+        audioSubsystem.Setup(Resources.Load("AudioSubsystemSettings") as AudioSubsystemSettings);
         DontDestroyOnLoad(instance);
     }
 
-    private void Setup()
+    private void Setup(AudioSubsystemSettings audioSubsystemSettings)
     {
-        numOfAudioSources = 32;
-        audioMixer = null;
-        groups = null;
-        audioList = null;
+        numOfAudioSources = audioSubsystemSettings.numOfDefaultAudioSources;
+        audioMixer = audioSubsystemSettings.audioMixer;
+        groups = audioSubsystemSettings.audioGroups;
+        audios = audioSubsystemSettings.audios;
 
         currentSnapshot = audioMixer.FindSnapshot("Snapshot").name;
 
@@ -106,14 +106,14 @@ public class AudioSubsystem : MonoBehaviour
 
     private bool TryPlayAudio(string name, out AudioData audioData)
     {
-        if (!audioList.ContainsKey(name))
+        if (!audios.ContainsKey(name))
         {
             Debug.LogError("No clip found with name: " + name);
             audioData = null;
             return false;
         }
 
-        audioData = audioList[name];
+        audioData = audios[name];
 
         return true;
     }

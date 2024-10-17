@@ -4,12 +4,8 @@
 public class AudioPlayer : MonoBehaviour
 {
     private bool inUse;
-
-    public bool InUse => inUse;
-
-    [SerializeField] AudioSource audioSource;
-    [SerializeField] Transform audioParent;
-
+    AudioSource audioSource;
+    Transform audioParent;
     AudioData audioData;
     float audioDataPitch;
     float audioBeginPlayTime;
@@ -17,10 +13,13 @@ public class AudioPlayer : MonoBehaviour
     int audioCurrentSamplesPlayback;
     float lastTimeScale;
 
+    public bool InUse => inUse;
+
     internal void Setup(Transform parent)
     {
         transform.SetParent(parent);
         audioParent = parent;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnDestroy()
@@ -82,6 +81,11 @@ public class AudioPlayer : MonoBehaviour
 
     internal bool Tick(float deltaTime)
     {
+        if (inUse == false)
+        {
+            return true;
+        }
+
         UpdatePitch();
 
         if (audioSource.timeSamples > 0)
