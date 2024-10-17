@@ -1,0 +1,9 @@
+{
+  "name": "com.lamou.epochtime",
+  "version": "1.0.0",
+  "displayName": "Epoch Time",
+  "description": "Modify the current UTC timer for tests.",
+  "unity": "2022.3",
+  "unityRelease": "44f1",
+  "type": "tool"
+}

@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "com.lamou.audiosubsystem": {
+      "version": "file:com.lamou.audiosubsystem",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.lamou.epochtime": {
+      "version": "file:com.lamou.epochtime",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.lamou.meshpivotupdater": {
       "version": "file:com.lamou.meshpivotupdater",
       "depth": 0,

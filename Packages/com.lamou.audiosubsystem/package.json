@@ -1,0 +1,9 @@
+{
+  "name": "com.lamou.audiosubsystem",
+  "version": "1.0.0",
+  "displayName": "Audio Subsystem",
+  "description": "Better Audio control for Unity",
+  "unity": "2022.3",
+  "unityRelease": "44f1",
+  "type": "tool"
+}
