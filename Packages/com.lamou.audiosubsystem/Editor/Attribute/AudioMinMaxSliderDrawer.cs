@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(MinMaxSliderAttribute))]
+[CustomPropertyDrawer(typeof(AudioMinMaxSliderAttribute))]
 public class AudioMinMaxSliderDrawer : PropertyDrawer {
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label){
 
-        var minMaxAttribute = (MinMaxSliderAttribute)attribute;
+        var minMaxAttribute = (AudioMinMaxSliderAttribute)attribute;
         var propertyType = property.propertyType;
 
         label.tooltip = minMaxAttribute.min.ToString("F3") + " to " + minMaxAttribute.max.ToString("F3");

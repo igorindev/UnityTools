@@ -1,21 +1,16 @@
-using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
-[CreateAssetMenu(fileName = "AudioGroup", menuName = "ScriptableObjects/Audio/Audio Group")]
-public class AudioGroup : ScriptableObject
+namespace AudioSubsystem
 {
-    [SerializeField] private AudioMixerGroup outputAudioMixerGroup;
-    [SerializeField] private bool timeScaleDependent;
-
-    public AudioMixerGroup OutputAudioMixerGroup => outputAudioMixerGroup;
-
-    public bool UseTimeScale => timeScaleDependent;
-
-    public event Action<bool> OnAudioPaused;
-
-    public void PauseGroup(bool value)
+    [CreateAssetMenu(fileName = "AudioGroup.asset", menuName = "AudioSubsystem/AudioGroup")]
+    public class AudioGroup : ScriptableObject
     {
-        OnAudioPaused?.Invoke(value);
+        [SerializeField] private AudioMixerGroup outputAudioMixerGroup;
+        [SerializeField] private bool timeScaleDependent;
+
+        public string Name => outputAudioMixerGroup.name;
+        public AudioMixerGroup OutputAudioMixerGroup => outputAudioMixerGroup;
+        public bool UseTimeScale => timeScaleDependent;
     }
 }

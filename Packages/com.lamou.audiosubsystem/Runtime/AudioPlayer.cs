@@ -1,140 +1,172 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioPlayer : MonoBehaviour
+namespace AudioSubsystem
 {
-    private bool inUse;
-    AudioSource audioSource;
-    Transform audioParent;
-    AudioData audioData;
-    float audioDataPitch;
-    float audioBeginPlayTime;
-    int audioTotalSamples;
-    int audioCurrentSamplesPlayback;
-    float lastTimeScale;
-
-    public bool InUse => inUse;
-
-    internal void Setup(Transform parent)
+    public class AudioPlayer : MonoBehaviour
     {
-        transform.SetParent(parent);
-        audioParent = parent;
-        audioSource = GetComponent<AudioSource>();
-    }
+        private AudioSource audioSource;
+        private Transform audioParent;
+        private AudioData audioData;
+        private AudioGroupWrapper group;
+        private uint audioLayer;
+        private bool inUse;
+        private float audioDataPitch;
+        private float audioBeginPlayTime;
+        private int audioTotalSamples;
+        private float lastTimeScale;
+        private bool isPaused;
 
-    private void OnDestroy()
-    {
-        if (audioData)
-        {
-            Stop();
-        }
-    }
+        private int currentTimeSamples;
+        private bool currentLoop;
+        private float currentPitch;
+        private float currentVolume;
 
-    internal void Play(AudioData audioData, Vector3 localPosition, Transform parent)
-    {
-        if (parent)
+        public bool InUse => inUse;
+
+        public uint AudioLayer => audioLayer;
+
+        internal void Setup(Transform parent)
         {
             transform.SetParent(parent);
+            audioParent = parent;
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        transform.localPosition = localPosition;
-
-        Play(audioData);
-    }
-
-    internal void Play(AudioData audioData)
-    {
-        this.audioData = audioData;
-        AudioClip clip = audioData.Clip;
-
-        audioSource.clip = clip;
-        audioSource.outputAudioMixerGroup = audioData.AudioGroup.OutputAudioMixerGroup;
-        audioSource.minDistance = 4f;
-        audioSource.spatialBlend = audioData.Is2D ? 0 : 1;
-        audioSource.loop = audioData.Loop;
-        audioSource.volume = audioData.Volume;
-        audioSource.pitch = audioData.Pitch;
-
-        audioSource.Play();
-
-        audioBeginPlayTime = Time.time;
-        audioTotalSamples = clip.samples;
-        audioCurrentSamplesPlayback = -1;
-        audioDataPitch = audioData.Pitch;
-        inUse = true;
-        lastTimeScale = Time.timeScale;
-
-        audioData.AudioGroup.OnAudioPaused += HandlePauseAudio;
-    }
-
-    private void HandlePauseAudio(bool value)
-    {
-        if (value)
+        private void OnDestroy()
         {
-            audioSource.Pause();
-        }
-        else
-        {
-            audioSource.UnPause();
-        }
-    }
-
-    internal bool Tick(float deltaTime)
-    {
-        if (inUse == false)
-        {
-            return true;
+            if (audioData)
+            {
+                Stop();
+            }
         }
 
-        UpdatePitch();
-
-        if (audioSource.timeSamples > 0)
+        internal void Play(AudioData audioData, uint layer, AudioGroupWrapper group, Vector3 localPosition, Transform parent, int listenPriority)
         {
-            audioCurrentSamplesPlayback = audioSource.timeSamples;
-        }
-        
-        return IsAudioFinished();
-    }
+            if (parent)
+            {
+                transform.SetParent(parent);
+            }
 
-    private bool IsAudioFinished()
-    {
-        if (inUse == false)
-        {
-            return true;
+            transform.localPosition = localPosition;
+
+            Play(audioData, layer, group, listenPriority);
         }
 
-        if (!audioData.Loop && (audioCurrentSamplesPlayback == audioTotalSamples || audioCurrentSamplesPlayback == 0))
+        internal void Play(AudioData audioData, uint layer, AudioGroupWrapper group, int listenPriority)
         {
-            Stop();
+            this.audioData = audioData;
+            AudioClip clip = audioData.Clip;
 
-            return true;
+            audioSource.clip = clip;
+            audioSource.outputAudioMixerGroup = audioData.AudioGroup.OutputAudioMixerGroup;
+            audioSource.spatialBlend = audioData.Is2D ? 0 : 1;
+            audioSource.loop = audioData.Loop;
+            audioSource.volume = audioData.Volume;
+            audioSource.pitch = audioData.Pitch;
+
+            audioSource.rolloffMode = AudioRolloffMode.Custom;
+            audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, audioData.VolumeRolloff);
+            audioSource.maxDistance = audioData.MaxDistance;
+
+            audioSource.priority = listenPriority;
+
+            audioSource.Play();
+
+            audioLayer = layer;
+            audioBeginPlayTime = Time.time;
+            audioTotalSamples = clip.samples;
+            audioDataPitch = audioData.Pitch;
+            inUse = true;
+
+            currentTimeSamples = -1;
+            currentVolume = audioData.Volume;
+            currentLoop = audioData.Loop;
+            lastTimeScale = 0;
+            UpdatePitch();
+
+            group.OnAudioGroupPaused += HandlePauseAudio;
         }
 
-        return false;
-    }
-
-    internal void Stop()
-    {
-        audioSource.Stop();
-        transform.SetParent(audioParent);
-        inUse = false;
-
-        audioData.AudioGroup.OnAudioPaused -= HandlePauseAudio;
-        audioData = null;
-    }
-
-    internal void RestoreAudioToLastCachedSample()
-    {
-        audioSource.Play();
-        audioSource.timeSamples = audioCurrentSamplesPlayback == -1 ? 0 : audioCurrentSamplesPlayback;
-    }
-
-    private void UpdatePitch()
-    {
-        if (audioData.AudioGroup.UseTimeScale && lastTimeScale != Time.timeScale)
+        private void HandlePauseAudio(bool value)
         {
-            audioSource.pitch = audioDataPitch * Time.timeScale;
-            lastTimeScale = Time.timeScale;
+            if (value)
+            {
+                audioSource.Pause();
+            }
+            else
+            {
+                audioSource.UnPause();
+            }
+
+            isPaused = value;
+        }
+
+        internal bool Tick(float deltaTime)
+        {
+            if (inUse == false)
+            {
+                return true;
+            }
+
+            UpdatePitch();
+
+            if (audioSource.timeSamples > 0)
+            {
+                currentTimeSamples = audioSource.timeSamples;
+            }
+
+            return IsAudioFinished();
+        }
+
+        private bool IsAudioFinished()
+        {
+            if (inUse == false)
+            {
+                return true;
+            }
+
+            if (!audioData.Loop && (currentTimeSamples == audioTotalSamples || currentTimeSamples == 0))
+            {
+                Stop();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        internal void Stop()
+        {
+            audioSource.Stop();
+            transform.SetParent(audioParent);
+            inUse = false;
+
+            group.OnAudioGroupPaused -= HandlePauseAudio;
+            group = null;
+            audioData = null;
+        }
+
+        internal void RestoreAudioToLastCachedSample()
+        {
+            audioSource.Play();
+            audioSource.timeSamples = currentTimeSamples == -1 ? 0 : currentTimeSamples;
+            audioSource.volume = currentVolume;
+            audioSource.pitch = currentPitch;
+            audioSource.loop = currentLoop;
+
+            if (isPaused)
+            {
+                audioSource.Pause();
+            }
+        }
+
+        private void UpdatePitch()
+        {
+            if (audioData.AudioGroup.UseTimeScale && lastTimeScale != Time.timeScale)
+            {
+                currentPitch = audioSource.pitch = audioDataPitch * Time.timeScale;
+                lastTimeScale = Time.timeScale;
+            }
         }
     }
 }

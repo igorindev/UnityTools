@@ -2,7 +2,6 @@
 
 public class AudioMinMaxSliderAttribute : PropertyAttribute
 {
-
     public float min;
     public float max;
 

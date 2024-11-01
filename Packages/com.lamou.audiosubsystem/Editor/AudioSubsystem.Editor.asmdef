@@ -1,0 +1,18 @@
+{
+    "name": "AudioSubsystem.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:71d3a5ef6800f8c4f8f2cd2ed52686f8"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

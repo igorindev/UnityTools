@@ -1,177 +1,240 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioSubsystem : MonoBehaviour
+namespace AudioSubsystem
 {
-    int numOfAudioSources = 32;
-    AudioMixer audioMixer;
-    AudioGroup[] groups;
-
-    SerializableDictionary<string, AudioData> audios;
-
-    private List<AudioPlayer> activeAudioPool;
-    private Queue<AudioPlayer> availableAudioPool;
-
-    private string currentSnapshot;
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    public static void InitializeSubsystem()
+    public class AudioSubsystem : MonoBehaviour
     {
-        GameObject instance = new GameObject("AudioSubsystem");
-        AudioSubsystem audioSubsystem = instance.AddComponent<AudioSubsystem>();
+        private readonly Dictionary<uint, Queue<AudioPlayer>> audioLayers = new();
+        private int numOfAudioSources = 32;
+        private AudioMixer audioMixer;
+        private Dictionary<string, AudioGroupWrapper> groups = new();
+        private Dictionary<string, AudioData> audioDatabase = new();
+        private SerializableDictionary<string, AudioData> audios;
+        private List<AudioPlayer> activeAudioPool;
+        private Queue<AudioPlayer> availableAudioPool;
+        private string currentSnapshot;
 
-        if (!Audio.RegisterAudioSubsystem(audioSubsystem))
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void InitializeSubsystem()
         {
-            Destroy(instance);
-            return;
-        }
+            GameObject instance = new GameObject("AudioSubsystem");
+            AudioSubsystem audioSubsystem = instance.AddComponent<AudioSubsystem>();
 
-        audioSubsystem.Setup(Resources.Load("AudioSubsystemSettings") as AudioSubsystemSettings);
-        DontDestroyOnLoad(instance);
-    }
-
-    private void Setup(AudioSubsystemSettings audioSubsystemSettings)
-    {
-        numOfAudioSources = audioSubsystemSettings.numOfDefaultAudioSources;
-        audioMixer = audioSubsystemSettings.audioMixer;
-        groups = audioSubsystemSettings.audioGroups;
-        audios = audioSubsystemSettings.audios;
-
-        currentSnapshot = audioMixer.FindSnapshot("Snapshot").name;
-
-        availableAudioPool = new(numOfAudioSources);
-        activeAudioPool = new(numOfAudioSources);
-
-        for (int i = 0; i < numOfAudioSources; i++)
-        {
-            availableAudioPool.Enqueue(CreateAudioPlayer());
-        }
-
-        AudioSettings.OnAudioConfigurationChanged += AudioSettings_OnAudioConfigurationChanged;
-    }
-
-    private void Update()
-    {
-        ValidateAudioPlayers();
-    }
-
-    private void OnDestroy()
-    {
-        AudioSettings.OnAudioConfigurationChanged -= AudioSettings_OnAudioConfigurationChanged;
-    }
-
-    private void ValidateAudioPlayers()
-    {
-        for (int i = activeAudioPool.Count - 1; i >= 0; i--)
-        {
-            if (activeAudioPool[i].Tick(Time.deltaTime))
+            if (!Audio.RegisterAudioSubsystem(audioSubsystem))
             {
-                availableAudioPool.Enqueue(activeAudioPool[i]);
-                activeAudioPool.RemoveAt(i);
+                Destroy(instance);
+                return;
+            }
+
+            audioSubsystem.Setup(Resources.Load("AudioSubsystemSettings") as AudioSubsystemSettings);
+            DontDestroyOnLoad(instance);
+        }
+
+        private void Setup(AudioSubsystemSettings audioSubsystemSettings)
+        {
+            numOfAudioSources = audioSubsystemSettings.NumOfDefaultAudioSources;
+            audioMixer = audioSubsystemSettings.AudioMixer;
+            BuildAudioDatabase(audioSubsystemSettings.Audios);
+
+            currentSnapshot = audioMixer.FindSnapshot("Snapshot").name;
+
+            availableAudioPool = new(numOfAudioSources);
+            activeAudioPool = new(numOfAudioSources);
+
+            for (int i = 0; i < numOfAudioSources; i++)
+            {
+                availableAudioPool.Enqueue(CreateAudioPlayer());
+            }
+
+            foreach (AudioGroup group in audioSubsystemSettings.AudioGroups)
+            {
+                groups.Add(group.Name, new AudioGroupWrapper(group));
+            }
+
+            AudioSettings.OnAudioConfigurationChanged += AudioSettings_OnAudioConfigurationChanged;
+        }
+
+        private void BuildAudioDatabase(List<AudioData> availableAudios)
+        {
+            audioDatabase = availableAudios.ToDictionary(audio => audio.name, audio => audio);
+        }
+
+        private void Update()
+        {
+            ValidateAudioPlayers();
+        }
+
+        private void OnDestroy()
+        {
+            AudioSettings.OnAudioConfigurationChanged -= AudioSettings_OnAudioConfigurationChanged;
+        }
+
+        private void ValidateAudioPlayers()
+        {
+            for (int i = activeAudioPool.Count - 1; i >= 0; i--)
+            {
+                if (activeAudioPool[i].Tick(Time.deltaTime))
+                {
+                    if (activeAudioPool[i].AudioLayer != 0 && audioLayers.TryGetValue(activeAudioPool[i].AudioLayer, out Queue<AudioPlayer> queue))
+                    {
+                        queue.Dequeue();
+                    }
+
+                    availableAudioPool.Enqueue(activeAudioPool[i]);
+                    activeAudioPool.RemoveAt(i);
+                }
             }
         }
-    }
 
-    public AudioPlayer Play(string name)
-    {
-        if (!TryPlayAudio(name, out AudioData audioData))
+        internal AudioPlayer PlayAtPosition(string name, Vector3 position, Transform followTarget, uint layer = 0, int listenPriority = 0)
         {
-            return null;
+            if (!TryPlayAudio(name, out AudioData audioData))
+            {
+                return null;
+            }
+
+            AudioPlayer audioPlayer;
+            if (layer != 0 && audioLayers.TryGetValue(layer, out Queue<AudioPlayer> audios) && audios.Count == audioData.MaxSimultaneousAudios)
+            {
+                audioPlayer = audioLayers[layer].Dequeue();
+            }
+            else
+            {
+                audioPlayer = GetFirstAudioSourceAvailable();
+            }
+
+            audioPlayer.Play(audioData, layer, groups[audioData.AudioGroup.Name], position, followTarget, listenPriority);
+
+            if (layer != 0)
+            {
+                if (audioLayers.ContainsKey(layer))
+                {
+                    audioLayers[layer].Enqueue(audioPlayer);
+                }
+                else
+                {
+                    var FrequentAudioQueue = new Queue<AudioPlayer>();
+                    FrequentAudioQueue.Enqueue(audioPlayer);
+
+                    audioLayers.Add(layer, FrequentAudioQueue);
+                }
+            }
+
+            return audioPlayer;
         }
 
-        AudioPlayer audioEntity = GetFirstAudioSourceAvailable();
-        audioEntity.Play(audioData);
-
-        return audioEntity;
-    }
-
-    public AudioPlayer PlayAtPosition(string name, Vector3 position, Transform followTarget)
-    {
-        if (!TryPlayAudio(name, out AudioData audioData))
+        internal AudioPlayer Play(string name, uint layer = 0, int listenPriority = 0)
         {
-            return null;
+            if (!TryPlayAudio(name, out AudioData audioData))
+            {
+                return null;
+            }
+
+            AudioPlayer audioPlayer;
+            if (layer != 0 && audioLayers.TryGetValue(layer, out Queue<AudioPlayer> audios) && audios.Count == audioData.MaxSimultaneousAudios)
+            {
+                audioPlayer = audioLayers[layer].Dequeue();
+            }
+            else
+            {
+                audioPlayer = GetFirstAudioSourceAvailable();
+            }
+
+            audioPlayer.Play(audioData, layer, groups[audioData.AudioGroup.Name], listenPriority);
+
+            if (layer != 0)
+            {
+                if (audioLayers.ContainsKey(layer))
+                {
+                    audioLayers[layer].Enqueue(audioPlayer);
+                }
+                else
+                {
+                    var FrequentAudioQueue = new Queue<AudioPlayer>();
+                    FrequentAudioQueue.Enqueue(audioPlayer);
+
+                    audioLayers.Add(layer, FrequentAudioQueue);
+                }
+            }
+
+            return audioPlayer;
         }
 
-        AudioPlayer audioEntity = GetFirstAudioSourceAvailable();
-        audioEntity.Play(audioData, position, followTarget);
-
-        return audioEntity;
-    }
-
-    public void Stop(AudioPlayer audioPlayer)
-    {
-        audioPlayer.Stop();
-    }
-
-    private bool TryPlayAudio(string name, out AudioData audioData)
-    {
-        if (!audios.ContainsKey(name))
+        internal void Stop(AudioPlayer audioPlayer)
         {
-            Debug.LogError("No clip found with name: " + name);
-            audioData = null;
-            return false;
+            audioPlayer.Stop();
         }
 
-        audioData = audios[name];
-
-        return true;
-    }
-
-    private AudioPlayer GetFirstAudioSourceAvailable()
-    {
-        if (availableAudioPool.Count == 0)
+        private bool TryPlayAudio(string name, out AudioData audioData)
         {
-            var audioPlayer = CreateAudioPlayer();
-            availableAudioPool.Enqueue(audioPlayer);
+            if (!audios.ContainsKey(name))
+            {
+                Debug.LogError("No clip found with name: " + name);
+                audioData = null;
+                return false;
+            }
+
+            audioData = audios[name];
+
+            return true;
         }
 
-        AudioPlayer audioSourceEntity = availableAudioPool.Dequeue();
-        activeAudioPool.Add(audioSourceEntity);
-        return audioSourceEntity;
-    }
-
-    private void AudioSettings_OnAudioConfigurationChanged(bool deviceWasChanged)
-    {
-        TransitionAudioSnapshot(currentSnapshot, 0);
-
-        foreach (AudioPlayer item in activeAudioPool)
+        private AudioPlayer GetFirstAudioSourceAvailable()
         {
-            item.RestoreAudioToLastCachedSample();
+            if (availableAudioPool.Count == 0)
+            {
+                var audioPlayer = CreateAudioPlayer();
+                availableAudioPool.Enqueue(audioPlayer);
+            }
+
+            AudioPlayer audioSourceEntity = availableAudioPool.Dequeue();
+            activeAudioPool.Add(audioSourceEntity);
+            return audioSourceEntity;
         }
-    }
 
-    public void TransitionAudioSnapshot(string snapshotName, float transitionTime)
-    {
-        var snapshot = audioMixer.FindSnapshot(snapshotName);
-        snapshot.TransitionTo(transitionTime);
+        private void AudioSettings_OnAudioConfigurationChanged(bool deviceWasChanged)
+        {
+            TransitionAudioSnapshot(currentSnapshot, 0);
 
-        currentSnapshot = snapshot.name;
-    }
+            foreach (AudioPlayer item in activeAudioPool)
+            {
+                item.RestoreAudioToLastCachedSample();
+            }
+        }
 
-    public void TransitionAudioSnapshot(AudioMixerSnapshot snapshot, float transitionTime)
-    {
-        snapshot.TransitionTo(transitionTime);
-        currentSnapshot = snapshot.name;
-    }
+        internal void TransitionAudioSnapshot(string snapshotName, float transitionTime)
+        {
+            var snapshot = audioMixer.FindSnapshot(snapshotName);
+            snapshot.TransitionTo(transitionTime);
 
-    [ContextMenu("pause")]
-    public void PauseGroup()
-    {
-        groups[0].PauseGroup(true);
-    }
+            currentSnapshot = snapshot.name;
+        }
 
-    [ContextMenu("unpause")]
-    public void UnPauseGroup()
-    {
-        groups[0].PauseGroup(false);
-    }
+        internal void TransitionAudioSnapshot(AudioMixerSnapshot snapshot, float transitionTime)
+        {
+            snapshot.TransitionTo(transitionTime);
+            currentSnapshot = snapshot.name;
+        }
 
-    private AudioPlayer CreateAudioPlayer()
-    {
-        GameObject instance = new GameObject("AudioPlayer");
-        AudioPlayer audioPlayer = instance.AddComponent<AudioPlayer>();
-        audioPlayer.Setup(transform);
-        return audioPlayer;
+        internal void PauseGroup(string groupName)
+        {
+            groups[groupName].PauseGroup(true);
+        }
+
+        internal void UnPauseGroup(string groupName)
+        {
+            groups[groupName].PauseGroup(false);
+        }
+
+        private AudioPlayer CreateAudioPlayer()
+        {
+            GameObject instance = new GameObject("AudioPlayer");
+            AudioPlayer audioPlayer = instance.AddComponent<AudioPlayer>();
+            audioPlayer.Setup(transform);
+            return audioPlayer;
+        }
     }
 }
