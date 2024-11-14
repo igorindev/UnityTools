@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/UV/UVViewer.unity
     guid: c62f9eba56c2d9647a4b503b89a14372
   - enabled: 0
-    path: Assets/UI Canvas Manager Old/Canvas Manager.unity
+    path: Assets/_Features/UI/UI Canvas Manager Old/Canvas Manager.unity
     guid: 670aea92eb41cc64ab3abaf5a1cd6c32
   - enabled: 0
     path: Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher.unity
@@ -21,4 +21,5 @@ EditorBuildSettings:
     path: Assets/Game Settings/Settings.unity
     guid: a98944460358f7b4f8892612d79c1749
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 0538026a3fa1cff4c949c28d44297b28, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: f6c9eb2d752e39a48bca78ab98c40b09, type: 2}

@@ -1,0 +1,16 @@
+{
+    "name": "CollisionTriggerArea.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:066191b1a0d989c41a9829c90dd06825"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

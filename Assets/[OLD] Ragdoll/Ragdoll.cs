@@ -5,12 +5,12 @@ public class Ragdoll : MonoBehaviour
     [SerializeField] Rigidbody[] rigidbodies;
 
     [ContextMenu("Start")]
-    void Start()
+    private void Start()
     {
         rigidbodies = GetComponentsInChildren<Rigidbody>();
     }
 
-    public void RagdollSetActive(bool value, Rigidbody hittedRigidbody = null, Vector3 hitDir = default, float hitImpulseForce = 100)
+    public void ToogleRagdoll(bool value, Rigidbody hittedRigidbody = null, Vector3 hitImpulse = default)
     {
         for (int i = 0; i < rigidbodies.Length; i++)
         {
@@ -19,12 +19,12 @@ public class Ragdoll : MonoBehaviour
 
         if (hittedRigidbody != null)
         {
-            hittedRigidbody.AddForce(hitDir * hitImpulseForce, ForceMode.Impulse);
+            hittedRigidbody.AddForce(hitImpulse, ForceMode.Impulse);
         }
     }
 
     [ContextMenu("True")]
-    void RagdollSetActive()
+    private void RagdollSetActive()
     {
         for (int i = 0; i < rigidbodies.Length; i++)
         {
@@ -33,7 +33,7 @@ public class Ragdoll : MonoBehaviour
     }
 
     [ContextMenu("False")]
-    void RagdollSetFalse()
+    private void RagdollSetFalse()
     {
         for (int i = 0; i < rigidbodies.Length; i++)
         {

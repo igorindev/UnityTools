@@ -7,14 +7,17 @@ namespace AudioSubsystem
 {
     public class AudioSubsystem : MonoBehaviour
     {
+        public const string AudioSubsystemSettingsPath = "AudioSubsystem/AudioSubsystemSettings";
         private readonly Dictionary<uint, Queue<AudioPlayer>> audioLayers = new();
-        private int numOfAudioSources = 32;
+
+        private int numOfAudioSources;
         private AudioMixer audioMixer;
+
         private Dictionary<string, AudioGroupWrapper> groups = new();
         private Dictionary<string, AudioData> audioDatabase = new();
-        private SerializableDictionary<string, AudioData> audios;
-        private List<AudioPlayer> activeAudioPool;
-        private Queue<AudioPlayer> availableAudioPool;
+        private List<AudioPlayer> activeAudioPool = new();
+        private Queue<AudioPlayer> availableAudioPool = new();
+
         private string currentSnapshot;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -29,7 +32,7 @@ namespace AudioSubsystem
                 return;
             }
 
-            audioSubsystem.Setup(Resources.Load("AudioSubsystemSettings") as AudioSubsystemSettings);
+            audioSubsystem.Setup(Resources.Load(AudioSubsystemSettingsPath) as AudioSubsystemSettings);
             DontDestroyOnLoad(instance);
         }
 
@@ -170,14 +173,14 @@ namespace AudioSubsystem
 
         private bool TryPlayAudio(string name, out AudioData audioData)
         {
-            if (!audios.ContainsKey(name))
+            if (!audioDatabase.ContainsKey(name))
             {
                 Debug.LogError("No clip found with name: " + name);
                 audioData = null;
                 return false;
             }
 
-            audioData = audios[name];
+            audioData = audioDatabase[name];
 
             return true;
         }

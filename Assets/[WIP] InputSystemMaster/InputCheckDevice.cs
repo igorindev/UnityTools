@@ -72,6 +72,7 @@ public class InputCheckDevice : MonoBehaviour
             inputIcons[i].Icon.sprite = GetSprite(inputIcons[i].inputBinding.ToArray());
         }
     }
+
     public void UpdateIcon(int id)
     {
         inputIcons[id].Icon.sprite = GetSprite(inputIcons[id].inputBinding.ToArray());
@@ -139,6 +140,7 @@ public class InputCheckDevice : MonoBehaviour
                 return SearchSprite(xboxSprite, RemoveSpecialCharacters(bindings[id].effectivePath));
         }
     }
+
     Sprite SearchSprite(Sprite[] sprites, string path)
     {
         Debug.Log(path);

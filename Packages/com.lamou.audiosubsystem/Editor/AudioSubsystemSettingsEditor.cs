@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace AudioSubsystem.Editor
     [CustomEditor(typeof(AudioSubsystemSettings))]
     public class AudioSubsystemSettingsEditor : UnityEditor.Editor
     {
-        AudioSubsystemSettings _audioSubsystemSettings;
+        private AudioSubsystemSettings _audioSubsystemSettings;
 
         private void OnEnable()
         {
@@ -17,6 +18,11 @@ namespace AudioSubsystem.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            if (GUILayout.Button("Get All Audios"))
+            {
+                GetAllAudios();
+            }
 
             if (GUILayout.Button("Generate Constants"))
             {
@@ -36,6 +42,26 @@ namespace AudioSubsystem.Editor
             }
 
             GenerateEnum.CreateConsts("AudioNames", names);
+        }
+
+        private void GetAllAudios()
+        {
+            _audioSubsystemSettings.Audios = FindAssetsByType<AudioData>().ToList();
+            _audioSubsystemSettings.Audios.OrderBy(audio => audio.name);
+        }
+
+        private static IEnumerable<T> FindAssetsByType<T>() where T : Object
+        {
+            string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
+            foreach (string t in guids)
+            {
+                string assetPath = AssetDatabase.GUIDToAssetPath(t);
+                T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                if (asset != null)
+                {
+                    yield return asset;
+                }
+            }
         }
     }
 }

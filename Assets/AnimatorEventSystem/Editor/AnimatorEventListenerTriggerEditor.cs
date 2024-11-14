@@ -11,11 +11,11 @@ using AnimatorControllerLayer = UnityEditor.Animations.AnimatorControllerLayer;
 [CustomPropertyDrawer(typeof(AnimatorEventListenerTrigger))]
 public class AnimatorEventListenerTriggerEditor : PropertyDrawer
 {
-    GameObject go;
-    Animator animator;
-    AnimatorController animatorController;
-    List<AnimatorState> states = new();
-    CultureInfo customCulture;
+    private GameObject go;
+    private Animator animator;
+    private AnimatorController animatorController;
+    private List<AnimatorState> states = new();
+    private CultureInfo customCulture;
 
     public void Initialize(SerializedProperty property)
     {
@@ -43,14 +43,8 @@ public class AnimatorEventListenerTriggerEditor : PropertyDrawer
 
         EditorGUIUtility.wideMode = true;
         EditorGUI.indentLevel = 0;
-        //if (GUI.Button(rect, "Refresh"))
-        //{
-        //    initialized = false;
-        //}
 
         Initialize(property);
-
-        //rect.y += rect.height;
 
         List<string> stateNames = new List<string>();
         foreach (AnimatorState item in states)

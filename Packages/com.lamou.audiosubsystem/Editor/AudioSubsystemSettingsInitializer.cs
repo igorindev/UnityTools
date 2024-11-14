@@ -1,0 +1,27 @@
+using AudioSubsystem;
+using UnityEditor;
+using UnityEngine;
+
+public class AudioSubsystemSettingsInitializer : AssetPostprocessor
+{
+    private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths, bool didDomainReload)
+    {
+        AudioSubsystemSettings audioSettings = Resources.Load<AudioSubsystemSettings>("AudioSubsystem/AudioSubsystemSettings");
+        if (audioSettings == null)
+        {
+            audioSettings = ScriptableObject.CreateInstance<AudioSubsystemSettings>();
+            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+            {
+                AssetDatabase.CreateFolder("Assets","Resources");
+
+                if (!AssetDatabase.IsValidFolder("Assets/Resources/AudioSubsystem"))
+                {
+                    AssetDatabase.CreateFolder("Assets/Resources", "AudioSubsystem");
+                }
+            }
+
+            AssetDatabase.CreateAsset(audioSettings, "Assets/Resources/AudioSubsystem/AudioSubsystemSettings.asset");
+            AssetDatabase.SaveAssets();
+        }
+    }
+}

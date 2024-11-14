@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b4b67617639fe4687cabeb78ccb1b4, type: 3}
+  m_Name: SceneLoaderGroup
+  m_EditorClassIdentifier: 
+  scenes:
+  - Assets/[OLD] Intro Player/VideoPlayer.unity
+  - Assets/[WIP] AI Perseption/AI.unity
+  - Assets/[WIP] AI Perseption/AIExecutionSplit/Scenes/SampleScene.unity
+  - Assets/[WIP] Asset Recycler/Asset Recycler.unity
+  - Assets/[WIP] BuildMeshCombiner/Combiner.unity
+  - Assets/[WIP] BuildMeshCombiner/UncombinedScenes/Backup_Combiner.unity
+  - Assets/[WIP] Camera Composition/Demo/Scenes/Demo Scene - 2D.unity
+  - Assets/[WIP] Camera Composition/Demo/Scenes/Demo Scene - Diagonal.unity
+  - Assets/[WIP] Camera Composition/Demo/Scenes/Demo Scene - Golden Ratio.unity
+  - Assets/[WIP] Camera Composition/Demo/Scenes/Demo Scene - Golden Spiral.unity
+  - Assets/[WIP] Camera Composition/Demo/Scenes/Demo Scene - Rule of Thirds.unity
+  - Assets/[WIP] CharacterController Edge/Test/CCEdge.unity
+  - Assets/[WIP] Custom CharacterController/CustomCharacterController.unity
+  - Assets/[WIP] Custom Collision/CustomCollision.unity
+  - Assets/[WIP] FolderHierarchy/Folder.unity
+  - Assets/[WIP] InputSystemMaster/InputSystemMaster.unity
+  - Assets/[WIP] Mesh Cleaner/Scenes/Destroy Tris.unity
+  - Assets/[WIP] Mesh Cleaner/Scenes/Mesh Cut.unity
+  - Assets/[WIP] ObjectReflection/Sample/Morgue Room PBR/morgue scene/morgue.unity
+  - Assets/[WIP] ObjectReflection/Sample/ObjectReflection.unity
+  - Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher 1.unity
+  - Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher.unity
+  - Assets/[WIP] Playable/Playable.unity
+  - Assets/[WIP] Playable/Supercyan Character Pack Free Sample/Scenes/DemoScene.unity
+  - Assets/[WIP] Replay System/Replay.unity
+  - 
+  - Assets/[WIP] Terrain Audio/Terrain.unity
+  - Assets/[WIP] Texture Combiner/Impostor.unity
+  - 
+  - Assets/_Tools/Colliders Explorer/CollisionExplorer.unity
+  - Assets/Animation Tween/Sample/AnimationTween.unity
+  - Assets/AnimatorOverride/SampleScene.unity
+  - 
+  - 
+  - Assets/com.vandals.animationpreviewer/Samples/Simple Animation/TestScene.unity
+  - 
+  - Assets/com.vandals.lockframeupdate/Samples/Sample.unity
+  - Assets/com.vandals.navmesh/Samples/Sample.unity
+  - Assets/com.vandals.planarshadows/RadialMenu 1.unity
+  - Assets/com.vandals.radialmenu/Samples/RadialMenu.unity
+  - Assets/com.vandals.uienhanced/Runtime/InputFieldGroup/InputFieldGroup.unity
+  - Assets/DepthMask/Tests/UITransparentUnifier.unity
+  - Assets/Game Settings/Settings.unity
+  - Assets/IK/HomebrewIK/Demo/Demo_Built-in.unity
+  - Assets/IK/HomebrewIK/Demo/Demo_URP.unity
+  - Assets/KDTree/KDTreeTest.unity
+  - 
+  - Assets/SpacialHashGrid/TestSpatialHash.unity
+  - 
+  - Assets/Subtitles/Subtitle.unity
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Assets/UV/UVViewer.unity
+  - Packages/com.lamou.audiosubsystem/Samples/SampleScene.unity
+  - Packages/com.unity.render-pipelines.universal/Editor/SceneTemplates/Basic.unity
+  - Packages/com.unity.render-pipelines.universal/Editor/SceneTemplates/Standard.unity

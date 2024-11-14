@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using UnityEngine;
+
 public static class SaveGame
 {   
     //Binary

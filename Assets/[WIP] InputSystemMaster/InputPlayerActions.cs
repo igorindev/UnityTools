@@ -12,7 +12,7 @@ public class InputPlayerActions : MonoBehaviour
 
         inputAction.Player.Click.performed += OnClick;
         inputAction.Player.Move.performed += OnMove;
-        inputAction.Player.Newaction.performed += OnNewaction;
+        //inputAction.Player.Newaction.performed += OnNewaction;
 
         playerInput = GetComponent<PlayerInput>();
         playerInput.actions = inputAction.asset;

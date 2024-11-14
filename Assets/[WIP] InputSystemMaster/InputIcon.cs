@@ -8,8 +8,10 @@ public class InputIcon : MonoBehaviour
 {
     public string inputActionName = "Click";
     public List<InputBinding> inputBinding;
+
     public Image Icon { get; set; }
-    void Start()
+
+    private void Start()
     {
         Icon = GetComponent<Image>();
         PlayerInputController.Instance.inputSystemCheckDevice.AddIconToList(this);

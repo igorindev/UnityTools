@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace AudioSubsystem
 {
-    [CreateAssetMenu(fileName = "AudioSubsystemSettings.asset", menuName = "AudioSubsystem/AudioSubsystemSettings")]
     public class AudioSubsystemSettings : ScriptableObject
     {
         [SerializeField][Min(1)] private int numOfDefaultAudioSources = 32;

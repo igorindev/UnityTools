@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -39,21 +41,24 @@ public class InputSystemKeyRebind : MonoBehaviour
     [InputControl(layout = "Button")]
     public string controllerCancelInput;
 
+    [SerializeField] Transform holder;
+    [SerializeField] Button prefab;
+
     public PlayerInput playerInput;
     public RebinderSchema[] rebindReceiver;
     public string SAVE_BINDINGS_PATH;
 
-    public Button[] inputs;
+    private Button[] inputs;
 
     RebindHolder currentRebinding = new RebindHolder();
     InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
-    void OnValidate()
+    private void OnValidate()
     {
-        ReadBindings();
+        
     }
 
-    void ReadBindings()
+    private void ReadBindings()
     {
         if (playerInput && playerInput.actions)
         {
@@ -61,7 +66,7 @@ public class InputSystemKeyRebind : MonoBehaviour
             int bindCount = 0;
             string lastAction = "";
 
-            var controlSchemes = playerInput.actions.controlSchemes.ToArray();
+            InputControlScheme[] controlSchemes = playerInput.actions.controlSchemes.ToArray();
             rebindReceiver = new RebinderSchema[controlSchemes.Length];
 
             for (int i = 0; i < controlSchemes.Length; i++)
@@ -73,12 +78,16 @@ public class InputSystemKeyRebind : MonoBehaviour
             List<InputBinding> allInputs = new List<InputBinding>();
             foreach (InputBinding item in playerInput.actions.bindings)
             {
-                if (string.IsNullOrEmpty(item.effectivePath) == false && item.isComposite == false)
+                bool isStick = !string.IsNullOrEmpty(item.effectiveProcessors) && item.effectiveProcessors.Contains("StickDeadzone");
+                if (string.IsNullOrEmpty(item.effectivePath) == false && item.isComposite == false && !isStick)
                 {
                     allInputs.Add(item);
                 }
             };
 
+            allInputs = allInputs.OrderBy(x => x.groups).ToList();
+
+            inputs = new Button[allInputs.Count];
             for (int i = 0; i < allInputs.Count; i++)
             {
                 compositeCount = allInputs[i].isPartOfComposite ? compositeCount + 1 : 0;
@@ -86,6 +95,8 @@ public class InputSystemKeyRebind : MonoBehaviour
                 bindCount = allInputs[i].action == lastAction && allInputs[i].isPartOfComposite == false ? bindCount + 1 : 0;
 
                 lastAction = allInputs[i].action;
+
+                inputs[i] = Instantiate(prefab, holder);
 
                 RebindHolder rebindHolder = new RebindHolder
                 {
@@ -100,7 +111,8 @@ public class InputSystemKeyRebind : MonoBehaviour
                 };
 
                 inputs[i].onClick.AddListener(() => StartRebindingAction(rebindHolder));
-
+                rebindHolder.inputNameText.text = allInputs[i].action;
+               
                 for (int j = 0; j < rebindReceiver.Length; j++)
                 {
                     if (rebindReceiver[j].schema == allInputs[i].groups)
@@ -116,8 +128,9 @@ public class InputSystemKeyRebind : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
+        ReadBindings();
         ShowBindingsInText();
     }
 
@@ -127,12 +140,14 @@ public class InputSystemKeyRebind : MonoBehaviour
         var rebinds = playerInput.actions.SaveBindingOverridesAsJson();
         PlayerPrefs.SetString("rebinds", rebinds);
     }
+
     [ContextMenu("Load Bindings")]
     public void LoadUserRebinds()
     {
         var rebinds = PlayerPrefs.GetString("rebinds");
         playerInput.actions.LoadBindingOverridesFromJson(rebinds);
     }
+
     [ContextMenu("Reset Bindings")]
     public void ResetUserRebinds()
     {
@@ -141,7 +156,7 @@ public class InputSystemKeyRebind : MonoBehaviour
         ShowBindingsInText();
     }
 
-    void ShowBindingsInText()
+    private void ShowBindingsInText()
     {
         for (int i = 0; i < rebindReceiver.Length; i++)
         {
@@ -155,7 +170,7 @@ public class InputSystemKeyRebind : MonoBehaviour
         }
     }
 
-    void StartRebindingAction(RebindHolder action)
+    private void StartRebindingAction(RebindHolder action)
     {
         if (currentRebinding.button != null) return;
 
@@ -182,7 +197,9 @@ public class InputSystemKeyRebind : MonoBehaviour
         rebindingOperation.OnComplete(RebindEndedAsCompletedOrCanceled);
         rebindingOperation.Start();
     }
-    void RebindEndedAsCompletedOrCanceled(InputActionRebindingExtensions.RebindingOperation obj)
+
+
+    private void RebindEndedAsCompletedOrCanceled(InputActionRebindingExtensions.RebindingOperation obj)
     {
         rebindingOperation.Dispose();
         currentRebinding.inputAction.Enable();
@@ -243,9 +260,18 @@ public class InputSystemKeyRebind : MonoBehaviour
 
         currentRebinding = new RebindHolder();
         PlayerInputController.Instance.inputSystemCheckDevice.UpdateAllPaths();
+
+        foreach (InputBinding item in playerInput.actions.bindings)
+        {
+            bool isStick = !string.IsNullOrEmpty(item.effectiveProcessors) && item.effectiveProcessors.Contains("StickDeadzone");
+            if (string.IsNullOrEmpty(item.effectivePath) == false && item.isComposite == false && !isStick)
+            {
+                Debug.Log(item.ToString());
+            }
+        };
     }
 
-    string ConvertToTextSprite(string path)
+    private string ConvertToTextSprite(string path)
     {
         path = InputControlPath.ToHumanReadableString(path, InputControlPath.HumanReadableStringOptions.OmitDevice | InputControlPath.HumanReadableStringOptions.UseShortNames);
         return "<sprite name=" + path + ">";
