@@ -245,30 +245,17 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &831847715 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2272759120649472846, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
+--- !u!114 &831847720 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1214312950520001643, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
   m_PrefabInstance: {fileID: 5199094301762494764}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &831847720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 831847715}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3768ec190cc2ac64cb413c6859a95030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyboardCancelInput: <Keyboard>/escape
-  controllerCancelInput: <Gamepad>/start
-  holder: {fileID: 26283008}
-  prefab: {fileID: 1406088164335323731, guid: 7c94620829b1c6b46b90ae044bfafebd, type: 3}
-  playerInput: {fileID: 878134836}
-  rebindReceiver: []
-  SAVE_BINDINGS_PATH: 
 --- !u!1 &878134831
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +686,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1214312950520001643, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 878134836}
+    - target: {fileID: 1214312950520001643, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
+      propertyPath: rebindViewPrefab
+      value: 
+      objectReference: {fileID: 7211159009964661852, guid: 7c94620829b1c6b46b90ae044bfafebd, type: 3}
+    - target: {fileID: 1214312950520001643, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
+      propertyPath: bindsScrollViewHolder
+      value: 
+      objectReference: {fileID: 26283008}
+    - target: {fileID: 1214312950520001643, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
+      propertyPath: bindSchemas.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214312950520001643, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
+      propertyPath: rebindReceiver.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214312950520001643, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
+      propertyPath: rebindReceiver.Array.data[0].rebinders.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1237206872124220624, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -963,10 +974,7 @@ PrefabInstance:
     - {fileID: 1549855404733860488, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
     - {fileID: 286612192606240365, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2272759120649472846, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 831847720}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b46b70079c8ae14ba94309e4e258056, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

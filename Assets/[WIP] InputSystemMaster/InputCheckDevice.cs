@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum SCHEMES { Control, Key }
+public enum InputSchemes { Control, Key }
 
 public class InputCheckDevice : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class InputCheckDevice : MonoBehaviour
     
     public List<InputIcon> inputIcons = new List<InputIcon>();
     public List<string> names = new List<string>();
-    SCHEMES currentScheme;
+    private InputSchemes currentScheme;
 
     void Start()
     {
@@ -28,13 +28,13 @@ public class InputCheckDevice : MonoBehaviour
 
         playerInput.onDeviceRegained += OnControlsChanged;
         playerInput.onControlsChanged += OnControlsChanged;
-        currentScheme = (SCHEMES)Enum.Parse(typeof(SCHEMES), PlayerInputController.Instance.playerInput.currentControlScheme);
+        currentScheme = (InputSchemes)Enum.Parse(typeof(InputSchemes), PlayerInputController.Instance.playerInput.currentControlScheme);
         SetDeviceChangesCallback();
     }
 
     public void OnControlsChanged(PlayerInput value)
     {
-        currentScheme = (SCHEMES)Enum.Parse(typeof(SCHEMES), value.currentControlScheme);
+        currentScheme = (InputSchemes)Enum.Parse(typeof(InputSchemes), value.currentControlScheme);
         UpdateAllIcons();
     }
 
@@ -86,28 +86,28 @@ public class InputCheckDevice : MonoBehaviour
             switch (change)
             {
                 case InputDeviceChange.Added:
-                    Debug.Log("ADDED");
+                    //Debug.Log("ADDED");
                     break;
                 case InputDeviceChange.Removed:
-                    Debug.Log("REMOVED");
+                    //Debug.Log("REMOVED");
                     break;
                 case InputDeviceChange.Disconnected:
-                    Debug.Log("DISCONNECTED");
+                    //Debug.Log("DISCONNECTED");
                     break;
                 case InputDeviceChange.Reconnected:
-                    Debug.Log("RECONNECTED");
+                    //Debug.Log("RECONNECTED");
                     break;
                 case InputDeviceChange.Enabled:
-                    Debug.Log("ENABLED");
+                    //Debug.Log("ENABLED");
                     break;
                 case InputDeviceChange.Disabled:
-                    Debug.Log("DISABLED");
+                    //Debug.Log("DISABLED");
                     break;
                 case InputDeviceChange.UsageChanged:
-                    Debug.Log("USAGE CHANGED");
+                    //Debug.Log("USAGE CHANGED");
                     break;
                 case InputDeviceChange.ConfigurationChanged:
-                    Debug.Log("CONFIGURATION CHANGED");
+                    //Debug.Log("CONFIGURATION CHANGED");
                     break;
             }
         };
@@ -119,7 +119,7 @@ public class InputCheckDevice : MonoBehaviour
         int id = -1;
         for (int i = 0; i < bindings.Length; i++)
         {
-            if (Enum.TryParse(bindings[i].groups, out SCHEMES s))
+            if (Enum.TryParse(bindings[i].groups, out InputSchemes s))
             {
                 if (s == currentScheme)
                 {
@@ -130,20 +130,16 @@ public class InputCheckDevice : MonoBehaviour
         }
 
         //Get the active scheme and search in the icons correspondents
-        switch (currentScheme)
+        return currentScheme switch
         {
-            case SCHEMES.Control:
-                return SearchSprite(xboxSprite, RemoveSpecialCharacters(bindings[id].effectivePath));
-            case SCHEMES.Key:
-                return SearchSprite(pcSprite, RemoveSpecialCharacters(bindings[id].effectivePath));
-            default:
-                return SearchSprite(xboxSprite, RemoveSpecialCharacters(bindings[id].effectivePath));
-        }
+            InputSchemes.Control => SearchSprite(xboxSprite, RemoveSpecialCharacters(bindings[id].effectivePath)),
+            InputSchemes.Key => SearchSprite(pcSprite, RemoveSpecialCharacters(bindings[id].effectivePath)),
+            _ => SearchSprite(xboxSprite, RemoveSpecialCharacters(bindings[id].effectivePath)),
+        };
     }
 
     Sprite SearchSprite(Sprite[] sprites, string path)
     {
-        Debug.Log(path);
         for (int i = 0; i < sprites.Length; i++)
         {
             if (sprites[i].name == path)
@@ -157,7 +153,7 @@ public class InputCheckDevice : MonoBehaviour
 
     public string RemoveSpecialCharacters(string str)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new();
         foreach (char c in str)
         {
             if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')

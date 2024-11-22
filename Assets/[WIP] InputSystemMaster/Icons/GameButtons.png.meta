@@ -3,7 +3,7 @@ guid: 7282735a35b8cb1468008155b157f79a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -110,6 +116,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -371,10 +378,10 @@ TextureImporter:
       name: GameButtons_13
       rect:
         serializedVersion: 2
-        x: 2013
+        x: 2386
         y: 3378
-        width: 1067
-        height: 695
+        width: 323
+        height: 322
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -766,6 +773,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: GameButtons_8
+      rect:
+        serializedVersion: 2
+        x: 2386
+        y: 3749
+        width: 323
+        height: 322
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c2a4753c2bf1e14db1aa60d634c26fc
+      internalID: 1602718023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GameButtons_14
+      rect:
+        serializedVersion: 2
+        x: 2758
+        y: 3375
+        width: 322
+        height: 323
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef457c243f35f0c4abff05c4463daf2a
+      internalID: -1094366791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -777,42 +826,41 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      GameButtons_23: 1487041256
-      GameButtons_3: 2081135750
+      GameButtons_0: 228094370
+      GameButtons_1: 252882366
+      GameButtons_10: -1820390352
       GameButtons_11: -2126834715
+      GameButtons_12: -1974038643
+      GameButtons_13: -654660808
+      GameButtons_14: -1094366791
+      GameButtons_15: -1145945486
+      GameButtons_16: 1548789848
+      GameButtons_17: -149710918
       GameButtons_18: 1953057786
       GameButtons_19: -1487887721
-      GameButtons_7: -649122214
-      GameButtons_6: 570230790
-      GameButtons_21: 1661473596
-      GameButtons_24: 1209611913
-      GameButtons_10: -1820390352
-      GameButtons_28: -1068058660
-      GameButtons_4: -1580486097
-      GameButtons_20: 1343559022
-      GameButtons_0: 228094370
-      GameButtons_13: -654660808
-      GameButtons_29: 517400326
-      GameButtons_30: 473024434
-      GameButtons_9: 2041948659
-      GameButtons_22: -318930786
-      GameButtons_15: -1145945486
       GameButtons_2: 79688121
-      GameButtons_14: -1094366791
-      GameButtons_17: -149710918
-      GameButtons_26: 1751436599
-      GameButtons_12: -1974038643
-      GameButtons_1: 252882366
-      GameButtons_5: -2085552436
-      GameButtons_16: 1548789848
-      GameButtons_27: 1578620063
-      GameButtons_31: -9470300
-      GameButtons_8: 1602718023
+      GameButtons_20: 1343559022
+      GameButtons_21: 1661473596
+      GameButtons_22: -318930786
+      GameButtons_23: 1487041256
+      GameButtons_24: 1209611913
       GameButtons_25: -41039334
+      GameButtons_26: 1751436599
+      GameButtons_27: 1578620063
+      GameButtons_28: -1068058660
+      GameButtons_29: 517400326
+      GameButtons_3: 2081135750
+      GameButtons_30: 473024434
+      GameButtons_31: -9470300
       GameButtons_32: -2052711153
-  spritePackingTag: 
+      GameButtons_4: -1580486097
+      GameButtons_5: -2085552436
+      GameButtons_6: 570230790
+      GameButtons_7: -649122214
+      GameButtons_8: 1602718023
+      GameButtons_9: 2041948659
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

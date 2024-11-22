@@ -10,14 +10,15 @@ public class AudioSubsystemSettingsInitializer : AssetPostprocessor
         if (audioSettings == null)
         {
             audioSettings = ScriptableObject.CreateInstance<AudioSubsystemSettings>();
-            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-            {
-                AssetDatabase.CreateFolder("Assets","Resources");
 
-                if (!AssetDatabase.IsValidFolder("Assets/Resources/AudioSubsystem"))
+            if (!AssetDatabase.IsValidFolder("Assets/Resources/AudioSubsystem"))
+            {
+                if (!AssetDatabase.IsValidFolder("Assets/Resources"))
                 {
-                    AssetDatabase.CreateFolder("Assets/Resources", "AudioSubsystem");
+                    AssetDatabase.CreateFolder("Assets", "Resources");
                 }
+
+                AssetDatabase.CreateFolder("Assets/Resources", "AudioSubsystem");
             }
 
             AssetDatabase.CreateAsset(audioSettings, "Assets/Resources/AudioSubsystem/AudioSubsystemSettings.asset");

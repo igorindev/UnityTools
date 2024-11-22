@@ -1,0 +1,2204 @@
+fileFormatVersion: 2
+guid: 6f4ab3cf885d5c84e81a43d9928540e1
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Keyboard&Mouse_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a75e5427b2e6e643b9f3f2eb5e75e66
+      internalID: -330604106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_1
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33ed27c4113dadc43816ecdef7f1c805
+      internalID: 676111510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_2
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eef8403c310013440a65ed28e5c5dba5
+      internalID: -1041124557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_3
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bffa455c32e6e7540a296649f10d2d2a
+      internalID: 503380803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_4
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29202890f86f6824685d7e13cf021ff6
+      internalID: 1866617351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_5
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce9c7e7b6cc43ca4f85dcb795babf781
+      internalID: -412087956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_6
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf47b9770af8cac4fa15072fb77778cd
+      internalID: 1530592076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_7
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c378006e44571034b872588df335caff
+      internalID: -2034730376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_8
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 540194450486b9a45badf80d57f08cef
+      internalID: 1689061485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_9
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 925
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a43c5e855504e8347b63e524535a8335
+      internalID: -1494215719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5ffa3b4b20830c49b57d4530b67afd5
+      internalID: 928038151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_11
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 402c5b4328e8eab4e8bbcf50003d493d
+      internalID: -26424080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_12
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9f67ffa67d77eb438d1c5bbe5d949c0
+      internalID: -2119647132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_13
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c71b9f1e4a2877949b87516404eec540
+      internalID: -1978087555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_14
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3589713f348c5d846b6f342208cc7c04
+      internalID: 1164721450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_15
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd5e634337df2b943b17565034e03a75
+      internalID: -386690124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_16
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc58c85b2a6c47e4798e6dbe7a9ecff5
+      internalID: -1887341739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_17
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0320466321efe0b40aa036fa637d3058
+      internalID: 1896269220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_18
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4801b15b0108b0b4795c2b39221cd819
+      internalID: 83906629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_19
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 826
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7ae5dfe424098844a1ce9dbaea13d85
+      internalID: 22739222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 320fca1c37979e040a976935b694ba18
+      internalID: 1170477407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_21
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 438e47e7ffa63944e9684494d288a2f3
+      internalID: -2144441056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_22
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f557237cbd31bb42a7dd41509330756
+      internalID: 363547205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_23
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36639668c0e60fb479a846cc0481f8c9
+      internalID: -888964232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_24
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9df39fc3f5cbad04e891321e4f08f3a9
+      internalID: -1013097192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_25
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e4a01b7b64af244d9ea01374da8b13b
+      internalID: 877153556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_26
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a68c001b0e18494fb497c2056fdb300
+      internalID: -859792218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_27
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c57d828150b89e44973d72061810b79
+      internalID: 1046920392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_28
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4385c70bb0cdcb4c982d71870bd0685
+      internalID: -1893008542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_29
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 727
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76f114a5d53e16347a8dc0eb94e7c715
+      internalID: -881333060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adcc665b6780de04ab66745ef98870d2
+      internalID: -958416823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_31
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59ae050d11d697742aa73260e2856db0
+      internalID: 269551892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_32
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb1ff47edbf83c2498992620f6dbeb20
+      internalID: 321006641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_33
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47c59eafbd216564bb54b9a09d478933
+      internalID: 2008529841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_34
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d503047ef465ff469e0eeea50c016a1
+      internalID: -1470537584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_35
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0deccb2bb3b93f42845b85c0e50a5ce
+      internalID: -1437369393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_36
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3f5e81fffe25c9409dd51d9021e2782
+      internalID: -802499525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_37
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ea5d7454ab96684ba0f85225349e4ee
+      internalID: -856713429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_38
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96319ed485e62bd459eabf4776cabc02
+      internalID: 2019524715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_39
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 628
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95b687d1d33623645a7ba4d40310e288
+      internalID: -121055767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e7cd3ade17da654a9aa7eff314fea00
+      internalID: -304341114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_41
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93f87aae8db11804fbb73f2be287740c
+      internalID: -1244414144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_42
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5908da8b32f21b841a39a9529572f593
+      internalID: 1194547190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_43
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9cb9f61349f6b6418f27e36ce0d6c1a
+      internalID: 49301056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_44
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd2adcbfab615ce4d832ad409564869a
+      internalID: 1110545710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_45
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d22e806d1c5dcc847adec9e7a67a3145
+      internalID: 1647169385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_46
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 930bcd50a1e00fe4e81e2a26291e9829
+      internalID: 989051211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_47
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1cbf5b2f4984a54d92b9540f54c3da2
+      internalID: 319101336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_48
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee8c53a6ed3c2fe46b0732ff3a59f888
+      internalID: 1467537573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_49
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 529
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e72b43683f731240b00873bf91e0cd5
+      internalID: -793947080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cff69703674b03042a8bc31918436a44
+      internalID: 609803025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_51
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6797e8c6e7f73c49af7c980b587e437
+      internalID: -538093852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_52
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67e361a109729e445aa7363b3573b88a
+      internalID: -1198493372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_53
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c195cb41d2fb724e93e80942814e0cb
+      internalID: -1832642831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_54
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ceafdfa2a104f842b89fdc775bf33ca
+      internalID: 167397952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_55
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5d2561224bf0244cbb884468a39039f
+      internalID: 855688640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_56
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37713e3af24808c4f9901dbc701349f9
+      internalID: -1738162596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_57
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4019d2ef4ff541241a8904622fdf9f3a
+      internalID: 937861791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_58
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04c480b9ac21722498d0d5c9bcb7138c
+      internalID: 730872388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_59
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 430
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c9c9aae01b34064b9d2cb4c7da56de6
+      internalID: -59538989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_60
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4eb0566e79133614ba67a11b4c1a6c2b
+      internalID: 1625271384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_61
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36ad33872a901b04aa587d53ed027762
+      internalID: 354785297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_62
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe8df555be2c2a24db2fbdbdf9d33760
+      internalID: -423961586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_63
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1e7596b088e4b34fa954afbde6f45e6
+      internalID: -886520465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_64
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b927c0913a8eb1a49ac04040b6021df1
+      internalID: -572061494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_65
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdb95d9574963b64b878434a31437377
+      internalID: 1076961348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_66
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37528ec6089e4b3489f34f2bfd0d05ed
+      internalID: 1991895048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_67
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a0b2bc55425aec41a4b6da32d04a3d3
+      internalID: 1301625080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_68
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6392d2129fa40542b9b53e510b17b35
+      internalID: -1519126782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_69
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 331
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26eb164388ad1a840a3a366bd9e439e4
+      internalID: -1471741185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_70
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9911d0e4047ab4e4da696f378f364532
+      internalID: -14051708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_71
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdfcf61c7944f6c4b9107e17c239764b
+      internalID: -1000472177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_72
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 572e25160ad701c4aa6dd96f3068df47
+      internalID: 1902900680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_73
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4455f5cae42f21c4e9676fc4232f16a0
+      internalID: 2100117582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_74
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 513cbc6166446b649aca4ba6afcb0fc9
+      internalID: 793051584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_75
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 600897eee353e074f9b44c1e082bd757
+      internalID: -264003485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_76
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61a32918cd30c0244852ffe2c3350ee9
+      internalID: 720275706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_77
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68af13115eb261a459c66218e8e946cb
+      internalID: -575414404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_78
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af116f72c152a334e892cb7c46ca1e1a
+      internalID: 1256533788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_79
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 232
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 485db0890a71f4b4eb64b4f2b1688def
+      internalID: 2031017321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_80
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc3e9fba8ad72b347ab021c789c09e64
+      internalID: -427506832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_81
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e82153a122cf9654eab00446aa51adae
+      internalID: -1654305784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_82
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acfd0592fa5475546b1d0ef2d28f7b70
+      internalID: -1223939426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_83
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 319c9c56f2737d84dbe806a5c0754cd8
+      internalID: -585892979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_84
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91bade2ef9c3eff4ca54f3184ba6ab0f
+      internalID: 1768139666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_85
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0ca4a93929db2d4e93a155c10885a36
+      internalID: 2064427644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_86
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b728af74834b5543b53f46627a0b332
+      internalID: 2131750975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_87
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27d216aaa5247ee4dad7980bfab552d5
+      internalID: -219573002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_88
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd238cafab4bffc479fa7bf5acbc82b0
+      internalID: 39775807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_89
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 133
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04cd8acfc2d6ae048a980b283aa43236
+      internalID: -982214041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_90
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 34
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d696c0756722a084fb421f81877b432e
+      internalID: -699724124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_91
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 34
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6165f8ff702624418a41b0f5148e5e3
+      internalID: -1021964536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_92
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 34
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b734ac6b97fc604195d1bbccb199270
+      internalID: -1935931121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_93
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 34
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d73473b80c5bcff4e917eae2688183b3
+      internalID: -1324794983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keyboard&Mouse_94
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 34
+        width: 99
+        height: 99
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4caa99950a1d78d429885a3365af0028
+      internalID: -531941496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Keyboard&Mouse_0: -330604106
+      Keyboard&Mouse_1: 676111510
+      Keyboard&Mouse_10: 928038151
+      Keyboard&Mouse_11: -26424080
+      Keyboard&Mouse_12: -2119647132
+      Keyboard&Mouse_13: -1978087555
+      Keyboard&Mouse_14: 1164721450
+      Keyboard&Mouse_15: -386690124
+      Keyboard&Mouse_16: -1887341739
+      Keyboard&Mouse_17: 1896269220
+      Keyboard&Mouse_18: 83906629
+      Keyboard&Mouse_19: 22739222
+      Keyboard&Mouse_2: -1041124557
+      Keyboard&Mouse_20: 1170477407
+      Keyboard&Mouse_21: -2144441056
+      Keyboard&Mouse_22: 363547205
+      Keyboard&Mouse_23: -888964232
+      Keyboard&Mouse_24: -1013097192
+      Keyboard&Mouse_25: 877153556
+      Keyboard&Mouse_26: -859792218
+      Keyboard&Mouse_27: 1046920392
+      Keyboard&Mouse_28: -1893008542
+      Keyboard&Mouse_29: -881333060
+      Keyboard&Mouse_3: 503380803
+      Keyboard&Mouse_30: -958416823
+      Keyboard&Mouse_31: 269551892
+      Keyboard&Mouse_32: 321006641
+      Keyboard&Mouse_33: 2008529841
+      Keyboard&Mouse_34: -1470537584
+      Keyboard&Mouse_35: -1437369393
+      Keyboard&Mouse_36: -802499525
+      Keyboard&Mouse_37: -856713429
+      Keyboard&Mouse_38: 2019524715
+      Keyboard&Mouse_39: -121055767
+      Keyboard&Mouse_4: 1866617351
+      Keyboard&Mouse_40: -304341114
+      Keyboard&Mouse_41: -1244414144
+      Keyboard&Mouse_42: 1194547190
+      Keyboard&Mouse_43: 49301056
+      Keyboard&Mouse_44: 1110545710
+      Keyboard&Mouse_45: 1647169385
+      Keyboard&Mouse_46: 989051211
+      Keyboard&Mouse_47: 319101336
+      Keyboard&Mouse_48: 1467537573
+      Keyboard&Mouse_49: -793947080
+      Keyboard&Mouse_5: -412087956
+      Keyboard&Mouse_50: 609803025
+      Keyboard&Mouse_51: -538093852
+      Keyboard&Mouse_52: -1198493372
+      Keyboard&Mouse_53: -1832642831
+      Keyboard&Mouse_54: 167397952
+      Keyboard&Mouse_55: 855688640
+      Keyboard&Mouse_56: -1738162596
+      Keyboard&Mouse_57: 937861791
+      Keyboard&Mouse_58: 730872388
+      Keyboard&Mouse_59: -59538989
+      Keyboard&Mouse_6: 1530592076
+      Keyboard&Mouse_60: 1625271384
+      Keyboard&Mouse_61: 354785297
+      Keyboard&Mouse_62: -423961586
+      Keyboard&Mouse_63: -886520465
+      Keyboard&Mouse_64: -572061494
+      Keyboard&Mouse_65: 1076961348
+      Keyboard&Mouse_66: 1991895048
+      Keyboard&Mouse_67: 1301625080
+      Keyboard&Mouse_68: -1519126782
+      Keyboard&Mouse_69: -1471741185
+      Keyboard&Mouse_7: -2034730376
+      Keyboard&Mouse_70: -14051708
+      Keyboard&Mouse_71: -1000472177
+      Keyboard&Mouse_72: 1902900680
+      Keyboard&Mouse_73: 2100117582
+      Keyboard&Mouse_74: 793051584
+      Keyboard&Mouse_75: -264003485
+      Keyboard&Mouse_76: 720275706
+      Keyboard&Mouse_77: -575414404
+      Keyboard&Mouse_78: 1256533788
+      Keyboard&Mouse_79: 2031017321
+      Keyboard&Mouse_8: 1689061485
+      Keyboard&Mouse_80: -427506832
+      Keyboard&Mouse_81: -1654305784
+      Keyboard&Mouse_82: -1223939426
+      Keyboard&Mouse_83: -585892979
+      Keyboard&Mouse_84: 1768139666
+      Keyboard&Mouse_85: 2064427644
+      Keyboard&Mouse_86: 2131750975
+      Keyboard&Mouse_87: -219573002
+      Keyboard&Mouse_88: 39775807
+      Keyboard&Mouse_89: -982214041
+      Keyboard&Mouse_9: -1494215719
+      Keyboard&Mouse_90: -699724124
+      Keyboard&Mouse_91: -1021964536
+      Keyboard&Mouse_92: -1935931121
+      Keyboard&Mouse_93: -1324794983
+      Keyboard&Mouse_94: -531941496
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

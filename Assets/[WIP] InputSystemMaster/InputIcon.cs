@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class InputIcon : MonoBehaviour
 {
     public string inputActionName = "Click";
-    public List<InputBinding> inputBinding;
+    public List<UnityEngine.InputSystem.InputBinding> inputBinding;
 
     public Image Icon { get; set; }
 
