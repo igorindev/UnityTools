@@ -52,6 +52,11 @@ public class AnimatorEventListenerTriggerEditor : PropertyDrawer
             stateNames.Add(item.name);
         }
 
+        if (stateNames.Count == 0)
+        {
+            return;
+        }
+
         int index = 0;
         for (int i = 0; i < states.Count; i++)
         {
@@ -117,6 +122,11 @@ public class AnimatorEventListenerTriggerEditor : PropertyDrawer
 
     private List<AnimatorState> GetAnimatorStateInfo(AnimatorController ac)
     {
+        if (ac == null)
+        {
+            return new List<AnimatorState>();
+        }
+
         AnimatorControllerLayer[] acLayers = ac.layers;
         List<AnimatorState> allStates = new List<AnimatorState>();
         foreach (AnimatorControllerLayer i in acLayers)
