@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEditor.U2D.Sprites;
@@ -89,7 +90,7 @@ namespace Lamou.InputSystem.SpriteMap.EditorUtilities
             serializedObject.Update();
         }
 
-        private static void UpdateName(string[] keyboardKeys, params UnityEngine.Object[] objects)
+        private static void UpdateName(IReadOnlyList<string> keyboardKeys, params UnityEngine.Object[] objects)
         {
             foreach (UnityEngine.Object obj in objects)
             {
@@ -100,7 +101,7 @@ namespace Lamou.InputSystem.SpriteMap.EditorUtilities
                     ISpriteEditorDataProvider dataProvider = factory.GetSpriteEditorDataProviderFromObject(obj);
                     dataProvider.InitSpriteEditorDataProvider();
 
-                    SetSpriteName(dataProvider, keyboardKeys);
+                    SetSpriteName(dataProvider, keyboardKeys.ToArray());
 
                     dataProvider.Apply();
 
