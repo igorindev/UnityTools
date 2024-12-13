@@ -9,6 +9,12 @@ public class InputBindingsScheme : IDisposable
     public List<InputBindingData> Bindings;
     public Dictionary<string, List<InputRebindUIButton>> uiButtonsWithBinding;
 
+    public void Dispose()
+    {
+        Bindings.Clear();
+        uiButtonsWithBinding.Clear();
+    }
+
     public void UpdateUIBindingButton(string oldBindingPath, string newBindingPath, InputRebindUIButton inputRebindUIButton)
     {
         RemoveUIButtonWithBinding(oldBindingPath, inputRebindUIButton);
@@ -48,12 +54,6 @@ public class InputBindingsScheme : IDisposable
             ListPool<InputRebindUIButton>.Release(list);
             uiButtonsWithBinding.Remove(bindingPath);
         }
-    }
-
-    public void Dispose()
-    {
-        Bindings.Clear();
-        uiButtonsWithBinding.Clear();
     }
 
     private void CheckDuplicate(string oldBingingPath)

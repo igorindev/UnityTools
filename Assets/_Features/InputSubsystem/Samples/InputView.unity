@@ -567,10 +567,6 @@ MonoBehaviour:
     m_ActionName: Player/Move[/XInputControllerWindows/leftStick]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: d417626d-eadd-4a43-9719-f7b689b4310d
-    m_ActionName: Player/New action[/Keyboard/a]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 37335acc-7023-462e-ad80-2ead9701118c
     m_ActionName: Menu/New action
   m_NeverAutoSwitchControlSchemes: 0

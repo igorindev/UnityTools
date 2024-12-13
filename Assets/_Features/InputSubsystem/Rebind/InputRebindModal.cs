@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
-using UnityEngine.InputSystem.Utilities;
-using static UnityEngine.InputSystem.InputActionRebindingExtensions;
 
 public class InputRebindModal : MonoBehaviour
 {
@@ -13,51 +11,50 @@ public class InputRebindModal : MonoBehaviour
     [InputControl(layout = "Button")]
     [SerializeField] string controllerCancelInput;
 
-    private InputBindingData _currentBinding;
-    private RebindingOperation _rebindingOperation;
+    private InputBindingData _currentBindingTryingRebind;
     private InputActionAsset _inputActionAsset;
+    private InputRebindOperation _inputRebindOperation;
     private string _controlScheme;
 
-    public delegate void HandleInputRebindInit(ReadOnlyArray<InputControlScheme> controlSchemes, string cancelInput);
-    public delegate void HandleInputRebindBegin(RebindingOperation rebindingOperation, InputBindingData inputBindingData);
-    public delegate void HandleInputRebindEnd(bool success, InputBindingData inputBindingData);
+    public delegate void HandleInputRebindInit(string controlScheme, string cancelInput);
+    public delegate void HandleInputRebindBegin(InputBindingData inputBindingData);
+    public delegate void HandleInputRebindCanceled(InputBindingData inputBindingData);
 
     public event HandleInputRebindInit onInitialize;
-    public event HandleInputRebindBegin onBegin;
-    public event HandleInputRebindEnd OnRebindEnd;
+    public event HandleInputRebindBegin onRebindStart;
+    public event HandleInputRebindCanceled OnRebindCancel;
 
-    public event Action<string> OnSchemeUpdated;
-    public event Action<InputBindingData, Action<InputBindingData>> OnCreateInputBindingData;
+    public event Action<string, InputBindingData, Action<InputBindingData>> OnCreateInputBindingData;
     public event Action<InputActionMap> OnBeginNewInputMapSection;
     public event Action<string, InputBindingData> OnRebindComplete;
 
-    private bool IsRebindingOperationActive() => _currentBinding != null;
+    public bool IsRebindingOperationActive => _inputRebindOperation.IsRebinding;
 
     private void Start()
     {
+        _inputRebindOperation = new();
+        _inputRebindOperation.OnRebindCompleted += RebindCompleted;
+        _inputRebindOperation.OnRebindCanceled += RebindCanceled;
+
         _inputActionAsset = PlayerInputController.Instance.PlayerInput.actions;
         _controlScheme = PlayerInputController.Instance.PlayerInputUpdateHandler.ActiveScheme.name;
 
-        onInitialize?.Invoke(_inputActionAsset.controlSchemes, keyboardCancelInput);
-        ReadBindings();
-        PlayerInputController.Instance.PlayerInputUpdateHandler.RegisterCallback(HandleControlSchemaUpdate);
+        Setup(_controlScheme);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        PlayerInputController.Instance.PlayerInputUpdateHandler.RemoveCallback(HandleControlSchemaUpdate);
-        _rebindingOperation?.Cancel();
+        _inputRebindOperation.OnRebindCompleted -= RebindCompleted;
+        _inputRebindOperation.OnRebindCanceled -= RebindCanceled;
+        _inputRebindOperation.Dispose();
     }
 
     public void Setup(string inputControlScheme)
     {
         _controlScheme = inputControlScheme;
-        OnSchemeUpdated?.Invoke(inputControlScheme);
-    }
 
-    private void HandleControlSchemaUpdate(string oldScheme, string newScheme)
-    {
-        _rebindingOperation?.Cancel();
+        onInitialize?.Invoke(_controlScheme, keyboardCancelInput);
+        ReadBindings();
     }
 
     private void ReadBindings()
@@ -65,6 +62,12 @@ public class InputRebindModal : MonoBehaviour
         int compositeCount = 0;
         foreach (InputActionMap inputActionMap in _inputActionAsset.actionMaps)
         {
+            InputControlScheme scheme = inputActionMap.controlSchemes.FirstOrDefault(scheme => scheme.name == _controlScheme);
+            if (scheme == default)
+            {
+                continue;
+            }
+
             OnBeginNewInputMapSection?.Invoke(inputActionMap);
 
             foreach (InputAction inputAction in inputActionMap.actions)
@@ -72,10 +75,7 @@ public class InputRebindModal : MonoBehaviour
                 foreach (InputBinding binding in inputAction.bindings)
                 {
                     bool isStick = !string.IsNullOrEmpty(binding.effectiveProcessors) && binding.effectiveProcessors.Contains("StickDeadzone");
-                    if (binding.groups != _controlScheme
-                        || string.IsNullOrEmpty(binding.effectivePath)
-                        || binding.isComposite
-                        || isStick)
+                    if (string.IsNullOrEmpty(binding.effectivePath) || binding.isComposite || isStick)
                     {
                         continue;
                     }
@@ -102,61 +102,42 @@ public class InputRebindModal : MonoBehaviour
             bindingIndex = bindIndex,
         };
 
-        OnCreateInputBindingData?.Invoke(bindingData, StartRebindingAction);
+        OnCreateInputBindingData?.Invoke(binding.groups, bindingData, StartRebindingAction);
     }
 
     private void StartRebindingAction(InputBindingData inputBindingData)
     {
-        if (IsRebindingOperationActive())
+        if (IsRebindingOperationActive)
         {
             return;
         }
 
-        _currentBinding = inputBindingData;
-        _currentBinding.inputAction.Disable();
+        _inputRebindOperation.StartRebindingAction(inputBindingData, keyboardCancelInput);
 
-        _rebindingOperation = _currentBinding.compositionIndex > 0
-            ? _currentBinding.inputAction.PerformInteractiveRebinding(_currentBinding.compositionIndex)
-            : _currentBinding.inputAction.PerformInteractiveRebinding(_currentBinding.bindingIndex);
-
-        _rebindingOperation.WithControlsExcluding("Mouse")
-            .WithControlsExcluding("Gamepad")
-            .WithControlsExcluding(keyboardCancelInput)
-            .WithCancelingThrough(keyboardCancelInput)
-            .OnMatchWaitForAnother(0.1f)
-            .OnCancel(RebindCanceled)
-            .OnComplete(RebindCompleted);
-
-        _rebindingOperation.Start();
-
-        onBegin?.Invoke(_rebindingOperation, _currentBinding);
+        onRebindStart?.Invoke(_currentBindingTryingRebind);
     }
 
-    private void RebindCompleted(RebindingOperation rebindingOperation)
+    private void RebindCompleted(InputAction modifiedAction)
     {
-        string oldKey = _currentBinding.inputEffectivePath;
-        int bindingIndex = _currentBinding.compositionIndex > 0 ? _currentBinding.compositionIndex : _currentBinding.bindingIndex;
-        _currentBinding.inputEffectivePath = rebindingOperation.action.bindings[bindingIndex].effectivePath;
+        string oldKey = _currentBindingTryingRebind.inputEffectivePath;
+        int bindingIndex = _currentBindingTryingRebind.compositionIndex > 0 ? _currentBindingTryingRebind.compositionIndex : _currentBindingTryingRebind.bindingIndex;
+        _currentBindingTryingRebind.inputEffectivePath = modifiedAction.bindings[bindingIndex].effectivePath;
 
-        OnRebindComplete?.Invoke(oldKey, _currentBinding);
+        OnRebindComplete?.Invoke(oldKey, _currentBindingTryingRebind);
 
-        RebindDispose(false);
+        RebindDispose();
     }
 
-    private void RebindCanceled(RebindingOperation rebindingOperation)
+    private void RebindCanceled()
     {
-        RebindDispose(true);
+        OnRebindCancel?.Invoke(_currentBindingTryingRebind);
+
+        RebindDispose();
     }
 
-    private void RebindDispose(bool canceled)
+    private void RebindDispose()
     {
-        OnRebindEnd?.Invoke(!canceled, _currentBinding);
-
-        _rebindingOperation.Dispose();
-
-        _currentBinding.inputAction.Enable();
-        _currentBinding = null;
-
+        _currentBindingTryingRebind = null;
         PlayerInputController.Instance.PlayerInputUpdateHandler.UpdateAllSubscribers();
     }
 }
