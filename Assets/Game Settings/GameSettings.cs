@@ -1,204 +1,88 @@
-using System;
 using UnityEngine;
-using UnityEngine.Audio;
 
-public static class VideoSettings
+[CreateAssetMenu(fileName = "Game Settings", menuName = "ScriptableObjects/Game Setting")]
+public class GameSettings : ScriptableObject
 {
-    public static Resolution[] resolutions;
-    public static string[] resolutionsNames;
+    [Header("Camera")]
+    public bool invertX;
+    public bool invertY;
+    public float sensivity = 1;
 
-    public static int currentResolutionIndex;
-    static int lastResolutionIndex;
+    [Header("Resolution")]
+    public int width;
+    public int height;
+    public FullScreenMode screenMode;
 
-    public static int screenModeIndex;
-    static int lastScreenModeIndex;
+    [Header("Config shadows properties")]
+    public SettingsShadow[] settingsShadow;
 
-    public static void Initalize()
+    [Header("Audio")]
+    [Range(0, 1)] public float mainVolume = 1;
+    [Range(0, 1)] public float musicVolume = 0.5f;
+    [Range(0, 1)] public float voiceVolume = 0.5f;
+    [Range(0, 1)] public float soundEffectVolume = 0.5f;
+
+    public void ApplySettings()
     {
-        int cache = Screen.resolutions.Length;
-        resolutionsNames = new string[cache];
-        resolutions = Screen.resolutions; //only store one version
-        for (int i = 0; i < cache; i++)
+        Screen.SetResolution(width, height, screenMode);
+        //Application.targetFrameRate = frameRate;
+        //settingsShadow[qualityShadow].ApplySettings();
+        //QualitySettings.SetQualityLevel((int)qualityLevel);
+        //QualitySettings.vSyncCount = (int)vSync;
+    }
+
+    public void InvertCameraHorizontal(string option)
+    {
+        if (option == "Yes")
         {
-            resolutionsNames[i] = $"{resolutions[i].width}x{resolutions[i].height} @ {resolutions[i].refreshRate} Hz";
+            invertX = true;
         }
-
-        ReverseArray(resolutions);
-        ReverseArray(resolutionsNames);
-
-        screenModeIndex = PlayerPrefs.GetInt("ScreenMode", screenModeIndex);
-        currentResolutionIndex = PlayerPrefs.GetInt("CurrentResolution", currentResolutionIndex);
-
-        ApplyScreen();
-    }
-    static T[] ReverseArray<T>(T[] array)
-    {
-        for (int i = 0; i < array.Length; i++)
+        else if (option == "No")
         {
-            if (i >= (float)array.Length / 2)
-                break;
-
-            (array[i], array[array.Length - 1 - i]) = (array[array.Length - 1 - i], array[i]);
+            invertX = false;
         }
-        return array;
     }
-
-    public static void Save()
+    public void InvertCameraVertical(string option)
     {
-        PlayerPrefs.SetInt("ScreenMode", screenModeIndex);
-        PlayerPrefs.SetInt("CurrentResolution", currentResolutionIndex);
-    }
-
-    public static void SetResolution(int value)
-    {
-        lastResolutionIndex = currentResolutionIndex;
-        currentResolutionIndex = value;
-    }
-    public static void SetScreenMode(int value)
-    {
-        lastScreenModeIndex = screenModeIndex;
-        screenModeIndex = value;
-    }
-
-    public static void CancelVideoChanges()
-    {
-        currentResolutionIndex = lastResolutionIndex;
-        screenModeIndex = lastScreenModeIndex;
-    }
-
-    public static void ApplyScreen()
-    {
-        Resolution currentResolution = resolutions[currentResolutionIndex];
-
-        lastResolutionIndex = currentResolutionIndex;
-        lastScreenModeIndex = screenModeIndex;
-        Screen.SetResolution(currentResolution.width, currentResolution.height, GetScreenMode(), currentResolution.refreshRate);
-        Debug.Log("Setted to: " + currentResolutionIndex + ": " + currentResolution + " | " + screenModeIndex + ": " + GetScreenMode());
-    }
-
-    public static void SetNewResolutionAndScreenModeIndex(Resolution current, FullScreenMode fullScreenMode)
-    {
-        int currentNew = 0;
-        //for (int i = 0; i < resolutions.Length; i++)
-        //{
-        //    if (CompareResolutions(current, resolutions[i]))
-        //    {
-        //        currentNew = i;
-        //        break;
-        //    }
-        //}
-        //
-        //currentResolutionIndex = currentNew;
-
-        currentNew = fullScreenMode switch
+        if (option == "Yes")
         {
-            //Borderless
-            FullScreenMode.FullScreenWindow => 1,
-            //Windowed
-            FullScreenMode.Windowed => 2,
-            _ => 0,
-        };
-
-        screenModeIndex = currentNew;
-        ApplyScreen();
-    }
-
-    public static void SetFrameRate(int value)
-    {
-        if (value < 30) value = 30;
-        Application.targetFrameRate = value;
-    }
-    public static void SetVsync(bool value) => QualitySettings.vSyncCount = value ? 1 : 0;
-
-    public static void SetQuality(int value) => QualitySettings.SetQualityLevel(value);
-
-    public static Resolution GetCurrentSettedResolution() => resolutions[currentResolutionIndex];
-    public static int GetCurrentResolutionIndex() => currentResolutionIndex;
-
-    public static FullScreenMode GetScreenMode()
-    {
-        return screenModeIndex switch
+            invertY = true;
+        }
+        else if (option == "No")
         {
-            //Borderless
-            1 => FullScreenMode.FullScreenWindow,
-            //Windowed
-            2 => FullScreenMode.Windowed,
-#if UNITY_STANDALONE_WIN
-            _ => FullScreenMode.ExclusiveFullScreen,
-#else
-            _ => FullScreenMode.MaximizedWindow,
-#endif
-        };
-    }
-    public static int GetScreenModeIndex(FullScreenMode mode)
-    {
-        return mode switch
-        {
-            //Borderless
-            FullScreenMode.FullScreenWindow => 1,
-            //Windowed
-            FullScreenMode.Windowed => 2,
-            _ => 0,
-        };
+            invertY = false;
+        }
     }
 
-    public static int GetFrameRate() => Application.targetFrameRate;
-    public static bool GetVsync() => QualitySettings.vSyncCount == 1;
-    public static int GetQuality() => QualitySettings.GetQualityLevel();
-
-    public static bool CompareResolutions(Resolution a, Resolution b)
+    public void SetValueSensivity(float value)
     {
-        return a.width == b.width && a.height == b.height && a.refreshRate == b.refreshRate;
-    }
-
-    internal static bool HasChanges()
-    {
-        return lastScreenModeIndex != screenModeIndex || lastResolutionIndex != currentResolutionIndex;
+        sensivity = value;
     }
 }
 
-public static class AudioSettings
+[System.Serializable]
+public struct SettingsShadow
 {
-    public const string MAIN_VOLUME = "Main";
-    public const string MUSIC_VOLUME = "Music";
-    public const string EFFECT_VOLUME = "Effect";
+    public ShadowQuality shadowQuality;
+    public ShadowResolution shadowResolution;
+    public ShadowProjection shadowProjection;
+    public ShadowmaskMode shadowMaskMode;
+    public float shadowDistance;
+    public float shadowNearPlaneOffset;
+    public int shadowCascades;
+    public float shadowCascade2Split;
+    public Vector3 shadowCascade4Split;
 
-    public static AudioMixer activeAudioMixer;
-
-    public static void Initalize(AudioMixer audioMixer)
+    public readonly void ApplySettings()
     {
-        //Load values
-        activeAudioMixer = audioMixer;
-
-        SetMusicVolume(PlayerPrefs.GetFloat("Music", GetMusicVolume()));
-        SetEffectVolume(PlayerPrefs.GetFloat("Effect", GetEffectVolume()));
+        QualitySettings.shadows = shadowQuality;
+        QualitySettings.shadowResolution = shadowResolution;
+        QualitySettings.shadowProjection = shadowProjection;
+        QualitySettings.shadowmaskMode = shadowMaskMode;
+        QualitySettings.shadowDistance = shadowDistance;
+        QualitySettings.shadowNearPlaneOffset = shadowNearPlaneOffset;
+        QualitySettings.shadowCascades = shadowCascades;
+        QualitySettings.shadowCascade2Split = shadowCascade2Split;
+        QualitySettings.shadowCascade4Split = shadowCascade4Split;
     }
-    public static void Save()
-    {
-        PlayerPrefs.SetFloat("Music", GetMusicVolume());
-        PlayerPrefs.SetFloat("Effect", GetEffectVolume());
-    }
-
-    //0.00001 -> 1
-    public static void SetMainVolume(float value)
-    {
-        activeAudioMixer.SetFloat(MAIN_VOLUME, Mathf.Log10(value) * 20);
-    }
-    public static void SetMusicVolume(float value)
-    {
-        activeAudioMixer.SetFloat(MUSIC_VOLUME, Mathf.Log10(value) * 20);
-    }
-    public static void SetEffectVolume(float value)
-    {
-        activeAudioMixer.SetFloat(EFFECT_VOLUME, Mathf.Log10(value) * 20);
-    }
-    public static void SetMute(bool value)
-    {
-        AudioListener.volume = value ? 0 : 1;
-    }
-
-    public static float GetMainVolume() { activeAudioMixer.GetFloat(MAIN_VOLUME, out float value); return Mathf.Pow(10, value / 20); }
-    public static float GetMusicVolume() { activeAudioMixer.GetFloat(MUSIC_VOLUME, out float value); return Mathf.Pow(10, value / 20); }
-    public static float GetEffectVolume() { activeAudioMixer.GetFloat(EFFECT_VOLUME, out float value); return Mathf.Pow(10, value / 20); }
-    public static bool GetMute() => AudioListener.volume == 0;
 }
