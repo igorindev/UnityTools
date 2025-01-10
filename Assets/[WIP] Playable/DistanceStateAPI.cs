@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class DistanceStateAPI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<DisanceObject> disanceObjects = new List<DisanceObject>();
+
+    public void Register()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Deregister()
     {
-        
+
+    }
+
+    public void Update()
+    {
+        foreach (DisanceObject item in disanceObjects)
+        {
+            item.Tick();
+        }
+    }
+}
+
+public class DisanceObject
+{
+    public void Tick()
+    {
+
     }
 }
