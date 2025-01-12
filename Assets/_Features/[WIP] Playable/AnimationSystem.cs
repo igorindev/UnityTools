@@ -4,7 +4,9 @@ using UnityEngine.Playables;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System.Threading;
-
+//https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Runtime/AnimationJobs/MixerJob.cs
+//https://docs.unity3d.com/ScriptReference/Animations.AnimationScriptPlayable.Create.html
+//https://github.com/SolarianZ/UnityPlayableGraphMonitorTool
 [Serializable]
 public class AnimationConfig
 {
@@ -29,9 +31,10 @@ public class AnimationSystem
     PlayableGraph playableGraph;
     AnimationMixerPlayable topLevelMixer;
     AnimationMixerPlayable locomotionMixer;
-    AnimationLayerMixerPlayable _layerMixerPlayableTop;
+    AnimationLayerMixerPlayable _layerMixerPlayable;
     AnimationClipPlayable oneShotPlayable;
     ScriptPlayable<FootstepPlayableBehaviour> footstepPlayable;
+    AnimationScriptPlayable m_AnimationScriptPlayable;
 
     CancellationTokenSource _cancellationTokenSource;
 
@@ -41,29 +44,37 @@ public class AnimationSystem
 
         SetupAnimations(animationConfig);
         //SetupFootsteps(audioConfig);
+        playableGraph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
+    }
 
-        playableGraph.Play();
+    public void Update(float deltaTime)
+    {
+        playableGraph.Evaluate(deltaTime);
     }
 
     private void SetupAnimations(AnimationConfig animationConfig)
     {
         var playableOutput = AnimationPlayableOutput.Create(playableGraph, "Animation", animationConfig.animator);
 
-        _layerMixerPlayableTop = AnimationLayerMixerPlayable.Create(playableGraph, 2);
+        _layerMixerPlayable = AnimationLayerMixerPlayable.Create(playableGraph, 2);
         //_layerMixerPlayableBottom = AnimationLayerMixerPlayable.Create(playableGraph, 2);
 
-        _layerMixerPlayableTop.SetLayerAdditive(0, false);
-        _layerMixerPlayableTop.SetLayerMaskFromAvatarMask(0, animationConfig.avatarMask);
+        _layerMixerPlayable.SetLayerAdditive(0, false);
+        _layerMixerPlayable.SetLayerMaskFromAvatarMask(0, animationConfig.avatarMask);
 
-        _layerMixerPlayableTop.SetLayerAdditive(1, false);
-        _layerMixerPlayableTop.SetLayerMaskFromAvatarMask(1, animationConfig.avatarMask2);
-        
-        topLevelMixer = AnimationMixerPlayable.Create(playableGraph, 2);
-        playableOutput.SetSourcePlayable(topLevelMixer);
+        _layerMixerPlayable.SetLayerAdditive(1, false);
+        _layerMixerPlayable.SetLayerMaskFromAvatarMask(1, animationConfig.avatarMask2);
+
+
+        AnimationJob animationJob = new AnimationJob();
+        m_AnimationScriptPlayable = AnimationScriptPlayable.Create(playableGraph, animationJob, 2);
+
+        //topLevelMixer = AnimationMixerPlayable.Create(playableGraph, 2);
+        playableOutput.SetSourcePlayable(m_AnimationScriptPlayable);
 
         //locomotionMixer = AnimationMixerPlayable.Create(playableGraph, 2);
-        topLevelMixer.ConnectInput(0, _layerMixerPlayableTop, 0);
-       // topLevelMixer.ConnectInput(1, _layerMixerPlayableBottom, 0);
+        //m_AnimationScriptPlayable.SetProcessInputs(false);
+        m_AnimationScriptPlayable.AddInput(_layerMixerPlayable, 0, 1);
 
         playableGraph.GetRootPlayable(0).SetInputWeight(0, 1f);
 
@@ -73,8 +84,8 @@ public class AnimationSystem
         idlePlayable.GetAnimationClip().wrapMode = WrapMode.Loop;
         walkPlayable.GetAnimationClip().wrapMode = WrapMode.Loop;
 
-        _layerMixerPlayableTop.ConnectInput(0, idlePlayable, 0);
-        _layerMixerPlayableTop.ConnectInput(1, walkPlayable, 0);
+        _layerMixerPlayable.ConnectInput(0, idlePlayable, 0);
+        _layerMixerPlayable.ConnectInput(1, walkPlayable, 0);
     }
 
     private void SetupFootsteps(AudioConfig audioConfig)
@@ -93,12 +104,12 @@ public class AnimationSystem
 
     public void UpdateLayers(int index, float weight)
     {
-        topLevelMixer.SetInputWeight(index, weight);
+        m_AnimationScriptPlayable.SetInputWeight(index, weight);
     }
 
     public void UpdateMixerTop(int index, float weight)
     {
-        _layerMixerPlayableTop.SetInputWeight(index, weight);
+        _layerMixerPlayable.SetInputWeight(index, weight);
     }
 
     public void UpdateLocomotion(int index, Vector3 velocity, float maxSpeed)
@@ -107,8 +118,8 @@ public class AnimationSystem
 
         if (index == 0)
         {
-            _layerMixerPlayableTop.SetInputWeight(0, 1f - weight);
-            _layerMixerPlayableTop.SetInputWeight(0, weight);
+            _layerMixerPlayable.SetInputWeight(0, 1f - weight);
+            _layerMixerPlayable.SetInputWeight(0, weight);
         }
 
     }
@@ -188,6 +199,22 @@ public class AnimationSystem
         if (playableGraph.IsValid())
         {
             playableGraph.Destroy();
+        }
+    }
+
+    public struct AnimationJob : IAnimationJob
+    {
+        public int userData;
+
+        public void ProcessRootMotion(AnimationStream stream)
+        {
+            // This method is called during the root motion process pass.
+        }
+
+        public void ProcessAnimation(AnimationStream stream)
+        {
+            // This method is called during the animation process pass.
+            Debug.Log(string.Format("Value of the userData: {0}", userData));
         }
     }
 }
