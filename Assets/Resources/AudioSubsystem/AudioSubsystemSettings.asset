@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: AudioSubsystemSettings
   m_EditorClassIdentifier: 
   numOfDefaultAudioSources: 32
-  audioMixer: {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: 252ea913dff540b4097bb9171226218e, type: 2}
   audioGroups: []
   audios: []
