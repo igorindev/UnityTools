@@ -17,8 +17,14 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 36aa6be8df9d36343b16a2758169c63c
   m_SerializeEntries:
+  - m_GUID: 736465abe1f0c054da87218baaba81e7
+    m_Address: AudioSettings_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9615a6377961f674aa1202696f720ea0
-    m_Address: Test_en
+    m_Address: VideoSettings_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

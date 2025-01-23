@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: f273055a6a69e6149a0accc1c85ed499
   m_SerializeEntries:
+  - m_GUID: 3c6c18eeffe3e404d9dd805b443d94c1
+    m_Address: Assets/UnityLocalizationAssets/AudioSettings Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 802b09c2e6a59194abd02753f9447922
     m_Address: Assets/i18n/Test Shared Data.asset
     m_ReadOnly: 1

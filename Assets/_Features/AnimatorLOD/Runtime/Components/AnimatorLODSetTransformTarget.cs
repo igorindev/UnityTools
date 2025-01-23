@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AnimatorLODSystem
@@ -10,7 +8,7 @@ namespace AnimatorLODSystem
 
         private void Start()
         {
-            AnimatorLODManager.SetTarget(_target);
+            AnimatorLODSubsystem.SetTarget(_target);
         }
     }
 }

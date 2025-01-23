@@ -26,17 +26,17 @@ MonoBehaviour:
   - Assets/[WIP] Camera Composition/Demo/Scenes/Demo Scene - Rule of Thirds.unity
   - Assets/[WIP] CharacterController Edge/Test/CCEdge.unity
   - Assets/[WIP] Custom CharacterController/CustomCharacterController.unity
-  - Assets/[WIP] Custom Collision/CustomCollision.unity
+  - 
   - Assets/[WIP] FolderHierarchy/Folder.unity
-  - Assets/[WIP] InputSystemMaster/InputSystemMaster.unity
+  - 
   - Assets/[WIP] Mesh Cleaner/Scenes/Destroy Tris.unity
   - Assets/[WIP] Mesh Cleaner/Scenes/Mesh Cut.unity
   - Assets/[WIP] ObjectReflection/Sample/Morgue Room PBR/morgue scene/morgue.unity
   - Assets/[WIP] ObjectReflection/Sample/ObjectReflection.unity
   - Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher 1.unity
   - Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher.unity
-  - Assets/[WIP] Playable/Playable.unity
-  - Assets/[WIP] Playable/Supercyan Character Pack Free Sample/Scenes/DemoScene.unity
+  - 
+  - 
   - Assets/[WIP] Replay System/Replay.unity
   - 
   - Assets/[WIP] Terrain Audio/Terrain.unity
@@ -44,10 +44,10 @@ MonoBehaviour:
   - 
   - Assets/_Tools/Colliders Explorer/CollisionExplorer.unity
   - Assets/Animation Tween/Sample/AnimationTween.unity
-  - Assets/AnimatorOverride/SampleScene.unity
   - 
   - 
-  - Assets/com.vandals.animationpreviewer/Samples/Simple Animation/TestScene.unity
+  - 
+  - 
   - 
   - Assets/com.vandals.lockframeupdate/Samples/Sample.unity
   - Assets/com.vandals.navmesh/Samples/Sample.unity
@@ -55,7 +55,7 @@ MonoBehaviour:
   - Assets/com.vandals.radialmenu/Samples/RadialMenu.unity
   - Assets/com.vandals.uienhanced/Runtime/InputFieldGroup/InputFieldGroup.unity
   - Assets/DepthMask/Tests/UITransparentUnifier.unity
-  - Assets/Game Settings/Settings.unity
+  - 
   - Assets/IK/HomebrewIK/Demo/Demo_Built-in.unity
   - Assets/IK/HomebrewIK/Demo/Demo_URP.unity
   - Assets/KDTree/KDTreeTest.unity

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AnimatorLODSystem
 {
-    public class AnimatorLODManager : MonoBehaviour
+    public class AnimatorLODSubsystem : MonoBehaviour
     {
         private static AnimatorLODData[] _distanceCascades = new[] { AnimatorLODData.Default };
         private static Transform _targetTransform;
@@ -15,7 +15,7 @@ namespace AnimatorLODSystem
         private static void InitializeSubsystem()
         {
             GameObject instance = new GameObject("AnimatorLODSubsystem");
-            AnimatorLODManager animatorLODManager = instance.AddComponent<AnimatorLODManager>();
+            AnimatorLODSubsystem animatorLODManager = instance.AddComponent<AnimatorLODSubsystem>();
             DontDestroyOnLoad(instance);
 
             _distanceCascades = (Resources.Load("AnimatorLODSettings/AnimatorLODSettings") as AnimatorLODSettings).animatorLODDatas;

@@ -6023,7 +6023,7 @@ Transform:
   m_GameObject: {fileID: 1788220688}
   serializedVersion: 2
   m_LocalRotation: {x: -0.0040497463, y: 0.9944599, z: -0.041791897, w: -0.09636653}
-  m_LocalPosition: {x: -0.052, y: 0.882, z: 1.229}
+  m_LocalPosition: {x: 10.36, y: 0.34, z: -7.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6394,50 +6394,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1976124734}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1843651230
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1843651232}
-  - component: {fileID: 1843651233}
-  m_Layer: 0
-  m_Name: DistanceAPI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1843651232
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1843651230}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1843651233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1843651230}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac06f2b284bf3384ab44f0576c406b3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1850741345
 GameObject:
   m_ObjectHideFlags: 0
@@ -8941,7 +8897,6 @@ SceneRoots:
   - {fileID: 1788220691}
   - {fileID: 1726131684}
   - {fileID: 1236345172}
-  - {fileID: 1843651232}
   - {fileID: 414131218}
   - {fileID: 4889915157561358}
   - {fileID: 824439881}

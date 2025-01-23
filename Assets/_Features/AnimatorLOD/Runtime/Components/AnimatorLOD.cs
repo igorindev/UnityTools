@@ -40,12 +40,12 @@ namespace AnimatorLODSystem
 
         private void Register()
         {
-            AnimatorLODManager.Register(this);
+            AnimatorLODSubsystem.Register(this);
         }
 
         private void Deregister()
         {
-            AnimatorLODManager.Deregister(this);
+            AnimatorLODSubsystem.Deregister(this);
         }
 
         private void UpdateMeshQuality(SkinQuality currentSkinnedMeshQuality)

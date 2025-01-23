@@ -10,14 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
-  m_Name: Test
+  m_Name: VideoSettings
   m_EditorClassIdentifier: 
   m_SharedTableData: {fileID: 11400000, guid: 802b09c2e6a59194abd02753f9447922, type: 2}
   m_Tables:
   - {fileID: 11400000, guid: 9615a6377961f674aa1202696f720ea0, type: 2}
   - {fileID: 11400000, guid: 8ccb3e589c997a84294948d417fea9ba, type: 2}
-  m_Extensions: []
+  m_Extensions:
+  - rid: 4405646834114756610
   m_Group: String Table
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4405646834114756610
+      type: {class: GoogleSheetsExtension, ns: UnityEditor.Localization.Plugins.Google, asm: Unity.Localization.Editor}
+      data:
+        m_Collection: {fileID: 11400000}
+        m_SheetsServiceProvider: {fileID: 0}
+        m_SpreadsheetId: 
+        m_SheetId: 0
+        m_Columns: []
+        m_RemoveMissingPulledKeys: 1

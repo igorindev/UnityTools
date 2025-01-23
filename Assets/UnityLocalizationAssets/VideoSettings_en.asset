@@ -10,30 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: Test_pt
+  m_Name: VideoSettings_en
   m_EditorClassIdentifier: 
   m_LocaleId:
-    m_Code: pt
+    m_Code: en
   m_SharedData: {fileID: 11400000, guid: 802b09c2e6a59194abd02753f9447922, type: 2}
   m_Metadata:
-    m_Items:
-    - rid: 3839165365263269940
+    m_Items: []
   m_TableData:
   - m_Id: 345572667392
-    m_Localized: bom trabalho {mouse}
+    m_Localized: Nice job {mouse}
     m_Metadata:
       m_Items: []
   - m_Id: 349397872640
-    m_Localized: ruim trabalho {mouse}
+    m_Localized: Bad job {mouse}
     m_Metadata:
-      m_Items:
-      - rid: 3839165365263269940
+      m_Items: []
+  - m_Id: 20812055334121472
+    m_Localized: Windowed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20812105170841600
+    m_Localized: Fullscreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20812159231225856
+    m_Localized: Borderless
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds:
-    - rid: 3839165365263269940
-      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
-      data:
-        m_Entries: 
-        m_SharedEntries:
-        - id: 349397872640
+    RefIds: []

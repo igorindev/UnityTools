@@ -1,5 +1,5 @@
 {
-    "name": "AnimatorLODSystem",
+    "name": "AnimatorLOD",
     "rootNamespace": "AnimatorLODSystem",
     "references": [],
     "includePlatforms": [],
