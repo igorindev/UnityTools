@@ -9,7 +9,8 @@ using UnityEngine.Localization.Settings;
 public class LocalizeDropdownEvent : MonoBehaviour
 {
     [SerializeField] private List<LocalizedString> dropdownOptions = new();
-    [SerializeField] private List<TMP_Dropdown.OptionData> tmpDropdownOptions = new();
+
+    private List<TMP_Dropdown.OptionData> tmpDropdownOptions = new();
 
     public TMP_Dropdown TmpDropdown { get; private set; }
 

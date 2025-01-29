@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -11,18 +12,6 @@ public static class VideoSettings
         Medium,
         High,
         Ultra
-    }
-
-    /// <summary>
-    /// More Lower the value more stable FPS and more Higher the value, faster the response (but some frames get discarted). 
-    /// </summary>
-    public enum VSync
-    {
-        DontSync = 0,
-        DoubleBuffer,
-        TrippleBuffer,
-        QuadrupleBuffer,
-        QuintupleBuffer,
     }
 
     private struct ScreenMode
@@ -40,88 +29,55 @@ public static class VideoSettings
     private const string ScreenModeKey = "ScreenMode";
     private const string CurrentResolutionKey = "CurrentResolution";
 
-    private static List<Resolution> resolutions;
-    private static List<string> resolutionsNames;
+    public static event Action<IReadOnlyList<Resolution>> OnScreenSettingsUpdated;
 
-    private static List<FullScreenMode> availableScreenModes;
-
-    private static List<RefreshRate> availableRefreshRates;
-    private static List<string> availableRefreshRatesNames;
-
+    private static List<Resolution> resolutions = new();
+    private static List<FullScreenMode> availableScreenModes = new();
+    private static List<RefreshRate> availableRefreshRates = new();
     private static List<DisplayInfo> availableDisplayInfos = new();
 
     private static VideoSettingsSaveData videoSettingsSave;
     private static VideoSettingsData currentVideoSettingsSaveData;
     private static VideoSettingsData tempVideoSettingsSaveData;
 
-    public static event Action<IReadOnlyList<Resolution>> OnResolutionListUpdated;
-
-    public static IReadOnlyList<string> GetCurrentResolutionsNames() => resolutionsNames;
-    public static IReadOnlyList<string> GetCurrentRefreshRateNames() => availableRefreshRatesNames;
-    public static IReadOnlyList<DisplayInfo> GetCurrentDisplayOptions() => availableDisplayInfos;
-
-    public static void SetupScreenSettings()
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void InitializeVideoSettings()
     {
-        videoSettingsSave = new();
+        videoSettingsSave = new VideoSettingsSaveData(out currentVideoSettingsSaveData);
 
-        videoSettingsSave.Load(out VideoSettingsData loadedVideoSettings);
+        SetupScreenModes(currentVideoSettingsSaveData.screenMode);
 
-        SetupScreenModes(loadedVideoSettings.screenMode);
+        SetupResolutionsAndRefreshRates(currentVideoSettingsSaveData.resolutionWidth,
+            currentVideoSettingsSaveData.resolutionHeight,
+            currentVideoSettingsSaveData.resolutionRefreshRateNumerator,
+            currentVideoSettingsSaveData.resolutionRefreshRateDenominator);
 
-        SetupResolutions();
+        SetupDisplayOptions(currentVideoSettingsSaveData.displayWindow);
 
-        SetupDisplayOptions(loadedVideoSettings.displayWindowIndex);
-
-        ValidateResolution(loadedVideoSettings.resolutionWidth,
-            loadedVideoSettings.resolutionHeight,
-            loadedVideoSettings.resolutionRefreshRateNumerator,
-            loadedVideoSettings.resolutionRefreshRateDenominator);
-
-        tempVideoSettingsSaveData = currentVideoSettingsSaveData = loadedVideoSettings;
-
-        //TODO: Save only if changes happened
         videoSettingsSave.Save(currentVideoSettingsSaveData);
+        tempVideoSettingsSaveData = currentVideoSettingsSaveData;
 
-        //ApplyScreen();
+        ApplyChanges();
     }
 
     private static void SetupScreenModes(int screenMode)
     {
-        if ((FullScreenMode)screenMode != Screen.fullScreenMode)
-        {
-            currentVideoSettingsSaveData.screenMode = (int)Screen.fullScreenMode;
-            videoSettingsSave.Save(currentVideoSettingsSaveData);
-        }
+        //if ((FullScreenMode)screenMode != Screen.fullScreenMode)
+        //{
+        //    currentVideoSettingsSaveData.screenMode = (int)Screen.fullScreenMode;
+        //}
     }
 
-    private static void SetupResolutions()
+    private static void SetupResolutionsAndRefreshRates(int width, int height, uint refreshRateNumerator, uint refreshRateDenominator)
     {
         resolutions = new(ReverseArray(Screen.resolutions));
-        resolutionsNames = new(resolutions.Count);
         availableRefreshRates = new();
-        availableRefreshRatesNames = new();
 
         for (int i = 0; i < resolutions.Count; i++)
         {
-            resolutionsNames.Add($"{resolutions[i].width}x{resolutions[i].height}");
-
-            _AddUnique(availableRefreshRates, resolutions[i].refreshRateRatio);
-            _AddUnique(availableRefreshRatesNames, resolutions[i].refreshRateRatio.ToString());
+            AddUniqueToList(availableRefreshRates, resolutions[i].refreshRateRatio);
         }
 
-        OnResolutionListUpdated?.Invoke(resolutions);
-
-        static void _AddUnique<T>(List<T> list, T item)
-        {
-            if (!list.Contains(item))
-            {
-                list.Add(item);
-            }
-        }
-    }
-
-    private static void ValidateResolution(int width, int height, uint refreshRateNumerator, uint refreshRateDenominator)
-    {
         Resolution savedResolution = new()
         {
             width = width,
@@ -133,28 +89,29 @@ public static class VideoSettings
             },
         };
 
-        Resolution realActiveResolution = Screen.currentResolution;
-
-        if (!AreResolutionsEqual(savedResolution, realActiveResolution))
+        //Fallback
+        if (!resolutions.Contains(savedResolution))
         {
-            currentVideoSettingsSaveData.resolutionWidth = realActiveResolution.width;
-            currentVideoSettingsSaveData.resolutionHeight = realActiveResolution.height;
-            currentVideoSettingsSaveData.resolutionRefreshRateNumerator = realActiveResolution.refreshRateRatio.numerator;
-            currentVideoSettingsSaveData.resolutionRefreshRateDenominator = realActiveResolution.refreshRateRatio.denominator;
-            currentVideoSettingsSaveData.resolutionIndex = resolutions.IndexOf(realActiveResolution);
+            currentVideoSettingsSaveData.resolutionWidth = resolutions[0].width;
+            currentVideoSettingsSaveData.resolutionHeight = resolutions[0].height;
+            currentVideoSettingsSaveData.resolutionRefreshRateNumerator = resolutions[0].refreshRateRatio.numerator;
+            currentVideoSettingsSaveData.resolutionRefreshRateDenominator = resolutions[0].refreshRateRatio.denominator;
+
+            return;
         }
     }
 
-    private static void SetupDisplayOptions(int windowIndex)
+    private static void SetupDisplayOptions(string displayInfoName)
     {
         Screen.GetDisplayLayout(availableDisplayInfos);
 
-        if (Screen.mainWindowDisplayInfo.Equals(availableDisplayInfos[windowIndex]))
-        {
-            return;
-        }
+        DisplayInfo display = availableDisplayInfos.FirstOrDefault(x => x.name == displayInfoName);
 
-        currentVideoSettingsSaveData.displayWindowIndex = availableDisplayInfos.IndexOf(Screen.mainWindowDisplayInfo);
+        //Fallback
+        if (display.Equals(default))
+        {
+            currentVideoSettingsSaveData.displayWindow = Screen.mainWindowDisplayInfo.name;
+        }
     }
 
     public static bool IsCachedVideoValuesCorrect()
@@ -162,25 +119,30 @@ public static class VideoSettings
 #if UNITY_EDITOR
         return true;
 #endif
-        Resolution cachedResolution = GetSelectedResolution();
+        bool correct = true;
+
+        Resolution cachedResolution = GetTempSelectedResolution();
         Resolution activeResolution = Screen.currentResolution;
 
-        if (AreResolutionsEqual(cachedResolution, activeResolution))
-        {
-            UpdateScreenResolutionAndScreenMode(activeResolution, GetSelectedScreenMode());
-            return false;
-        }
-
-        FullScreenMode cachedScreenMode = GetSelectedScreenMode();
+        FullScreenMode cachedScreenMode = GetTempSelectedScreenMode();
         FullScreenMode activeScreenMode = Screen.fullScreenMode;
 
-        if (cachedScreenMode != activeScreenMode)
+        if (AreResolutionsEqual(cachedResolution, activeResolution) || cachedScreenMode != activeScreenMode)
         {
             UpdateScreenResolutionAndScreenMode(activeResolution, activeScreenMode);
-            return false;
+            correct = false;
         }
 
-        return true;
+        DisplayInfo displayWindow = GetTempSelectedDisplayInfo();
+        DisplayInfo activeDisplayInfo = Screen.mainWindowDisplayInfo;
+
+        if (!displayWindow.Equals(activeDisplayInfo))
+        {
+            currentVideoSettingsSaveData.displayWindow = Screen.mainWindowDisplayInfo.name;
+            correct = false;
+        }
+
+        return correct;
     }
 
     public static void SetResolution(int index)
@@ -198,6 +160,14 @@ public static class VideoSettings
         tempVideoSettingsSaveData.screenMode = (int)screenMode;
     }
 
+    public static void SetRefreshRate(int value)
+    {
+        RefreshRate refreshRate = availableRefreshRates[value];
+
+        tempVideoSettingsSaveData.resolutionRefreshRateNumerator = refreshRate.numerator;
+        tempVideoSettingsSaveData.resolutionRefreshRateDenominator = refreshRate.denominator;
+    }
+
     public static void SetFrameRate(int frames)
     {
         tempVideoSettingsSaveData.frameRate = frames;
@@ -210,7 +180,7 @@ public static class VideoSettings
 
     public static void SetActiveDisplay(int displayIndex)
     {
-        tempVideoSettingsSaveData.displayWindowIndex = displayIndex;
+        tempVideoSettingsSaveData.displayWindow = availableDisplayInfos[displayIndex].name;
     }
 
     public static void UpdateScreenResolutionAndScreenMode(Resolution resolution, FullScreenMode fullScreenMode)
@@ -223,8 +193,10 @@ public static class VideoSettings
 
     public static async void ApplyChanges(bool reverting = false)
     {
-        Application.targetFrameRate = GetSelectedFrameRate();
-        QualitySettings.vSyncCount = GetSelectedVSync();
+        //TODO: block all interaction until everything is applied
+
+        Application.targetFrameRate = GetTempSelectedFrameRate();
+        QualitySettings.vSyncCount = GetTempSelectedVSync();
 
         bool significantUpdate = TryUpdateResolutionOrScreenMode() || await TryUpdateDisplayWindow();
 
@@ -254,10 +226,11 @@ public static class VideoSettings
 
     private static bool TryUpdateResolutionOrScreenMode()
     {
-        Resolution currentResolution = GetSelectedResolution();
+        Resolution currentResolution = GetTempSelectedResolution();
+        RefreshRate currentRefreshRate = GetTempSelectedRefreshRate();
         if (!AreResolutionsEqual(currentResolution, Screen.currentResolution))
         {
-            Screen.SetResolution(currentResolution.width, currentResolution.height, GetSelectedScreenMode(), currentResolution.refreshRateRatio);
+            Screen.SetResolution(currentResolution.width, currentResolution.height, GetTempSelectedScreenMode(), currentRefreshRate);
             return true;
         }
 
@@ -266,7 +239,7 @@ public static class VideoSettings
 
     private static async UniTask<bool> TryUpdateDisplayWindow()
     {
-        DisplayInfo display = GetSelectedDisplayWindow();
+        DisplayInfo display = GetTempSelectedDisplayInfo();
         if (display.Equals(Screen.mainWindowDisplayInfo))
         {
             return false;
@@ -284,7 +257,7 @@ public static class VideoSettings
 
         await Screen.MoveMainWindowTo(in display, targetCoordinates);
 
-        SetupResolutions();
+        //SetupResolutionsAndRefreshRates();
 
         return true;
     }
@@ -293,8 +266,8 @@ public static class VideoSettings
     {
         if (HasChanges())
         {
-            videoSettingsSave.Save(tempVideoSettingsSaveData);
             currentVideoSettingsSaveData = tempVideoSettingsSaveData;
+            videoSettingsSave.Save(currentVideoSettingsSaveData);
             return;
         }
     }
@@ -304,17 +277,35 @@ public static class VideoSettings
         tempVideoSettingsSaveData = currentVideoSettingsSaveData;
     }
 
-    public static Resolution GetSelectedResolution() => resolutions[tempVideoSettingsSaveData.resolutionIndex];
+    public static IList<Resolution> GetAvailableResolutions() => resolutions;
 
-    public static int GetSelectedResolutionIndex() => tempVideoSettingsSaveData.resolutionIndex;
+    public static IList<RefreshRate> GetAvailableRefreshRates() => availableRefreshRates;
 
-    public static int GetSelectedFrameRate() => tempVideoSettingsSaveData.frameRate;
+    public static IList<DisplayInfo> GetAvailableDisplayInfos() => availableDisplayInfos;
 
-    public static int GetSelectedVSync() => tempVideoSettingsSaveData.vSync;
+    public static Resolution GetTempSelectedResolution()
+    {
+        return new()
+        {
+            width = tempVideoSettingsSaveData.resolutionWidth,
+            height = tempVideoSettingsSaveData.resolutionHeight,
+            refreshRateRatio = GetTempSelectedRefreshRate()
+        };
+    }
 
-    public static DisplayInfo GetSelectedDisplayWindow() => availableDisplayInfos[tempVideoSettingsSaveData.displayWindowIndex];
+    public static RefreshRate GetTempSelectedRefreshRate() => new()
+    {
+        numerator = tempVideoSettingsSaveData.resolutionRefreshRateNumerator,
+        denominator = tempVideoSettingsSaveData.resolutionRefreshRateDenominator
+    };
 
-    public static FullScreenMode GetSelectedScreenMode() => (FullScreenMode)tempVideoSettingsSaveData.screenMode;
+    public static int GetTempSelectedFrameRate() => tempVideoSettingsSaveData.frameRate;
+
+    public static int GetTempSelectedVSync() => tempVideoSettingsSaveData.vSync;
+
+    public static DisplayInfo GetTempSelectedDisplayInfo() => availableDisplayInfos.FirstOrDefault(displayInfo => displayInfo.name == tempVideoSettingsSaveData.displayWindow);
+
+    public static FullScreenMode GetTempSelectedScreenMode() => (FullScreenMode)tempVideoSettingsSaveData.screenMode;
 
     private static bool AreResolutionsEqual(Resolution a, Resolution b)
     {
@@ -344,5 +335,13 @@ public static class VideoSettings
     private static UniTask<bool> WaitUserConfirmation()
     {
         return UniTask.FromResult(true);
+    }
+
+    private static void AddUniqueToList<T>(List<T> list, T item)
+    {
+        if (!list.Contains(item))
+        {
+            list.Add(item);
+        }
     }
 }

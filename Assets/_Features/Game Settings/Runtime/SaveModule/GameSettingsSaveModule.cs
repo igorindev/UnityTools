@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface ISettingsSaveData
 {
-
+    
 }
 
 public class GameSettingsSaveModule<T> where T : ISettingsSaveData
