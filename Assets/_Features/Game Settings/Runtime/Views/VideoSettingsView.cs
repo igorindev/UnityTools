@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Localization.SmartFormat.Utilities;
 using UnityEngine.UI;
 
 public class VideoSettingsView : MonoBehaviour, IDisposable
@@ -14,7 +13,7 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
     [SerializeField] LocalizeDropdownEvent resolutionDropdown;
     [SerializeField] LocalizeDropdownEvent refreshRateDropdown;
     [Space]
-    [SerializeField] Slider frameRateSlider;
+    [SerializeField] SliderTextField frameRateSlider;
     [SerializeField] Toggle vSyncOptions;
 
     private void Start()
@@ -35,7 +34,7 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
         displayOptions.TmpDropdown.onValueChanged.RemoveListener(SetActiveDisplay);
         refreshRateDropdown.TmpDropdown.onValueChanged.RemoveListener(SetRefreshRate);
 
-        frameRateSlider.onValueChanged.RemoveListener(SetFrameRate);
+        frameRateSlider.onValueChangedFloat.RemoveListener(SetFrameRate);
         vSyncOptions.onValueChanged.RemoveListener(SetVSync);
 
         applyChanges.onClick.RemoveListener(ApplyVideoChanges);
@@ -128,7 +127,7 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
 
     private void SetupFrameRate()
     {
-        frameRateSlider.onValueChanged.AddListener(SetFrameRate);
+        frameRateSlider.onValueChangedFloat.AddListener(SetFrameRate);
     }
 
     private void ReloadVideoValues()

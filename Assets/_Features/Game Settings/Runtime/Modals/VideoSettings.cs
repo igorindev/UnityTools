@@ -14,21 +14,6 @@ public static class VideoSettings
         Ultra
     }
 
-    private struct ScreenMode
-    {
-        public string name;
-        public FullScreenMode fullScreenMode;
-
-        public ScreenMode(string name, FullScreenMode fullScreenMode)
-        {
-            this.name = name;
-            this.fullScreenMode = fullScreenMode;
-        }
-    }
-
-    private const string ScreenModeKey = "ScreenMode";
-    private const string CurrentResolutionKey = "CurrentResolution";
-
     public static event Action<IReadOnlyList<Resolution>> OnScreenSettingsUpdated;
 
     private static List<Resolution> resolutions = new();
@@ -45,14 +30,17 @@ public static class VideoSettings
     {
         videoSettingsSave = new VideoSettingsSaveData(out currentVideoSettingsSaveData);
 
-        SetupScreenModes(currentVideoSettingsSaveData.screenMode);
+        if (true) //Validate if should initialize the save file
+        {
+            SetupScreenModes(currentVideoSettingsSaveData.screenMode);
 
-        SetupResolutionsAndRefreshRates(currentVideoSettingsSaveData.resolutionWidth,
-            currentVideoSettingsSaveData.resolutionHeight,
-            currentVideoSettingsSaveData.resolutionRefreshRateNumerator,
-            currentVideoSettingsSaveData.resolutionRefreshRateDenominator);
+            SetupResolutionsAndRefreshRates(currentVideoSettingsSaveData.resolutionWidth,
+                currentVideoSettingsSaveData.resolutionHeight,
+                currentVideoSettingsSaveData.resolutionRefreshRateNumerator,
+                currentVideoSettingsSaveData.resolutionRefreshRateDenominator);
 
-        SetupDisplayOptions(currentVideoSettingsSaveData.displayWindow);
+            SetupDisplayOptions(currentVideoSettingsSaveData.displayWindow);
+        }
 
         videoSettingsSave.Save(currentVideoSettingsSaveData);
         tempVideoSettingsSaveData = currentVideoSettingsSaveData;
