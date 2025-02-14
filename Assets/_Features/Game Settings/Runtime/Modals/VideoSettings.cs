@@ -25,10 +25,21 @@ public static class VideoSettings
     private static VideoSettingsData currentVideoSettingsSaveData;
     private static VideoSettingsData tempVideoSettingsSaveData;
 
+    //A UNITY ja guarda algumas informacoes de video, talvez eu nao queira mais guardar esses.
+    //Caso queria, tneh oque garantir o fluxo:
+    //Abrir o jogo
+    //Unity seta os valores em cache
+    //Unity realiza fallback para melhores opções se nao acha anterior
+    //Substitui valores no save
+    //Pega valores do save
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void InitializeVideoSettings()
     {
+        ISettingsSaveModule[] settingsSaveModule = new ISettingsSaveModule[] { new aa(), new bb() }; 
+
         videoSettingsSave = new VideoSettingsSaveData(out currentVideoSettingsSaveData);
+       // currentVideoSettingsSaveData.BuildData(settingsSaveModule);
 
         if (true) //Validate if should initialize the save file
         {

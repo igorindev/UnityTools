@@ -1,4 +1,5 @@
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public interface ISettingsSaveData
@@ -12,7 +13,7 @@ public class GameSettingsSaveModule<T> where T : ISettingsSaveData
     {
         string path = Application.persistentDataPath + "/" + typeof(T) + ".txt";
 
-        string json = JsonUtility.ToJson(save);
+        string json = JsonConvert.SerializeObject(save);
         File.WriteAllText(path, json);
     }
 
@@ -25,7 +26,7 @@ public class GameSettingsSaveModule<T> where T : ISettingsSaveData
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            load = JsonUtility.FromJson<T>(json);
+            load = JsonConvert.DeserializeObject<T>(json);
         }
     }
 }

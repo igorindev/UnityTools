@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,19 +13,49 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
     [SerializeField] LocalizeDropdownEvent screenModeDropdown;
     [SerializeField] LocalizeDropdownEvent resolutionDropdown;
     [SerializeField] LocalizeDropdownEvent refreshRateDropdown;
+    [SerializeField] AntiAliasingView _antiAliasing;
     [Space]
-    [SerializeField] SliderTextField frameRateSlider;
+    [SerializeField] SliderField frameRateSlider;
     [SerializeField] Toggle vSyncOptions;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return null;
         Setup();
         UpdateScreenVisuals();
+        RegisterListeners();
     }
 
     private void Update()
     {
         ValidateVideoValues();
+    }
+
+    private void OnDestroy()
+    {
+        Dispose();
+    }
+
+    public void Setup()
+    {
+        applyChanges.onClick.AddListener(ApplyVideoChanges);
+        revertChanges.onClick.AddListener(CancelVideoChanges);
+
+        AntiAliasing a = new AntiAliasing();
+
+        _antiAliasing.Initialize();
+
+        InitializeVisualOptions();
+    }
+
+    private void RegisterListeners()
+    {
+        vSyncOptions.onValueChanged.AddListener(SetVSync);
+        screenModeDropdown.TmpDropdown.onValueChanged.AddListener(SetScreenMode);
+        frameRateSlider.onValueChangedFloat.AddListener(SetFrameRate);
+        displayOptions.TmpDropdown.onValueChanged.AddListener(SetActiveDisplay);
+        resolutionDropdown.TmpDropdown.onValueChanged.AddListener(SetResolution);
+        refreshRateDropdown.TmpDropdown.onValueChanged.AddListener(SetRefreshRate);
     }
 
     public void Dispose()
@@ -41,18 +72,25 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
         revertChanges.onClick.RemoveListener(CancelVideoChanges);
     }
 
-    public void Setup()
+    private void InitializeVisualOptions()
     {
-        applyChanges.onClick.AddListener(ApplyVideoChanges);
-        revertChanges.onClick.AddListener(CancelVideoChanges);
-
-        ReloadVideoValues();
-
-        SetupVSync();
-        SetupFrameRate();
+        LocalizeResolutions();
+        LocalizeScreenModeDropdown();
+        LocalizeDisplayMonitor();
+        LocalizeRefreshRate();
     }
 
-    private void SetupResolutions()
+    private void ValidateVideoValues()
+    {
+        if (VideoSettings.IsCachedVideoValuesCorrect())
+        {
+            return;
+        }
+
+        UpdateScreenVisuals();
+    }
+
+    private void LocalizeResolutions()
     {
         resolutionDropdown.TmpDropdown.ClearOptions();
 
@@ -64,11 +102,9 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
         }
 
         resolutionDropdown.TmpDropdown.AddOptions(resolutions);
-
-        resolutionDropdown.TmpDropdown.onValueChanged.AddListener(SetResolution);
     }
 
-    private void SetupRefreshRate()
+    private void LocalizeRefreshRate()
     {
         refreshRateDropdown.TmpDropdown.ClearOptions();
 
@@ -80,11 +116,9 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
         }
 
         refreshRateDropdown.TmpDropdown.AddOptions(refreshRates);
-
-        refreshRateDropdown.TmpDropdown.onValueChanged.AddListener(SetRefreshRate);
     }
 
-    private void SetupDisplayMonitor()
+    private void LocalizeDisplayMonitor()
     {
         displayOptions.TmpDropdown.ClearOptions();
 
@@ -96,11 +130,9 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
         }
 
         displayOptions.TmpDropdown.AddOptions(videoSettingsDropdownOptions);
-
-        displayOptions.TmpDropdown.onValueChanged.AddListener(SetActiveDisplay);
     }
 
-    private void SetupScreenModeDropdown()
+    private void LocalizeScreenModeDropdown()
     {
         screenModeDropdown.TmpDropdown.ClearOptions();
 
@@ -116,63 +148,37 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
         };
 
         screenModeDropdown.AddLocalizationValues(screenModeLocalizations);
-
-        screenModeDropdown.TmpDropdown.onValueChanged.AddListener(SetScreenMode);
-    }
-
-    private void SetupVSync()
-    {
-        vSyncOptions.onValueChanged.AddListener(SetVSync);
-    }
-
-    private void SetupFrameRate()
-    {
-        frameRateSlider.onValueChangedFloat.AddListener(SetFrameRate);
-    }
-
-    private void ReloadVideoValues()
-    {
-        SetupResolutions();
-        SetupScreenModeDropdown();
-        SetupDisplayMonitor();
-        SetupRefreshRate();
     }
 
     private void UpdateScreenVisuals()
     {
         screenModeDropdown.TmpDropdown.SetValueWithoutNotify(GetSelectedScreenMode(VideoSettings.GetTempSelectedScreenMode()));
+        screenModeDropdown.TmpDropdown.onValueChanged.Invoke(screenModeDropdown.TmpDropdown.value); //Force notify
 
         //TODO: create generic that gets from runtime index
         IList<Resolution> resolutions = VideoSettings.GetAvailableResolutions();
         Resolution resolution = VideoSettings.GetTempSelectedResolution();
         int resolutionIndex = resolutions.IndexOf(resolution);
         resolutionDropdown.TmpDropdown.SetValueWithoutNotify(resolutionIndex);
+        resolutionDropdown.TmpDropdown.onValueChanged.Invoke(resolutionDropdown.TmpDropdown.value);
 
         IList<DisplayInfo> displayInfos = VideoSettings.GetAvailableDisplayInfos();
         DisplayInfo display = VideoSettings.GetTempSelectedDisplayInfo();
         int displayIndex = displayInfos.IndexOf(display);
         displayOptions.TmpDropdown.SetValueWithoutNotify(displayIndex);
+        displayOptions.TmpDropdown.onValueChanged.Invoke(displayOptions.TmpDropdown.value);
 
         IList<RefreshRate> rrs = VideoSettings.GetAvailableRefreshRates();
         RefreshRate rr = VideoSettings.GetTempSelectedRefreshRate();
         int refreshRateindex = rrs.IndexOf(rr);
         refreshRateDropdown.TmpDropdown.SetValueWithoutNotify(refreshRateindex);
+        refreshRateDropdown.TmpDropdown.onValueChanged.Invoke(refreshRateDropdown.TmpDropdown.value);
 
-
-        //TODO: Add to slider
-        //frameRateDropdown.TmpDropdown.SetValueWithoutNotify(VideoSettings.GetSelectedFrameRate());
+        frameRateSlider.SetValue(VideoSettings.GetTempSelectedFrameRate());
+        frameRateSlider.ForceNotify();
 
         vSyncOptions.SetIsOnWithoutNotify(VideoSettings.GetTempSelectedVSync() != 0);
-    }
-
-    private void ValidateVideoValues()
-    {
-        if (VideoSettings.IsCachedVideoValuesCorrect())
-        {
-            return;
-        }
-
-        UpdateScreenVisuals();
+        vSyncOptions.onValueChanged.Invoke(vSyncOptions.isOn);
     }
 
     public void SetResolution(int value)

@@ -1,0 +1,1 @@
+Add scripts inside the InternalBridge folders in Editor or Runtime to have access to internal classes from Unity.
