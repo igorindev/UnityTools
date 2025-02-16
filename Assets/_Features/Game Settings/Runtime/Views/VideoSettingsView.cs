@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,9 +17,8 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
     [SerializeField] SliderField frameRateSlider;
     [SerializeField] Toggle vSyncOptions;
 
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return null;
         Setup();
         UpdateScreenVisuals();
         RegisterListeners();
@@ -40,8 +38,6 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
     {
         applyChanges.onClick.AddListener(ApplyVideoChanges);
         revertChanges.onClick.AddListener(CancelVideoChanges);
-
-        AntiAliasing a = new AntiAliasing();
 
         _antiAliasing.Initialize();
 

@@ -5,15 +5,17 @@ using UnityEngine.Rendering.Universal;
 [RequireComponent(typeof(Camera))]
 public class AntiAliasingCameraComponent : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         Camera cam = GetComponent<Camera>();
         UniversalAdditionalCameraData additionalCameraData = cam.GetUniversalAdditionalCameraData();
         UniversalRenderPipelineAsset renderPipelineAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
         //Get defined infos from video settings
 
+        AntiAliasing aa = VideoSettings.Get<AntiAliasing>();
+
         int msaaSmaples = 1;
-        AntialiasingMode antialiasingMode = (AntialiasingMode)1;
+        AntialiasingMode antialiasingMode = aa.GetAAMode();
         AntialiasingQuality antialiasingQuality = (AntialiasingQuality)1;
         TemporalAAQuality taaQuality = (TemporalAAQuality)1;
         int taaSharpening = 1;

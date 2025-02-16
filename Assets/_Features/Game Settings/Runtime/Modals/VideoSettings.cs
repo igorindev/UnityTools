@@ -4,7 +4,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public static class VideoSettings
+public class VideoSettings : Modular
 {
     public enum QualityLevel
     {
@@ -36,10 +36,13 @@ public static class VideoSettings
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void InitializeVideoSettings()
     {
-        ISettingsSaveModule[] settingsSaveModule = new ISettingsSaveModule[] { new aa(), new bb() }; 
+        SettingsSaveModule[] settingsSaveModule = new SettingsSaveModule[] { new AntiAliasingSaveModule(), new Test() };
 
         videoSettingsSave = new VideoSettingsSaveData(out currentVideoSettingsSaveData);
-       // currentVideoSettingsSaveData.BuildData(settingsSaveModule);
+        currentVideoSettingsSaveData.BuildData(settingsSaveModule);
+
+        SettingsSaveModule aaSaveModule = currentVideoSettingsSaveData.settingsSaveModule.Find(saveModule => saveModule.GetType() == typeof(AntiAliasingSaveModule));
+        AntiAliasing a = new(aaSaveModule);
 
         if (true) //Validate if should initialize the save file
         {
@@ -342,5 +345,30 @@ public static class VideoSettings
         {
             list.Add(item);
         }
+    }
+}
+
+public class Modular
+{
+    private static Dictionary<Type, SettingsModule> _settingsModules = new();
+
+    internal static void AddModule<T>(SettingsModule settingsModule)
+    {
+        AddModule(typeof(T), settingsModule);
+    }
+
+    internal static bool AddModule<T>(Type type, T module) where T : SettingsModule
+    {
+        return _settingsModules.TryAdd(type, module);
+    }
+
+    internal static T Get<T>() where T : SettingsModule
+    {
+        if (_settingsModules.TryGetValue(typeof(T), out SettingsModule actualValue))
+        {
+            return actualValue as T;
+        }
+
+        return null;
     }
 }

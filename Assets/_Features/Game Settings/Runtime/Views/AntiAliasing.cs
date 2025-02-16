@@ -2,11 +2,18 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class AntiAliasing : SettingsModule
+public class AntiAliasing : SettingsModule<AntiAliasing, AntiAliasingSaveModule>
 {
     private Camera[] _cameras;
 
-    public override void Initialize() => throw new NotImplementedException();
+    public AntiAliasing(SettingsSaveModule settingsSaveModule) : base(settingsSaveModule)
+    { }
+
+    public override void Initialize()
+    {
+
+    }
+
     public override void Dispose() => throw new NotImplementedException();
 
     public void LoadCameras()
@@ -61,5 +68,10 @@ public class AntiAliasing : SettingsModule
     {
         universalAdditionalCameraData.taaSettings.quality = taaQaulity;
         universalAdditionalCameraData.taaSettings.contrastAdaptiveSharpening = sharpening;
+    }
+
+    public AntialiasingMode GetAAMode()
+    {
+        return (AntialiasingMode)_settingsSaveModule.antiAliasingMode;
     }
 }

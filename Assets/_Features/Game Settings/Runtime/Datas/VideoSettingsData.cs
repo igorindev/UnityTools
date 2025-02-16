@@ -28,35 +28,35 @@ public struct VideoSettingsData : ISettingsSaveData
 
     public int antiAliasingHardwareMode;
 
-    public List<ISettingsSaveModule> test;
+    public List<SettingsSaveModule> settingsSaveModule;
 
-    public void BuildData(ISettingsSaveModule[] settingsSaveModules)
+    public void BuildData(SettingsSaveModule[] settingsSaveModules)
     {
-        test = settingsSaveModules.ToList();
+        settingsSaveModule = settingsSaveModules.ToList();
     }
 }
 
 [Serializable]
-public class ISettingsSaveModule
+public class SettingsSaveModule
 {
 
 }
 
 [Serializable]
 
-public class aa : ISettingsSaveModule
+public class AntiAliasingSaveModule : SettingsSaveModule
 {
-    public int antiAliasingMode = 1;
-    public int antiAliasingQuality = 2;
-    public int antiAliasingTAAQuality = 321;
-    public int antiAliasingTAASharpening = 231321;
+    public int antiAliasingMode = 0;
+    public int antiAliasingQuality = 1;
+    public int antiAliasingTAAQuality = 3;
+    public float antiAliasingTAASharpening = 0.3f;
 
     public int antiAliasingHardwareMode;
 }
 
 [Serializable]
 
-public class bb : ISettingsSaveModule
+public class Test : SettingsSaveModule
 {
     public int sdasdadas = 231321;
 }
