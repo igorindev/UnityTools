@@ -28,24 +28,42 @@ public struct VideoSettingsData : ISettingsSaveData
 
     public int antiAliasingHardwareMode;
 
-    public List<SettingsSaveModule> settingsSaveModule;
+    public Dictionary<string, int> intSaveStructure;
+    public Dictionary<string, string> stringSaveStructure;
+    public Dictionary<string, bool> boolSaveStructure;
+
+    public Dictionary<string, SettingsSaveModule> settingsSaveModule;
+
+    public void AddModule()
+    {
+
+    }
 
     public void BuildData(SettingsSaveModule[] settingsSaveModules)
     {
-        settingsSaveModule = settingsSaveModules.ToList();
+        settingsSaveModule = settingsSaveModules.ToDictionary(x => x.GetType().Name);
     }
 }
 
 [Serializable]
 public class SettingsSaveModule
 {
-
+    public string moduleName;
 }
 
 [Serializable]
 
 public class AntiAliasingSaveModule : SettingsSaveModule
 {
+    public Dictionary<string, object> keyValuePairs = new Dictionary<string, object>()
+    {
+        ["antiAliasingMode"] = 0,
+        ["antiAliasingQuality"] = 1,
+        ["antiAliasingTAAQuality"] = 3,
+        ["antiAliasingTAASharpening"] = 0.3f,
+        ["antiAliasingHardwareMode"] = 1
+    };
+
     public int antiAliasingMode = 0;
     public int antiAliasingQuality = 1;
     public int antiAliasingTAAQuality = 3;

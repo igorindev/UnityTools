@@ -36,12 +36,14 @@ public class VideoSettings : Modular
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void InitializeVideoSettings()
     {
-        SettingsSaveModule[] settingsSaveModule = new SettingsSaveModule[] { new AntiAliasingSaveModule(), new Test() };
 
-        videoSettingsSave = new VideoSettingsSaveData(out currentVideoSettingsSaveData);
+        //podia ser struct?
+        SettingsSaveModule[] settingsSaveModule = new SettingsSaveModule[] { new AntiAliasingSaveModule(), new Test() };
         currentVideoSettingsSaveData.BuildData(settingsSaveModule);
 
-        SettingsSaveModule aaSaveModule = currentVideoSettingsSaveData.settingsSaveModule.Find(saveModule => saveModule.GetType() == typeof(AntiAliasingSaveModule));
+        videoSettingsSave = new VideoSettingsSaveData(out currentVideoSettingsSaveData);
+
+        SettingsSaveModule aaSaveModule = null;
         AntiAliasing a = new(aaSaveModule);
 
         if (true) //Validate if should initialize the save file
@@ -345,30 +347,5 @@ public class VideoSettings : Modular
         {
             list.Add(item);
         }
-    }
-}
-
-public class Modular
-{
-    private static Dictionary<Type, SettingsModule> _settingsModules = new();
-
-    internal static void AddModule<T>(SettingsModule settingsModule)
-    {
-        AddModule(typeof(T), settingsModule);
-    }
-
-    internal static bool AddModule<T>(Type type, T module) where T : SettingsModule
-    {
-        return _settingsModules.TryAdd(type, module);
-    }
-
-    internal static T Get<T>() where T : SettingsModule
-    {
-        if (_settingsModules.TryGetValue(typeof(T), out SettingsModule actualValue))
-        {
-            return actualValue as T;
-        }
-
-        return null;
     }
 }

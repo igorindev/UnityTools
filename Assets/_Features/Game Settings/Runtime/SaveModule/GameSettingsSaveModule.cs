@@ -2,11 +2,6 @@ using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public interface ISettingsSaveData
-{
-    
-}
-
 public class GameSettingsSaveModule<T> where T : ISettingsSaveData
 {
     public void Save(T save)

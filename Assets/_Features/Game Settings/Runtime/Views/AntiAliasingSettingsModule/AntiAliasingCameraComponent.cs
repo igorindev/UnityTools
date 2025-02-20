@@ -10,15 +10,15 @@ public class AntiAliasingCameraComponent : MonoBehaviour
         Camera cam = GetComponent<Camera>();
         UniversalAdditionalCameraData additionalCameraData = cam.GetUniversalAdditionalCameraData();
         UniversalRenderPipelineAsset renderPipelineAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
-        //Get defined infos from video settings
 
+        //Get defined infos from video settings
         AntiAliasing aa = VideoSettings.Get<AntiAliasing>();
 
-        int msaaSmaples = 1;
+        //int msaaSmaples = 1;
         AntialiasingMode antialiasingMode = aa.GetAAMode();
-        AntialiasingQuality antialiasingQuality = (AntialiasingQuality)1;
-        TemporalAAQuality taaQuality = (TemporalAAQuality)1;
-        int taaSharpening = 1;
+        AntialiasingQuality antialiasingQuality = aa.GetSMAAQuality();
+        TemporalAAQuality taaQuality = aa.GetTAAQuality();
+        float taaSharpening = aa.GetTAASharpening();
 
         additionalCameraData.antialiasing = antialiasingMode;
         additionalCameraData.antialiasingQuality = antialiasingQuality;
@@ -29,10 +29,10 @@ public class AntiAliasingCameraComponent : MonoBehaviour
             additionalCameraData.taaSettings.quality = taaQuality;
             additionalCameraData.taaSettings.contrastAdaptiveSharpening = taaSharpening;
 
-            msaaSmaples = 1;
+            //msaaSmaples = 1;
         }
 
-        cam.allowMSAA = msaaSmaples > 1;
-        renderPipelineAsset.msaaSampleCount = msaaSmaples;
+        //cam.allowMSAA = msaaSmaples > 1;
+        //renderPipelineAsset.msaaSampleCount = msaaSmaples;
     }
 }

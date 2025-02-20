@@ -50,7 +50,18 @@ public class AntiAliasing : SettingsModule<AntiAliasing, AntiAliasingSaveModule>
         foreach (Camera camera in _cameras)
         {
             UniversalAdditionalCameraData universalAdditionalCameraData = camera.GetUniversalAdditionalCameraData();
-            SetTAAQuality((TemporalAAQuality)taaQualityIndex, sharpening, universalAdditionalCameraData);
+            SetTAAQuality((TemporalAAQuality)taaQualityIndex, universalAdditionalCameraData);
+        }
+    }
+
+    public void SetTAAShapening(float sharpening)
+    {
+        LoadCameras();
+
+        foreach (Camera camera in _cameras)
+        {
+            UniversalAdditionalCameraData universalAdditionalCameraData = camera.GetUniversalAdditionalCameraData();
+            SetTAASharpening(sharpening, universalAdditionalCameraData);
         }
     }
 
@@ -64,14 +75,33 @@ public class AntiAliasing : SettingsModule<AntiAliasing, AntiAliasingSaveModule>
         universalAdditionalCameraData.antialiasingQuality = antialiasingQuality;
     }
 
-    private void SetTAAQuality(TemporalAAQuality taaQaulity, float sharpening, UniversalAdditionalCameraData universalAdditionalCameraData)
+    private void SetTAAQuality(TemporalAAQuality taaQaulity, UniversalAdditionalCameraData universalAdditionalCameraData)
     {
         universalAdditionalCameraData.taaSettings.quality = taaQaulity;
+    }
+
+    private void SetTAASharpening(float sharpening, UniversalAdditionalCameraData universalAdditionalCameraData)
+    {
         universalAdditionalCameraData.taaSettings.contrastAdaptiveSharpening = sharpening;
     }
 
     public AntialiasingMode GetAAMode()
     {
         return (AntialiasingMode)_settingsSaveModule.antiAliasingMode;
+    }
+
+    public AntialiasingQuality GetSMAAQuality()
+    {
+        return (AntialiasingQuality)_settingsSaveModule.antiAliasingQuality;
+    }
+
+    public TemporalAAQuality GetTAAQuality()
+    {
+        return (TemporalAAQuality)_settingsSaveModule.antiAliasingTAAQuality;
+    }
+
+    public float GetTAASharpening()
+    {
+        return _settingsSaveModule.antiAliasingTAASharpening;
     }
 }
