@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Modules;
 using UnityEngine;
 
-public class VideoSettings : Modular
+public class VideoSettings : Modular<VideoSettings>
 {
     public enum QualityLevel
     {
@@ -36,6 +37,7 @@ public class VideoSettings : Modular
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void InitializeVideoSettings()
     {
+        new VideoSettings();
 
         //podia ser struct?
         SettingsSaveModule[] settingsSaveModule = new SettingsSaveModule[] { new AntiAliasingSaveModule(), new Test() };
@@ -43,7 +45,7 @@ public class VideoSettings : Modular
 
         videoSettingsSave = new VideoSettingsSaveData(out currentVideoSettingsSaveData);
 
-        SettingsSaveModule aaSaveModule = null;
+        SettingsSaveModule aaSaveModule = new AntiAliasingSaveModule();
         AntiAliasing a = new(aaSaveModule);
 
         if (true) //Validate if should initialize the save file

@@ -21,10 +21,10 @@ public struct VideoSettingsData : ISettingsSaveData
     public int qualityLevelGraphic;
     public int qualityLevelShadow;
 
-    public int antiAliasingMode;
-    public int antiAliasingQuality;
-    public int antiAliasingTAAQuality;
-    public int antiAliasingTAASharpening;
+    //public int antiAliasingMode;
+    //public int antiAliasingQuality;
+    //public int antiAliasingTAAQuality;
+    //public int antiAliasingTAASharpening;
 
     public int antiAliasingHardwareMode;
 
@@ -48,24 +48,16 @@ public struct VideoSettingsData : ISettingsSaveData
 [Serializable]
 public class SettingsSaveModule
 {
-    public string moduleName;
+    public string moduleName = nameof(AntiAliasingSaveModule);
 }
 
 [Serializable]
 
 public class AntiAliasingSaveModule : SettingsSaveModule
 {
-    public Dictionary<string, object> keyValuePairs = new Dictionary<string, object>()
-    {
-        ["antiAliasingMode"] = 0,
-        ["antiAliasingQuality"] = 1,
-        ["antiAliasingTAAQuality"] = 3,
-        ["antiAliasingTAASharpening"] = 0.3f,
-        ["antiAliasingHardwareMode"] = 1
-    };
-
     public int antiAliasingMode = 0;
-    public int antiAliasingQuality = 1;
+    public int antiAliasingQuality = 2;
+
     public int antiAliasingTAAQuality = 3;
     public float antiAliasingTAASharpening = 0.3f;
 

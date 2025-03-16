@@ -175,6 +175,8 @@ public class VideoSettingsView : MonoBehaviour, IDisposable
 
         vSyncOptions.SetIsOnWithoutNotify(VideoSettings.GetTempSelectedVSync() != 0);
         vSyncOptions.onValueChanged.Invoke(vSyncOptions.isOn);
+
+        _antiAliasing.UpdateVisuals();
     }
 
     public void SetResolution(int value)

@@ -3330,7 +3330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _contentView: {fileID: 1544789973}
-  _dependsOn: {fileID: 5700333881488369169}
+  _dependsOn: {fileID: 52408060}
   _desiredState: 02000000
 --- !u!1 &2124616614
 GameObject:
@@ -3516,17 +3516,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23d3dd4ceba299344aa97668278c82aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5700333881488369169 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5148369553719999943, guid: 47d34ef519342e24ca715fa4f8f26e13, type: 3}
-  m_PrefabInstance: {fileID: 5700333881488369166}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8302757327487506734

@@ -1,107 +1,63 @@
 ﻿using System;
+using System.Collections.Generic;
+using Modules;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class AntiAliasing : SettingsModule<AntiAliasing, AntiAliasingSaveModule>
+public class AntiAliasing : Module<AntiAliasing, AntiAliasingSaveModule, VideoSettings>
 {
-    private Camera[] _cameras;
+    private readonly Dictionary<Camera, UniversalAdditionalCameraData> _cameras = new Dictionary<Camera, UniversalAdditionalCameraData>();
 
     public AntiAliasing(SettingsSaveModule settingsSaveModule) : base(settingsSaveModule)
     { }
 
     public override void Initialize()
-    {
+    { }
 
+    public override void Dispose()
+    {
+        _cameras.Clear();
     }
 
-    public override void Dispose() => throw new NotImplementedException();
-
-    public void LoadCameras()
+    public void AddCamera(Camera camera)
     {
-        Camera.GetAllCameras(_cameras);
+        _cameras.Add(camera, camera.GetUniversalAdditionalCameraData());
     }
 
-    public void SetAA(int antiAliasingIndex)
+    public void RemoveCamera(Camera camera)
     {
-        LoadCameras();
+        _cameras.Remove(camera);
+    }
 
-        foreach (Camera camera in _cameras)
+    private void SetAAConfigToCameras<T>(T antiAliasingIndex, Action<T, UniversalAdditionalCameraData> setAAConfig)
+    {
+        foreach (KeyValuePair<Camera, UniversalAdditionalCameraData> cameraData in _cameras)
         {
-            UniversalAdditionalCameraData universalAdditionalCameraData = camera.GetUniversalAdditionalCameraData();
-            SetAAMode((AntialiasingMode)antiAliasingIndex, universalAdditionalCameraData);
+            setAAConfig(antiAliasingIndex, cameraData.Value);
         }
     }
 
-    public void SetSMAAQuality(int quality)
-    {
-        LoadCameras();
+    public void SetAA(int antiAliasingIndex) => SetAAConfigToCameras(antiAliasingIndex, SetAAMode);
 
-        foreach (Camera camera in _cameras)
-        {
-            UniversalAdditionalCameraData universalAdditionalCameraData = camera.GetUniversalAdditionalCameraData();
-            SetSMAAQuality((AntialiasingQuality)quality, universalAdditionalCameraData);
-        }
-    }
+    public void SetSMAAQuality(int quality) => SetAAConfigToCameras(quality, SetSMAAQuality);
 
-    public void SetTAAQuality(int taaQualityIndex, float sharpening)
-    {
-        LoadCameras();
+    public void SetTAAQuality(int taaQualityIndex) => SetAAConfigToCameras(taaQualityIndex, SetTAAQuality);
 
-        foreach (Camera camera in _cameras)
-        {
-            UniversalAdditionalCameraData universalAdditionalCameraData = camera.GetUniversalAdditionalCameraData();
-            SetTAAQuality((TemporalAAQuality)taaQualityIndex, universalAdditionalCameraData);
-        }
-    }
+    public void SetTAASharpening(float sharpening) => SetAAConfigToCameras(sharpening, SetTAASharpening);
 
-    public void SetTAAShapening(float sharpening)
-    {
-        LoadCameras();
+    public AntialiasingMode GetAAMode() => (AntialiasingMode)_settingsSaveModule.antiAliasingMode;
 
-        foreach (Camera camera in _cameras)
-        {
-            UniversalAdditionalCameraData universalAdditionalCameraData = camera.GetUniversalAdditionalCameraData();
-            SetTAASharpening(sharpening, universalAdditionalCameraData);
-        }
-    }
+    public AntialiasingQuality GetSMAAQuality() => (AntialiasingQuality)_settingsSaveModule.antiAliasingQuality;
 
-    private void SetAAMode(AntialiasingMode antialiasingMode, UniversalAdditionalCameraData universalAdditionalCameraData)
-    {
-        universalAdditionalCameraData.antialiasing = antialiasingMode;
-    }
+    public TemporalAAQuality GetTAAQuality() => (TemporalAAQuality)_settingsSaveModule.antiAliasingTAAQuality;
 
-    private void SetSMAAQuality(AntialiasingQuality antialiasingQuality, UniversalAdditionalCameraData universalAdditionalCameraData)
-    {
-        universalAdditionalCameraData.antialiasingQuality = antialiasingQuality;
-    }
+    public float GetTAASharpening() => _settingsSaveModule.antiAliasingTAASharpening;
 
-    private void SetTAAQuality(TemporalAAQuality taaQaulity, UniversalAdditionalCameraData universalAdditionalCameraData)
-    {
-        universalAdditionalCameraData.taaSettings.quality = taaQaulity;
-    }
+    private void SetAAMode(int antialiasingMode, UniversalAdditionalCameraData cameraData) => cameraData.antialiasing = (AntialiasingMode)antialiasingMode;
 
-    private void SetTAASharpening(float sharpening, UniversalAdditionalCameraData universalAdditionalCameraData)
-    {
-        universalAdditionalCameraData.taaSettings.contrastAdaptiveSharpening = sharpening;
-    }
+    private void SetSMAAQuality(int antialiasingQuality, UniversalAdditionalCameraData cameraData) => cameraData.antialiasingQuality = (AntialiasingQuality)antialiasingQuality;
 
-    public AntialiasingMode GetAAMode()
-    {
-        return (AntialiasingMode)_settingsSaveModule.antiAliasingMode;
-    }
+    private void SetTAAQuality(int taaQaulity, UniversalAdditionalCameraData cameraData) => cameraData.taaSettings.quality = (TemporalAAQuality)taaQaulity;
 
-    public AntialiasingQuality GetSMAAQuality()
-    {
-        return (AntialiasingQuality)_settingsSaveModule.antiAliasingQuality;
-    }
-
-    public TemporalAAQuality GetTAAQuality()
-    {
-        return (TemporalAAQuality)_settingsSaveModule.antiAliasingTAAQuality;
-    }
-
-    public float GetTAASharpening()
-    {
-        return _settingsSaveModule.antiAliasingTAASharpening;
-    }
+    private void SetTAASharpening(float sharpening, UniversalAdditionalCameraData cameraData) => cameraData.taaSettings.contrastAdaptiveSharpening = sharpening;
 }

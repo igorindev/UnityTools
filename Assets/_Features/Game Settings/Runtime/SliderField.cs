@@ -73,7 +73,7 @@ public class SliderField : MonoBehaviour
 
     public void ForceNotify()
     {
-
+        _slider.onValueChanged.Invoke(_slider.value);
     }
 
     private void HandleInputFieldUpdate(string value)
