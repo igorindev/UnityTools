@@ -39,14 +39,12 @@ public class VideoSettings : Modular<VideoSettings>
     {
         new VideoSettings();
 
-        //podia ser struct?
-        SettingsSaveModule[] settingsSaveModule = new SettingsSaveModule[] { new AntiAliasingSaveModule(), new Test() };
-        currentVideoSettingsSaveData.BuildData(settingsSaveModule);
-
         videoSettingsSave = new VideoSettingsSaveData(out currentVideoSettingsSaveData);
 
-        SettingsSaveModule aaSaveModule = new AntiAliasingSaveModule();
-        AntiAliasing a = new(aaSaveModule);
+        if (currentVideoSettingsSaveData.settingsSaveModule.TryGetValue(typeof(AntiAliasingSaveModule), out SettingsSaveModule settingsSave))
+        {
+            AntiAliasing a = new(settingsSave);
+        }
 
         if (true) //Validate if should initialize the save file
         {

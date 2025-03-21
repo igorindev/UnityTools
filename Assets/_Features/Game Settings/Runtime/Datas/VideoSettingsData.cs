@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [Serializable]
-public struct VideoSettingsData : ISettingsSaveData
+public class VideoSettingsData : ISettingsSaveData
 {
     public int resolutionWidth;
     public int resolutionHeight;
@@ -28,27 +28,18 @@ public struct VideoSettingsData : ISettingsSaveData
 
     public int antiAliasingHardwareMode;
 
-    public Dictionary<string, int> intSaveStructure;
-    public Dictionary<string, string> stringSaveStructure;
-    public Dictionary<string, bool> boolSaveStructure;
+    public Dictionary<Type, SettingsSaveModule> settingsSaveModule;
 
-    public Dictionary<string, SettingsSaveModule> settingsSaveModule;
-
-    public void AddModule()
+    public void BuildModules(SettingsSaveModule[] settingsSaveModules)
     {
-
-    }
-
-    public void BuildData(SettingsSaveModule[] settingsSaveModules)
-    {
-        settingsSaveModule = settingsSaveModules.ToDictionary(x => x.GetType().Name);
+        settingsSaveModule = settingsSaveModules.ToDictionary(x => x.GetType());
     }
 }
 
 [Serializable]
 public class SettingsSaveModule
 {
-    public string moduleName = nameof(AntiAliasingSaveModule);
+    public string moduleName = typeof(AntiAliasingSaveModule).ToString();
 }
 
 [Serializable]

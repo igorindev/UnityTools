@@ -8,7 +8,7 @@ public class GameSettingsSaveModule<T> where T : ISettingsSaveData
     {
         string path = Application.persistentDataPath + "/" + typeof(T) + ".txt";
 
-        string json = JsonConvert.SerializeObject(save);
+        string json = JsonConvert.SerializeObject(save, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto});
         File.WriteAllText(path, json);
     }
 
@@ -21,7 +21,7 @@ public class GameSettingsSaveModule<T> where T : ISettingsSaveData
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            load = JsonConvert.DeserializeObject<T>(json);
+            load = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
         }
     }
 }
