@@ -1,5 +1,5 @@
-1.0
+1.1.0
+- Fix Unity 6000 deprecated icon.
 
-TODO
-- Add Categories
-- Show open scenes at top
+1.0.0
+- Publish package

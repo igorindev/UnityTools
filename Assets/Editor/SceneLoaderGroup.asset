@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scenes:
   - Assets/[OLD] Intro Player/VideoPlayer.unity
+  - Assets/[OLD] Playables&Lod/Samples/Animation Playable Layer.unity
+  - Assets/[OLD] Playables&Lod/Samples/Animation Playable Simple.unity
   - Assets/[WIP] AI Perseption/AI.unity
   - Assets/[WIP] AI Perseption/AIExecutionSplit/Scenes/SampleScene.unity
   - Assets/[WIP] Asset Recycler/Asset Recycler.unity
@@ -26,49 +28,57 @@ MonoBehaviour:
   - Assets/[WIP] Camera Composition/Demo/Scenes/Demo Scene - Rule of Thirds.unity
   - Assets/[WIP] CharacterController Edge/Test/CCEdge.unity
   - Assets/[WIP] Custom CharacterController/CustomCharacterController.unity
-  - 
   - Assets/[WIP] FolderHierarchy/Folder.unity
-  - 
   - Assets/[WIP] Mesh Cleaner/Scenes/Destroy Tris.unity
   - Assets/[WIP] Mesh Cleaner/Scenes/Mesh Cut.unity
   - Assets/[WIP] ObjectReflection/Sample/Morgue Room PBR/morgue scene/morgue.unity
   - Assets/[WIP] ObjectReflection/Sample/ObjectReflection.unity
   - Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher 1.unity
   - Assets/[WIP] PlataformSwitcher/Test/PlataformSwitcher.unity
-  - 
-  - 
   - Assets/[WIP] Replay System/Replay.unity
-  - 
   - Assets/[WIP] Terrain Audio/Terrain.unity
   - Assets/[WIP] Texture Combiner/Impostor.unity
-  - 
+  - Assets/_Features/AnimatorLOD/Sample/AnimatorLODSample.unity
+  - Assets/_Features/AnimatorLOD/Sample/ThirdParty/Supercyan Character Pack Free
+    Sample/Scenes/DemoScene.unity
+  - Assets/_Features/AnimatorOverride/SampleScene.unity
+  - Assets/_Features/AnimatorPreviewer/Samples/Simple Animation/TestScene.unity
+  - Assets/_Features/AnimatorSynchroniser/SyncSampleScene.unity
+  - Assets/_Features/BehaviourTree/Example/ExampleScene.unity
+  - Assets/_Features/CollisionDetection/Samples/CustomCollision.unity
+  - Assets/_Features/FakeLightGI/LightFakeGI.unity
+  - Assets/_Features/FloodFill/Samples/Sample.unity
+  - Assets/_Features/Game Settings/Samples/Sample.unity
+  - Assets/_Features/InputSubsystem/Samples/InputView.unity
+  - Assets/_Features/Rope/SampleScene/RopeSampleScene.unity
+  - Assets/_Features/SearchTrie/Samples/Samples.unity
+  - Assets/_Features/Spring Bones/Samples/SpringBoneSample.unity
+  - Assets/_Features/UI/UI Canvas Fade/FadeTest.unity
+  - Assets/_Features/UI/UI Canvas Screen Flow/Samples/CanvasManagement.unity
+  - Assets/_Features/UI/UI Line Renderer Component/SampleLineRenderers.unity
+  - Assets/_Features/UI/UI ScrollList Pool/Samples/Scroll_01.unity
+  - Assets/_Features/UI/UI World To Map/Samples/SceneSampleWorldToUI.unity
+  - Assets/_Study/com.vandals.navmesh/Samples/Sample.unity
   - Assets/_Tools/Colliders Explorer/CollisionExplorer.unity
   - Assets/Animation Tween/Sample/AnimationTween.unity
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Assets/Audio Sample View/AudioVisualizer.unity
   - Assets/com.vandals.lockframeupdate/Samples/Sample.unity
-  - Assets/com.vandals.navmesh/Samples/Sample.unity
   - Assets/com.vandals.planarshadows/RadialMenu 1.unity
   - Assets/com.vandals.radialmenu/Samples/RadialMenu.unity
   - Assets/com.vandals.uienhanced/Runtime/InputFieldGroup/InputFieldGroup.unity
   - Assets/DepthMask/Tests/UITransparentUnifier.unity
-  - 
   - Assets/IK/HomebrewIK/Demo/Demo_Built-in.unity
   - Assets/IK/HomebrewIK/Demo/Demo_URP.unity
   - Assets/KDTree/KDTreeTest.unity
-  - 
   - Assets/SpacialHashGrid/TestSpatialHash.unity
-  - 
   - Assets/Subtitles/Subtitle.unity
-  - 
-  - 
-  - 
-  - 
-  - 
   - Assets/UV/UVViewer.unity
+  - Packages/com.unity.addressables/Tests/Editor/Expected/~SerializationTests_AddressableAssetSettings.ccd2.unity
+  - Packages/com.unity.addressables/Tests/Editor/Expected/~SerializationTests_AddressableAssetSettings.ccd3.unity
+  - Packages/com.unity.addressables/Tests/Editor/Expected/~SerializationTests_AddressableAssetSettings.unity
+  - Packages/com.unity.addressables/Tests/Editor/Expected/~SerializationTests_Group.unity
+  - Packages/com.unity.addressables/Tests/Editor/Expected/~SerializationTests_GroupTemplate.unity
+  - Packages/com.unity.addressables/Tests/Editor/Expected/~SerializationTests_ProfileDataSourceSettings.unity
   - Packages/com.lamou.audiosubsystem/Samples/SampleScene.unity
   - Packages/com.unity.render-pipelines.universal/Editor/SceneTemplates/Basic.unity
   - Packages/com.unity.render-pipelines.universal/Editor/SceneTemplates/Standard.unity

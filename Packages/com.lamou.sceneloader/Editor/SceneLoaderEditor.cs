@@ -96,7 +96,12 @@ namespace SceneLoader
                         Selection.SetActiveObjectWithContext(AssetDatabase.LoadAssetAtPath<ScriptableObject>(folderFixed), null);
                         GetWindow(System.Type.GetType("UnityEditor.InspectorWindow, UnityEditor"));
                     }
-                    if (GUILayout.Button(EditorGUIUtility.IconContent("d_winbtn_win_close", "Edit Scenes"), myStyle, GUILayout.Width(20), GUILayout.Height(20)))
+#if UNITY_6000_0_OR_NEWER
+                    string closeIcon = "winbtn_win_min";
+#else
+                    string closeIcon = "d_winbtn_win_close";
+#endif
+                    if (GUILayout.Button(EditorGUIUtility.IconContent(closeIcon, "Edit Scenes"), myStyle, GUILayout.Width(20), GUILayout.Height(20)))
                     {
                         Close();
                     }
