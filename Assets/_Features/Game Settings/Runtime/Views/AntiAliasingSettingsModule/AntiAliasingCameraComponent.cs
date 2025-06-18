@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Modules;
+using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Camera))]
 public class AntiAliasingCameraComponent : MonoBehaviour
 {
-    private AntiAliasing _aa;
+    private AntiAliasingModule _aa;
 
     private Camera _camera;
     private UniversalAdditionalCameraData _cameraData;
@@ -15,8 +16,8 @@ public class AntiAliasingCameraComponent : MonoBehaviour
         _cameraData = _camera.GetUniversalAdditionalCameraData();
         //UniversalRenderPipelineAsset renderPipelineAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
 
-        _aa = VideoSettings.Get<AntiAliasing>();
-        _aa.AddCamera(_camera);
+       // _aa = VideoSettings.Get<AntiAliasingModule>();
+        _aa.AddCamera(_camera); //change to on Update AA
 
         ApplyAA();
     }

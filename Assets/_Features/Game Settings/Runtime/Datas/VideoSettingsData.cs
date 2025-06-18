@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 [Serializable]
 public class VideoSettingsData : ISettingsSaveData
@@ -21,30 +20,21 @@ public class VideoSettingsData : ISettingsSaveData
     public int qualityLevelGraphic;
     public int qualityLevelShadow;
 
-    //public int antiAliasingMode;
-    //public int antiAliasingQuality;
-    //public int antiAliasingTAAQuality;
-    //public int antiAliasingTAASharpening;
-
     public int antiAliasingHardwareMode;
 
     public Dictionary<Type, SettingsSaveModule> settingsSaveModule;
-
-    public void BuildModules(SettingsSaveModule[] settingsSaveModules)
-    {
-        settingsSaveModule = settingsSaveModules.ToDictionary(x => x.GetType());
-    }
 }
 
 [Serializable]
 public class SettingsSaveModule
 {
-    public string moduleName = typeof(AntiAliasingSaveModule).ToString();
+    private string _moduleName;
+    public string ModuleName { get => GetType().FullName; set => _moduleName = value; }
 }
 
 [Serializable]
 
-public class AntiAliasingSaveModule : SettingsSaveModule
+public class AntiAliasingModuleSave : SettingsSaveModule
 {
     public int antiAliasingMode = 0;
     public int antiAliasingQuality = 2;

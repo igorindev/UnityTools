@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using Modules;
 using UnityEngine;
 
-public class VideoSettings : Modular<VideoSettings>
+public class VideoSettings : Modular<VideoSettingsModuleCollection>
 {
     public enum QualityLevel
     {
@@ -22,9 +22,9 @@ public class VideoSettings : Modular<VideoSettings>
     private static List<RefreshRate> availableRefreshRates = new();
     private static List<DisplayInfo> availableDisplayInfos = new();
 
-    private static VideoSettingsSaveData videoSettingsSave;
-    private static VideoSettingsData currentVideoSettingsSaveData;
-    private static VideoSettingsData tempVideoSettingsSaveData;
+    private static VideoSettingsSaveData videoSettingsSaveHandler;
+    private static VideoSettingsData currentSaveData;
+    private static VideoSettingsData tempSaveData;
 
     //A UNITY ja guarda algumas informacoes de video, talvez eu nao queira mais guardar esses.
     //Caso queria, tneh oque garantir o fluxo:
@@ -34,34 +34,39 @@ public class VideoSettings : Modular<VideoSettings>
     //Substitui valores no save
     //Pega valores do save
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    private static void InitializeVideoSettings()
+    public VideoSettings() : base()
     {
-        new VideoSettings();
+        videoSettingsSaveHandler = new VideoSettingsSaveData(out currentSaveData);
 
-        videoSettingsSave = new VideoSettingsSaveData(out currentVideoSettingsSaveData);
-
-        if (currentVideoSettingsSaveData.settingsSaveModule.TryGetValue(typeof(AntiAliasingSaveModule), out SettingsSaveModule settingsSave))
-        {
-            AntiAliasing a = new(settingsSave);
-        }
+        LoadVideoModule(currentSaveData);
 
         if (true) //Validate if should initialize the save file
         {
-            SetupScreenModes(currentVideoSettingsSaveData.screenMode);
+            SetupScreenModes(currentSaveData.screenMode);
 
-            SetupResolutionsAndRefreshRates(currentVideoSettingsSaveData.resolutionWidth,
-                currentVideoSettingsSaveData.resolutionHeight,
-                currentVideoSettingsSaveData.resolutionRefreshRateNumerator,
-                currentVideoSettingsSaveData.resolutionRefreshRateDenominator);
+            SetupResolutionsAndRefreshRates(currentSaveData.resolutionWidth,
+                currentSaveData.resolutionHeight,
+                currentSaveData.resolutionRefreshRateNumerator,
+                currentSaveData.resolutionRefreshRateDenominator);
 
-            SetupDisplayOptions(currentVideoSettingsSaveData.displayWindow);
+            SetupDisplayOptions(currentSaveData.displayWindow);
         }
 
-        videoSettingsSave.Save(currentVideoSettingsSaveData);
-        tempVideoSettingsSaveData = currentVideoSettingsSaveData;
+        videoSettingsSaveHandler.Save(currentSaveData);
+        tempSaveData = currentSaveData;
 
         ApplyChanges();
+    }
+
+    private void LoadVideoModule(VideoSettingsData videoSettingsData)
+    {
+        foreach (Module modules in _modules)
+        {
+            if (!videoSettingsData.settingsSaveModule.TryGetValue(modules.Type, out SettingsSaveModule settingsSave))
+            {
+                videoSettingsData.settingsSaveModule.Add(modules.Type, modules.GetSaveInstance() as SettingsSaveModule);
+            }
+        }
     }
 
     private static void SetupScreenModes(int screenMode)
@@ -96,10 +101,10 @@ public class VideoSettings : Modular<VideoSettings>
         //Fallback
         if (!resolutions.Contains(savedResolution))
         {
-            currentVideoSettingsSaveData.resolutionWidth = resolutions[0].width;
-            currentVideoSettingsSaveData.resolutionHeight = resolutions[0].height;
-            currentVideoSettingsSaveData.resolutionRefreshRateNumerator = resolutions[0].refreshRateRatio.numerator;
-            currentVideoSettingsSaveData.resolutionRefreshRateDenominator = resolutions[0].refreshRateRatio.denominator;
+            currentSaveData.resolutionWidth = resolutions[0].width;
+            currentSaveData.resolutionHeight = resolutions[0].height;
+            currentSaveData.resolutionRefreshRateNumerator = resolutions[0].refreshRateRatio.numerator;
+            currentSaveData.resolutionRefreshRateDenominator = resolutions[0].refreshRateRatio.denominator;
 
             return;
         }
@@ -114,7 +119,7 @@ public class VideoSettings : Modular<VideoSettings>
         //Fallback
         if (display.Equals(default))
         {
-            currentVideoSettingsSaveData.displayWindow = Screen.mainWindowDisplayInfo.name;
+            currentSaveData.displayWindow = Screen.mainWindowDisplayInfo.name;
         }
     }
 
@@ -142,7 +147,7 @@ public class VideoSettings : Modular<VideoSettings>
 
         if (!displayWindow.Equals(activeDisplayInfo))
         {
-            currentVideoSettingsSaveData.displayWindow = Screen.mainWindowDisplayInfo.name;
+            currentSaveData.displayWindow = Screen.mainWindowDisplayInfo.name;
             correct = false;
         }
 
@@ -153,38 +158,38 @@ public class VideoSettings : Modular<VideoSettings>
     {
         Resolution resolution = resolutions[index];
 
-        tempVideoSettingsSaveData.resolutionWidth = resolution.width;
-        tempVideoSettingsSaveData.resolutionHeight = resolution.height;
-        tempVideoSettingsSaveData.resolutionRefreshRateNumerator = resolution.refreshRateRatio.numerator;
-        tempVideoSettingsSaveData.resolutionRefreshRateDenominator = resolution.refreshRateRatio.denominator;
+        tempSaveData.resolutionWidth = resolution.width;
+        tempSaveData.resolutionHeight = resolution.height;
+        tempSaveData.resolutionRefreshRateNumerator = resolution.refreshRateRatio.numerator;
+        tempSaveData.resolutionRefreshRateDenominator = resolution.refreshRateRatio.denominator;
     }
 
     public static void SetScreenMode(FullScreenMode screenMode)
     {
-        tempVideoSettingsSaveData.screenMode = (int)screenMode;
+        tempSaveData.screenMode = (int)screenMode;
     }
 
     public static void SetRefreshRate(int value)
     {
         RefreshRate refreshRate = availableRefreshRates[value];
 
-        tempVideoSettingsSaveData.resolutionRefreshRateNumerator = refreshRate.numerator;
-        tempVideoSettingsSaveData.resolutionRefreshRateDenominator = refreshRate.denominator;
+        tempSaveData.resolutionRefreshRateNumerator = refreshRate.numerator;
+        tempSaveData.resolutionRefreshRateDenominator = refreshRate.denominator;
     }
 
     public static void SetFrameRate(int frames)
     {
-        tempVideoSettingsSaveData.frameRate = frames;
+        tempSaveData.frameRate = frames;
     }
 
     public static void SetVSync(int vSync)
     {
-        tempVideoSettingsSaveData.vSync = vSync;
+        tempSaveData.vSync = vSync;
     }
 
     public static void SetActiveDisplay(int displayIndex)
     {
-        tempVideoSettingsSaveData.displayWindow = availableDisplayInfos[displayIndex].name;
+        tempSaveData.displayWindow = availableDisplayInfos[displayIndex].name;
     }
 
     public static void UpdateScreenResolutionAndScreenMode(Resolution resolution, FullScreenMode fullScreenMode)
@@ -270,15 +275,15 @@ public class VideoSettings : Modular<VideoSettings>
     {
         if (HasChanges())
         {
-            currentVideoSettingsSaveData = tempVideoSettingsSaveData;
-            videoSettingsSave.Save(currentVideoSettingsSaveData);
+            currentSaveData = tempSaveData;
+            videoSettingsSaveHandler.Save(currentSaveData);
             return;
         }
     }
 
     public static void CancelVideoChanges()
     {
-        tempVideoSettingsSaveData = currentVideoSettingsSaveData;
+        tempSaveData = currentSaveData;
     }
 
     public static IList<Resolution> GetAvailableResolutions() => resolutions;
@@ -291,25 +296,25 @@ public class VideoSettings : Modular<VideoSettings>
     {
         return new()
         {
-            width = tempVideoSettingsSaveData.resolutionWidth,
-            height = tempVideoSettingsSaveData.resolutionHeight,
+            width = tempSaveData.resolutionWidth,
+            height = tempSaveData.resolutionHeight,
             refreshRateRatio = GetTempSelectedRefreshRate()
         };
     }
 
     public static RefreshRate GetTempSelectedRefreshRate() => new()
     {
-        numerator = tempVideoSettingsSaveData.resolutionRefreshRateNumerator,
-        denominator = tempVideoSettingsSaveData.resolutionRefreshRateDenominator
+        numerator = tempSaveData.resolutionRefreshRateNumerator,
+        denominator = tempSaveData.resolutionRefreshRateDenominator
     };
 
-    public static int GetTempSelectedFrameRate() => tempVideoSettingsSaveData.frameRate;
+    public static int GetTempSelectedFrameRate() => tempSaveData.frameRate;
 
-    public static int GetTempSelectedVSync() => tempVideoSettingsSaveData.vSync;
+    public static int GetTempSelectedVSync() => tempSaveData.vSync;
 
-    public static DisplayInfo GetTempSelectedDisplayInfo() => availableDisplayInfos.FirstOrDefault(displayInfo => displayInfo.name == tempVideoSettingsSaveData.displayWindow);
+    public static DisplayInfo GetTempSelectedDisplayInfo() => availableDisplayInfos.FirstOrDefault(displayInfo => displayInfo.name == tempSaveData.displayWindow);
 
-    public static FullScreenMode GetTempSelectedScreenMode() => (FullScreenMode)tempVideoSettingsSaveData.screenMode;
+    public static FullScreenMode GetTempSelectedScreenMode() => (FullScreenMode)tempSaveData.screenMode;
 
     private static bool AreResolutionsEqual(Resolution a, Resolution b)
     {
@@ -318,7 +323,7 @@ public class VideoSettings : Modular<VideoSettings>
 
     private static bool HasChanges()
     {
-        return !tempVideoSettingsSaveData.Equals(currentVideoSettingsSaveData);
+        return !tempSaveData.Equals(currentSaveData);
     }
 
     private static IReadOnlyList<T> ReverseArray<T>(T[] array)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Modules;
 using UnityEngine;
 
 [Serializable]
@@ -10,11 +11,11 @@ public class AntiAliasingView : SettingsModuleView
     [SerializeField] LocalizeDropdownEvent antiAliasingTAAQualityDropdown;
     [SerializeField] SliderField antiAliasingTAASharpen;
 
-    private AntiAliasing aa;
+    private AntiAliasingModule aa;
 
     public override void Initialize()
     {
-        aa = VideoSettings.Get<AntiAliasing>();
+        VideoSettings.TryGet(out aa);
 
         List<KeyValuePair<string, string>> antiAliasingLocalizations = new()
         {

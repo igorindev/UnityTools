@@ -1,42 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Modules
 {
-    public class Modular
+    public abstract class Modular<T> where T : ModuleCollection
     {
-        internal Dictionary<Type, Module> _modules = new();
-    }
+        [SerializeField] protected List<Module> _modules;
 
-    public class Modular<T> : Modular where T : Modular, new()
-    {
-        private static T s_instance;
+        protected static Dictionary<Type, Module> activeModules;
 
-        public Modular()
+        protected Modular()
         {
-            s_instance = this as T;
-        }
-
-        internal static void AddModule<T1>(Module settingsModule)
-        {
-            AddModule(typeof(T1), settingsModule);
-        }
-
-        internal static bool AddModule<T1>(Type type, T1 module) where T1 : Module
-        {
-            return s_instance._modules.TryAdd(type, module);
-        }
-
-        internal static T1 Get<T1>() where T1 : Module
-        {
-            if (s_instance._modules.TryGetValue(typeof(T1), out Module actualValue))
+            T module = Resources.Load<T>(typeof(T).Name);
+            if (module == null)
             {
-                return actualValue as T1;
+                module = ScriptableObject.CreateInstance<T>();
             }
 
-            Debug.LogError($"Module of type {typeof(T1)} is not available for {typeof(T)}");
-            return null;
+            module.Modules ??= new List<Module>();
+            activeModules = module.Modules.ToDictionary(x => x.GetType());
+        }
+
+        public static bool TryGet<T1>(out T1 module) where T1 : Module
+        {
+            module = default;
+            if (activeModules.TryGetValue(typeof(T1), out Module actualValue))
+            {
+                module = actualValue as T1;
+                return true;
+            }
+
+            Debug.LogError($"Module of type {typeof(T1)} is not available");
+            return false;
         }
     }
+
+    public class Holder<T> where T : Module, new()
+    {
+        public Type Type => typeof(T);
+
+        public T GetInstance() => new T();
+    }
+
 }
