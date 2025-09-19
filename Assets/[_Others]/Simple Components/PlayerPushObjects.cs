@@ -30,6 +30,6 @@ public class PlayerPushObjects : MonoBehaviour
         // then you can also multiply the push velocity by that.
 
         // Apply the push
-        body.velocity = pushDir * pushPower;
+        body.linearVelocity = pushDir * pushPower;
     }
 }

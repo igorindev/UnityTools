@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace Lamou.InputSystem.SpriteMap.EditorUtility
+namespace Lamou.InputSystem.SpriteMap.EditorTool
 {
     [CustomPropertyDrawer(typeof(ControlSchemeSpriteData))]
     public class ControlSchemeSpriteDataCustomEditor : PropertyDrawer
